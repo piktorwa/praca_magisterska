@@ -1,0 +1,14 @@
+LEGENDA:
+[WAITING] - czeka na rozpoczęcie
+[DURING] - w trakcie prac
+[DONE] - stworzone i działa
+
+1. stworzenie środowiska python [DURING]
+2. implementacja próbkowania [WAITING]
+3. implementacja całkowania prostokątem [WAITING]
+4. implementacja próbkowania przetwornikiem 8-bit [WAITING]
+5. implementacja próbkowania przetwornikiem 12-bit [WAITING]
+6. implementacja próbkowania o różnych częstotliwościach próbkowania [WAITING]
+7. decyzja jakie interpolacje wykorzystać (od 2 do 3; liniowa(?), spline'y) [WAITING]
+8. aktualizajca planu [WAITING]
+9. implementacja interpolacji nr. 1 [WAITING]
