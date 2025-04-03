@@ -1,0 +1,17 @@
+Magisterka:
+
+FPGA
+oszacowanie zasobów i wydajności algorytmu wykorzystania w projekcie
+numerical integration - sprawdzić
+fotopowielacz  - poczytać
+na PYNQ
+1) spline - poczytać (ang wiki lepsza)
+2) constant fraction discriminator
+3) ADC12GJ1600-JP - działa 1,6GSPS 12-bit, trzeba buforować
+4) JESD204B/C - poczytać
+
+cel:
+- wyznaczyć punkt 1/5 wartości maksymalnej, aby wyznaczyć dokładny czas zdarzenia bez uwzględnienia błędu amplitudy (całka)
+- analiza błędów
+
+punkty 1) i 2) najpierw, a następnie adaptacja do rzeczywistego punkty 3) i 4)
