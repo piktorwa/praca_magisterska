@@ -3,13 +3,13 @@
 # Version: 1.0
 # AGH University of Science and Technology, Cracov
 # Description: This is the main file for the project. It will be used to run the project and call the other files.
-# Importing necessary libraries
 
 import matplotlib.pyplot as plt
 import numpy as np
 import math as m
 import scipy.integrate as spi
 import integral
+import interpolation
 
 def exp_PMT_pulse_fun(t, A, sigma, tau):
     C = m.exp(-0.5 * (sigma * tau) * (sigma * tau))  # normalization constant
@@ -88,7 +88,7 @@ def main():
     print("\n{:^10} | {:^20} | {:^15} | {:^15} | {:^15}".format("Próbki", "Typ próbkowania", "Całka", "Błąd bezwz.", "Błąd wzg. [%]"))
     print("-"*85)
 
-    # Inregral calculation for sampled signals - Rectangle method
+    # Integral calculation for sampled signals - Rectangle method
     for num_samples in sample_sizes:
         # Calculate for regular sampling
         t_samples, y_samples = sample_signal(start_time, stop_time, num_samples, A, sigma, tau)
@@ -105,6 +105,32 @@ def main():
         # Calculate for 12-bit ADC sampling
         t_samples, y_samples = sample_signal_ADC_12_bit(start_time, stop_time, num_samples, A, sigma, tau)
         integral_val = integral.integrate_rectangle_method(t_samples, y_samples)
+        abs_err, rel_err = integral.calculate_error(integral_val, reference_result)
+        print("{:^10} | {:^20} | {:.4e} | {:.4e} | {:^15.2f}".format(num_samples, "ADC 12-bit", integral_val, abs_err, rel_err))
+        print("-"*85)
+    
+    # Integral calculation for interpolated signals - Rectangle method, Linear Interpolation
+    print("\nInterpolacja liniowa")
+    print("\n{:^10} | {:^20} | {:^15} | {:^15} | {:^15}".format("Próbki", "Typ próbkowania", "Całka", "Błąd bezwz.", "Błąd wzg. [%]"))
+    for num_samples in sample_sizes:
+        # Calculate for regular sampling
+        t_samples, y_samples = sample_signal(start_time, stop_time, num_samples, A, sigma, tau)
+        t_interpolated, y_interpolated = interpolation.linear_interpolation(t_samples, y_samples)
+        integral_val = integral.integrate_rectangle_method(t_interpolated, y_interpolated)
+        abs_err, rel_err = integral.calculate_error(integral_val, reference_result)
+        print("{:^10} | {:^20} | {:.4e} | {:.4e} | {:^15.2f}".format(num_samples, "Regularne", integral_val, abs_err, rel_err))
+        
+        # Calculate for 8-bit ADC sampling
+        t_samples, y_samples = sample_signal_ADC_8_bit(start_time, stop_time, num_samples, A, sigma, tau)
+        t_interpolated, y_interpolated = interpolation.linear_interpolation(t_samples, y_samples)
+        integral_val = integral.integrate_rectangle_method(t_interpolated, y_interpolated)
+        abs_err, rel_err = integral.calculate_error(integral_val, reference_result)
+        print("{:^10} | {:^20} | {:.4e} | {:.4e} | {:^15.2f}".format(num_samples, "ADC 8-bit", integral_val, abs_err, rel_err))
+        
+        # Calculate for 12-bit ADC sampling
+        t_samples, y_samples = sample_signal_ADC_12_bit(start_time, stop_time, num_samples, A, sigma, tau)
+        t_interpolated, y_interpolated = interpolation.linear_interpolation(t_samples, y_samples)
+        integral_val = integral.integrate_rectangle_method(t_interpolated, y_interpolated)
         abs_err, rel_err = integral.calculate_error(integral_val, reference_result)
         print("{:^10} | {:^20} | {:.4e} | {:.4e} | {:^15.2f}".format(num_samples, "ADC 12-bit", integral_val, abs_err, rel_err))
         print("-"*85)
