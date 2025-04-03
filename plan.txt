@@ -3,12 +3,11 @@ LEGENDA:
 [DURING] - w trakcie prac
 [DONE] - stworzone i działa
 
-1. stworzenie środowiska python [DURING]
-2. implementacja próbkowania [WAITING]
-3. implementacja całkowania prostokątem [WAITING]
-4. implementacja próbkowania przetwornikiem 8-bit [WAITING]
-5. implementacja próbkowania przetwornikiem 12-bit [WAITING]
-6. implementacja próbkowania o różnych częstotliwościach próbkowania [WAITING]
-7. decyzja jakie interpolacje wykorzystać (od 2 do 3; liniowa(?), spline'y) [WAITING]
-8. aktualizajca planu [WAITING]
-9. implementacja interpolacji nr. 1 [WAITING]
+1. stworzenie środowiska python [DONE]
+2. implementacja próbkowania [DONE]
+3. implementacja całkowania prostokątem [DONE]
+4. implementacja próbkowania przetwornikiem 8-bit [DONE]
+5. implementacja próbkowania przetwornikiem 12-bit [DONE]
+6. decyzja jakie interpolacje wykorzystać (od 2 do 3; liniowa(?), spline'y) [DURING]
+7. aktualizacja planu [WAITING]
+8. implementacja interpolacji nr. 1 [WAITING]
