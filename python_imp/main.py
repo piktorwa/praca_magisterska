@@ -5,75 +5,10 @@
 # Description: This is the main file for the project. It will be used to run the project and call the other files.
 
 import matplotlib.pyplot as plt
-import numpy as np
-import math as m
-import scipy.integrate as spi
 import integral
 import interpolation
-
-def exp_PMT_pulse_fun(t, A, sigma, tau):
-    C = m.exp(-0.5 * (sigma * tau) * (sigma * tau))  # normalization constant
-    th = 2 * sigma * sigma / tau  # threshold time
-
-    if t <= th:
-        return A * m.exp(-0.5 * (t / sigma) * (t / sigma))
-    else:
-        return A / C * m.exp(-1.0 * (t / tau))
-
-def PMT_pulse_values(start_time, stop_time, time_step, A, sigma, tau):
-    time_arr = np.arange(start_time, stop_time, time_step, dtype=float)
-    value_arr = np.array([exp_PMT_pulse_fun(t, A, sigma, tau) for t in time_arr])
-    return time_arr, value_arr
-
-def sample_signal(start_time, stop_time, num_samples, A, sigma, tau): # Sampling function for ideal ADC
-    t_samples = np.linspace(start_time, stop_time, num_samples)
-    y_samples = np.array([exp_PMT_pulse_fun(t, A, sigma, tau) for t in t_samples])
-    return t_samples, y_samples
-
-def sample_signal_ADC_8_bit(start_time, stop_time, num_samples, A, sigma, tau): # Sampling function for 8-bit ADC
-    t_samples = np.linspace(start_time, stop_time, num_samples)
-    step = A / 2**8  # 8-bit ADC step size
-    y_samples = np.array([exp_PMT_pulse_fun(t, A, sigma, tau) for t in t_samples])
-    y_samples = np.round(y_samples / step) * step # Quantize to 8-bit levels
-    return t_samples, y_samples
-
-def sample_signal_ADC_12_bit(start_time, stop_time, num_samples, A, sigma, tau): # Sampling function for 12-bit ADC
-    t_samples = np.linspace(start_time, stop_time, num_samples)
-    step = A / 2**12  # 12-bit ADC step size
-    y_samples = np.array([exp_PMT_pulse_fun(t, A, sigma, tau) for t in t_samples]) 
-    y_samples = np.round(y_samples / step) * step # Quantize to 12-bit levels
-    return t_samples, y_samples
-
-def plot_sampled_signal(title, time_arr, value_arr, t_samples_list, y_samples_list, labels, fig_num): # Plotting function
-    plt.figure(fig_num)
-    plt.plot(time_arr, value_arr, label="Puls z fotopowielacza")
-
-    markers = ['o', 's', 'D']  # Different markers for different sample sizes
-    
-    for i, (t_samples, y_samples) in enumerate(zip(t_samples_list, y_samples_list)):
-        plt.plot(t_samples, y_samples, marker=markers[i], linestyle='', label=labels[i])
-
-    plt.xlabel("Czas (s)")
-    plt.ylabel("Amplituda [V]")
-    plt.title(title)
-    plt.legend()
-    plt.grid()
-
-def plot_interpolated_signal(title, time_arr, value_arr, t_samples, y_samples, t_interpolated, y_interpolated, sample_label, fig_num): # Plotting function for interpolated signal
-    plt.figure(fig_num)
-    plt.plot(time_arr, value_arr, 'b-', label="Puls z fotopowielacza")
-    
-    # Plot sample points
-    plt.plot(t_samples, y_samples, 'ro', markersize=6, label=f"{sample_label}")
-    
-    # Plot interpolated signal
-    plt.plot(t_interpolated, y_interpolated, 'gx', label="Interpolacja liniowa")
-    
-    plt.xlabel("Czas (s)")
-    plt.ylabel("Amplituda [V]")
-    plt.title(title)
-    plt.legend()
-    plt.grid()
+import signal_generator as sg
+import plot_signals as ps
 
 def main():
     # Constants for PMT pulse
@@ -86,7 +21,7 @@ def main():
     time_step = 0.001 * 10**(-9)
 
     # Samples for PMT pulse
-    time_arr, value_arr = PMT_pulse_values(start_time, stop_time, time_step, A, sigma, tau)
+    time_arr, value_arr = sg.PMT_pulse_values(start_time, stop_time, time_step, A, sigma, tau)
     
     sample_sizes = [8, 16, 32]
 
@@ -106,9 +41,9 @@ def main():
     # Generate all samples and interpolations
     for num_samples in sample_sizes:
         # Generate samples
-        samples['ideal'][num_samples] = sample_signal(start_time, stop_time, num_samples, A, sigma, tau)
-        samples['8bit'][num_samples] = sample_signal_ADC_8_bit(start_time, stop_time, num_samples, A, sigma, tau)
-        samples['12bit'][num_samples] = sample_signal_ADC_12_bit(start_time, stop_time, num_samples, A, sigma, tau)
+        samples['ideal'][num_samples] = sg.sample_signal(start_time, stop_time, num_samples, A, sigma, tau)
+        samples['8bit'][num_samples] = sg.sample_signal_ADC_n_bit(start_time, stop_time, num_samples, A, sigma, tau, 8)
+        samples['12bit'][num_samples] = sg.sample_signal_ADC_n_bit(start_time, stop_time, num_samples, A, sigma, tau, 12)
         
         # Generate interpolations
         linear_interpolations['ideal'][num_samples] = interpolation.linear_interpolation(*samples['ideal'][num_samples])
@@ -121,7 +56,7 @@ def main():
     y_samples_list_ideal = [samples['ideal'][size][1] for size in sample_sizes]
     sample_labels = [f"{size} próbek" for size in sample_sizes]
     
-    plot_sampled_signal(
+    ps.plot_sampled_signal(
         "Próbkowanie pulsu PMT", 
         time_arr, value_arr, 
         t_samples_list_ideal, y_samples_list_ideal, 
@@ -132,7 +67,7 @@ def main():
     t_samples_list_8bit = [samples['8bit'][size][0] for size in sample_sizes]
     y_samples_list_8bit = [samples['8bit'][size][1] for size in sample_sizes]
     
-    plot_sampled_signal(
+    ps.plot_sampled_signal(
         "Próbkowanie ADC 8-bit", 
         time_arr, value_arr, 
         t_samples_list_8bit, y_samples_list_8bit, 
@@ -143,7 +78,7 @@ def main():
     t_samples_list_12bit = [samples['12bit'][size][0] for size in sample_sizes]
     y_samples_list_12bit = [samples['12bit'][size][1] for size in sample_sizes]
     
-    plot_sampled_signal(
+    ps.plot_sampled_signal(
         "Próbkowanie ADC 12-bit", 
         time_arr, value_arr, 
         t_samples_list_12bit, y_samples_list_12bit, 
@@ -163,7 +98,7 @@ def main():
             t_samples, y_samples = samples[adc_type][num_samples]
             t_interp, y_interp = linear_interpolations[adc_type][num_samples]
             
-            plot_interpolated_signal(
+            ps.plot_interpolated_signal(
                 f"Interpolacja liniowa - {num_samples} próbek ({adc_label})",
                 time_arr, value_arr,
                 t_samples, y_samples,
@@ -174,7 +109,7 @@ def main():
             fig_num += 1
 
     # Integral calculation
-    reference_result, reference_error = spi.quad(lambda t: exp_PMT_pulse_fun(t, A, sigma, tau), start_time, stop_time)
+    reference_result, reference_error = sg.integrate_PMT_pulse(A, sigma, tau, start_time, stop_time)
     print(f"\nScipy quad całka (referencyjna): {reference_result:.6e}")
     print(f"Oszacowany błąd scipy: {reference_error:.6e}")
 
