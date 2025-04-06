@@ -37,6 +37,12 @@ def main():
         '8bit': {},
         '12bit': {}
     }
+
+    cubic_spline_interpolations = {
+        'ideal': {},
+        '8bit': {},
+        '12bit': {}
+    }
     
     # Generate all samples and interpolations
     for num_samples in sample_sizes:
@@ -45,10 +51,15 @@ def main():
         samples['8bit'][num_samples] = sg.sample_signal_ADC_n_bit(start_time, stop_time, num_samples, A, sigma, tau, 8)
         samples['12bit'][num_samples] = sg.sample_signal_ADC_n_bit(start_time, stop_time, num_samples, A, sigma, tau, 12)
         
-        # Generate interpolations
+        # Generate linear interpolations
         linear_interpolations['ideal'][num_samples] = interpolation.linear_interpolation(*samples['ideal'][num_samples])
         linear_interpolations['8bit'][num_samples] = interpolation.linear_interpolation(*samples['8bit'][num_samples])
         linear_interpolations['12bit'][num_samples] = interpolation.linear_interpolation(*samples['12bit'][num_samples])
+
+        # Generate cubic spline interpolations
+        cubic_spline_interpolations['ideal'][num_samples] = interpolation.cubic_spline_interpolation(*samples['ideal'][num_samples])
+        cubic_spline_interpolations['8bit'][num_samples] = interpolation.cubic_spline_interpolation(*samples['8bit'][num_samples])
+        cubic_spline_interpolations['12bit'][num_samples] = interpolation.cubic_spline_interpolation(*samples['12bit'][num_samples])
     
     # Plot sampled signals
     # For ideal sampling
@@ -85,7 +96,7 @@ def main():
         sample_labels, 3
     )
     
-    # Plot interpolated signals
+    # Plot linear interpolated signals
     fig_num = 4
     for adc_type in ['ideal', '8bit', '12bit']:
         adc_label = {
@@ -100,6 +111,28 @@ def main():
             
             ps.plot_interpolated_signal(
                 f"Interpolacja liniowa - {num_samples} próbek ({adc_label})",
+                time_arr, value_arr,
+                t_samples, y_samples,
+                t_interp, y_interp,
+                f"{num_samples} próbek",
+                fig_num
+            )
+            fig_num += 1
+
+    # Plot cubic spline interpolated signals
+    for adc_type in ['ideal', '8bit', '12bit']:
+        adc_label = {
+            'ideal': 'idealne',
+            '8bit': 'ADC 8-bit',
+            '12bit': 'ADC 12-bit'
+        }[adc_type]
+        
+        for num_samples in sample_sizes:
+            t_samples, y_samples = samples[adc_type][num_samples]
+            t_interp, y_interp = cubic_spline_interpolations[adc_type][num_samples]
+            
+            ps.plot_interpolated_signal(
+                f"Interpolacja cubic spline - {num_samples} próbek ({adc_label})",
                 time_arr, value_arr,
                 t_samples, y_samples,
                 t_interp, y_interp,
@@ -139,7 +172,7 @@ def main():
         
         print("-"*85)
     
-    # Integral calculation for interpolated signals
+    # Integral calculation for linear interpolated signals
     print("\nInterpolacja liniowa")
     print("\n{:^10} | {:^20} | {:^15} | {:^15} | {:^15}".format("Próbki", "Typ próbkowania", "Całka", "Błąd bezwz.", "Błąd wzg. [%]"))
     print("-"*85)
@@ -158,7 +191,26 @@ def main():
                 num_samples, sample_label, integral_val, abs_err, rel_err))
         
         print("-"*85)
-     
+    
+    # Integral calculation for cubic spline interpolated signals
+    print("\nInterpolacja cubic spline")
+    print("\n{:^10} | {:^20} | {:^15} | {:^15} | {:^15}".format("Próbki", "Typ próbkowania", "Całka", "Błąd bezwz.", "Błąd wzg. [%]"))
+    print("-"*85)
+    
+    for num_samples in sample_sizes:
+        for sample_label, sample_key in sampling_types.items():
+            # Get interpolated samples
+            t_interp, y_interp = cubic_spline_interpolations[sample_key][num_samples]
+            
+            # Calculate integral
+            integral_val = integral.integrate_rectangle_method(t_interp, y_interp)
+            abs_err, rel_err = integral.calculate_error(integral_val, reference_result)
+            
+            # Print results
+            print("{:^10} | {:^20} | {:.4e} | {:.4e} | {:^15.2f}".format(
+                num_samples, sample_label, integral_val, abs_err, rel_err))
+        
+        print("-"*85)
     plt.show()
 
 if __name__ == "__main__":
