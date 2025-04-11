@@ -36,7 +36,5 @@ def cubic_spline_interpolation(t_samples, y_samples):
         
     cs = CubicSpline(t_samples, y_samples)
     t_interpolated = np.linspace(t_samples[1], t_samples[-2], len(t_samples) * 10)  # 10 times more points for interpolation
-    t_interpolated = np.append(t_samples[0], t_interpolated)  # Include the first sample time
-    t_interpolated = np.append(t_interpolated, t_samples[-1])  # Include the last sample time
     y_interpolated = cs(t_interpolated)
     return t_interpolated, y_interpolated
