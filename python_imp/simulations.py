@@ -570,9 +570,8 @@ def worst_case_for_amplitudes():
     # Pokaż wszystkie wykresy
     plt.show()
 
-def error_vs_phase():
+def error_vs_phase(A=0.6):
     # Constants for PMT pulse
-    A = [0.05, 0.1, 0.2, 0.5, 1.0]
     tr = 3.0 * 10**(-9)
     sigma = tr / 1.69
     tau = 3 * sigma
@@ -585,3 +584,192 @@ def error_vs_phase():
     for sps in samples_per_sigma:
         num_samples = int(sps * ((stop_time_orig - start_time_orig) / sigma))
         sample_sizes.append(num_samples)
+
+    # Phase step (in degrees)
+    phase_step = 3
+    phases = range(0, 360, phase_step)
+    
+    # Dictionary to store errors for all phases
+    all_phase_errors = {
+        'raw': {
+            'ideal': {size: [] for size in sample_sizes},
+            '8bit': {size: [] for size in sample_sizes},
+            '12bit': {size: [] for size in sample_sizes}
+        },
+        'linear': {
+            'ideal': {size: [] for size in sample_sizes},
+            '8bit': {size: [] for size in sample_sizes},
+            '12bit': {size: [] for size in sample_sizes}
+        },
+        'cubic': {
+            'ideal': {size: [] for size in sample_sizes},
+            '8bit': {size: [] for size in sample_sizes},
+            '12bit': {size: [] for size in sample_sizes}
+        }
+    }
+
+    # Names for plot legends
+    interp_names = {
+        'raw': 'Bez interpolacji',
+        'linear': 'Interpolacja liniowa',
+        'cubic': 'Interpolacja cubic spline'
+    }
+    
+    adc_names = {
+        'ideal': 'Idealny ADC',
+        '8bit': 'ADC 8-bit',
+        '12bit': 'ADC 12-bit'
+    }
+
+    # Loop through different phase shifts (in degrees)
+    for phase_deg in phases:
+        # Apply phase shift to sampling times
+        start_time = start_time_orig + sigma * phase_deg / 360
+        stop_time = stop_time_orig + sigma * phase_deg / 360
+        
+        # Loop through different sample sizes
+        for num_samples in sample_sizes:
+            # Generate samples
+            t_samples_ideal, y_samples_ideal = sg.sample_signal(start_time, stop_time, num_samples, A, sigma, tau)
+            t_samples_8bit, y_samples_8bit = sg.sample_signal_ADC_n_bit(start_time, stop_time, num_samples, A, sigma, tau, 8)
+            t_samples_12bit, y_samples_12bit = sg.sample_signal_ADC_n_bit(start_time, stop_time, num_samples, A, sigma, tau, 12)
+            
+            # Generate interpolations
+            t_linear_ideal, y_linear_ideal = interpolation.linear_interpolation(t_samples_ideal[1:-2], y_samples_ideal[1:-2])
+            t_linear_8bit, y_linear_8bit = interpolation.linear_interpolation(t_samples_8bit[1:-2], y_samples_8bit[1:-2])
+            t_linear_12bit, y_linear_12bit = interpolation.linear_interpolation(t_samples_12bit[1:-2], y_samples_12bit[1:-2])
+            
+            t_cubic_ideal, y_cubic_ideal = interpolation.cubic_spline_interpolation(t_samples_ideal, y_samples_ideal)
+            t_cubic_8bit, y_cubic_8bit = interpolation.cubic_spline_interpolation(t_samples_8bit, y_samples_8bit)
+            t_cubic_12bit, y_cubic_12bit = interpolation.cubic_spline_interpolation(t_samples_12bit, y_samples_12bit)
+            
+            # Define integration range for all methods to match cubic spline interpolation range
+            # Calculate reference integral for this specific time range (matched to cubic spline range)
+            # The cubic_spline_interpolation function in interpolation.py uses the range t_samples[1] to t_samples[-2]
+            reference_start = t_samples_ideal[1]  # Skip first sample
+            reference_stop = t_samples_ideal[-2]  # Skip last sample
+            reference_result, reference_error = sg.integrate_PMT_pulse(A, sigma, tau, reference_start, reference_stop)
+            
+            # Calculate integrals and errors
+            # Raw samples - skip first and last sample
+            integral_ideal = integral.integrate_rectangle_method(t_samples_ideal[1:-2], y_samples_ideal[1:-2])
+            integral_8bit = integral.integrate_rectangle_method(t_samples_8bit[1:-2], y_samples_8bit[1:-2])
+            integral_12bit = integral.integrate_rectangle_method(t_samples_12bit[1:-2], y_samples_12bit[1:-2])
+            
+            _, rel_err_ideal = integral.calculate_error(integral_ideal, reference_result)
+            _, rel_err_8bit = integral.calculate_error(integral_8bit, reference_result)
+            _, rel_err_12bit = integral.calculate_error(integral_12bit, reference_result)
+            
+            # Linear interpolation - ensure we use points in the same range as cubic spline
+            integral_linear_ideal = integral.integrate_rectangle_method(t_linear_ideal, y_linear_ideal)
+            integral_linear_8bit = integral.integrate_rectangle_method(t_linear_8bit, y_linear_8bit)
+            integral_linear_12bit = integral.integrate_rectangle_method(t_linear_12bit, y_linear_12bit)
+            
+            _, rel_err_linear_ideal = integral.calculate_error(integral_linear_ideal, reference_result)
+            _, rel_err_linear_8bit = integral.calculate_error(integral_linear_8bit, reference_result)
+            _, rel_err_linear_12bit = integral.calculate_error(integral_linear_12bit, reference_result)
+            
+            # Cubic spline interpolation - already uses appropriate range in interpolation function
+            integral_cubic_ideal = integral.integrate_rectangle_method(t_cubic_ideal, y_cubic_ideal)
+            integral_cubic_8bit = integral.integrate_rectangle_method(t_cubic_8bit, y_cubic_8bit)
+            integral_cubic_12bit = integral.integrate_rectangle_method(t_cubic_12bit, y_cubic_12bit)
+            
+            _, rel_err_cubic_ideal = integral.calculate_error(integral_cubic_ideal, reference_result)
+            _, rel_err_cubic_8bit = integral.calculate_error(integral_cubic_8bit, reference_result)
+            _, rel_err_cubic_12bit = integral.calculate_error(integral_cubic_12bit, reference_result)
+            
+            # Save errors for all phases
+            # Raw samples
+            all_phase_errors['raw']['ideal'][num_samples].append(rel_err_ideal)
+            all_phase_errors['raw']['8bit'][num_samples].append(rel_err_8bit)
+            all_phase_errors['raw']['12bit'][num_samples].append(rel_err_12bit)
+            
+            # Linear interpolation
+            all_phase_errors['linear']['ideal'][num_samples].append(rel_err_linear_ideal)
+            all_phase_errors['linear']['8bit'][num_samples].append(rel_err_linear_8bit)
+            all_phase_errors['linear']['12bit'][num_samples].append(rel_err_linear_12bit)
+            
+            # Cubic spline interpolation
+            all_phase_errors['cubic']['ideal'][num_samples].append(rel_err_cubic_ideal)
+            all_phase_errors['cubic']['8bit'][num_samples].append(rel_err_cubic_8bit)
+            all_phase_errors['cubic']['12bit'][num_samples].append(rel_err_cubic_12bit)
+    
+    # Create plots
+    # 1. Plot: Relative error vs phase for different ADC types for each sample size
+    for num_samples in sample_sizes:
+        fig = plt.figure(figsize=(15, 10))
+        fig.suptitle(f"Błąd względny vs. faza dla amplitudy {A} V i {num_samples} próbek", fontsize=16)
+        
+        # Define grid layout
+        ax1 = plt.subplot(3, 1, 1)  # No interpolation
+        ax2 = plt.subplot(3, 1, 2)  # Linear interpolation
+        ax3 = plt.subplot(3, 1, 3)  # Cubic spline interpolation
+        
+        # List of axes
+        axes = [ax1, ax2, ax3]
+        
+        # List of interpolation types
+        interp_types = list(interp_names.keys())
+        
+        # For each interpolation type
+        for i, interp_type in enumerate(interp_types):
+            ax = axes[i]
+            
+            # For each ADC type
+            for adc_type, adc_label in adc_names.items():
+                y_values = all_phase_errors[interp_type][adc_type][num_samples]
+                ax.plot(phases, y_values, marker='.', label=adc_label)
+            
+            # Add labels and grid
+            ax.set_ylabel(f"{interp_names[interp_type]}\nBłąd względny [%]")
+            ax.grid(True)
+            ax.legend()
+            
+            # Add x-axis label only for the bottom plot
+            if i == len(interp_types) - 1:
+                ax.set_xlabel("Faza [°]")
+        
+        # Adjust layout
+        plt.tight_layout()
+        plt.subplots_adjust(top=0.9)
+    
+    # 2. Plot: Relative error vs phase for different sample sizes for each ADC type
+    for adc_type, adc_label in adc_names.items():
+        fig = plt.figure(figsize=(15, 10))
+        fig.suptitle(f"Błąd względny vs. faza dla amplitudy {A} V i {adc_label}", fontsize=16)
+        
+        # Define grid layout
+        ax1 = plt.subplot(3, 1, 1)  # No interpolation
+        ax2 = plt.subplot(3, 1, 2)  # Linear interpolation
+        ax3 = plt.subplot(3, 1, 3)  # Cubic spline interpolation
+        
+        # List of axes
+        axes = [ax1, ax2, ax3]
+        
+        # List of interpolation types
+        interp_types = list(interp_names.keys())
+        
+        # For each interpolation type
+        for i, interp_type in enumerate(interp_types):
+            ax = axes[i]
+            
+            # For each sample size
+            for num_samples in sample_sizes:
+                y_values = all_phase_errors[interp_type][adc_type][num_samples]
+                ax.plot(phases, y_values, marker='.', label=f"{num_samples} próbek")
+            
+            # Add labels and grid
+            ax.set_ylabel(f"{interp_names[interp_type]}\nBłąd względny [%]")
+            ax.grid(True)
+            ax.legend()
+            
+            # Add x-axis label only for the bottom plot
+            if i == len(interp_types) - 1:
+                ax.set_xlabel("Faza [°]")
+        
+        # Adjust layout
+        plt.tight_layout()
+        plt.subplots_adjust(top=0.9)
+    
+    # Show all plots
+    plt.show()

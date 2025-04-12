@@ -11,7 +11,10 @@ def main():
     #sim.plot_for_sample_pulse()
 
     # Call the function to plot the PMT pulse and its samples with ADC
-    sim.worst_case_for_amplitudes()
+    # sim.worst_case_for_amplitudes()
+
+    # Call the function to plot relative error vs phase
+    sim.error_vs_phase(0.5)
 
 if __name__ == "__main__":
     main()
