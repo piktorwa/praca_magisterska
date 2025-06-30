@@ -10,7 +10,7 @@ def plot_sampled_signal(title, time_arr, value_arr, t_samples_list, y_samples_li
     plt.figure(fig_num)
     plt.plot(time_arr, value_arr, label="Puls z fotopowielacza")
 
-    markers = ['o', 's', 'D', '^']  # Different markers for different sample sizes
+    markers = ['o', 's', 'D']  # Different markers for different sample sizes
     
     for i, (t_samples, y_samples) in enumerate(zip(t_samples_list, y_samples_list)):
         plt.plot(t_samples, y_samples, marker=markers[i], linestyle='', label=labels[i])

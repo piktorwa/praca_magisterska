@@ -8,13 +8,16 @@ import simulations as sim
 
 def main():
     # Call the function to plot the PMT pulse and its samples
-    #sim.plot_for_sample_pulse()
+    # sim.plot_for_sample_pulse()
 
     # Call the function to plot the PMT pulse and its samples with ADC
     # sim.worst_case_for_amplitudes()
 
     # Call the function to plot relative error vs phase
     sim.error_vs_phase(0.5)
+
+    # Call the function to calculate avarage relative error
+    # sim.monte_carlo_average_relative_error(1000)
 
 if __name__ == "__main__":
     main()
