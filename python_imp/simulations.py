@@ -11,9 +11,11 @@ import signal_generator as sg
 import plot_signals as ps
 import numpy as np
 
+poly_degree = 20  # Degree of polynomial for interpolation
+
 def plot_for_sample_pulse():
     # Constants for PMT pulse
-    A = 0.6
+    A = 0.6 # amplitude of the pulse
     tr = 3.0 * 10**(-9) # pulse rise time
     sigma = tr / 1.69 # related to rise time
     tau = 3 * sigma # related to fall time
@@ -34,7 +36,7 @@ def plot_for_sample_pulse():
         num_samples = int(sps * ((stop_time - start_time) / sigma))
         sample_sizes.append(num_samples)
 
-    phase = sigma * 325/360 # phase shift in seconds
+    phase = sigma * 178/360 # phase shift in seconds
     start_time += phase
     stop_time += phase
 
@@ -67,8 +69,8 @@ def plot_for_sample_pulse():
     for num_samples in sample_sizes:
         # Generate samples
         samples['ideal'][num_samples] = sg.sample_signal(start_time, stop_time, num_samples, A, sigma, tau)
-        samples['8bit'][num_samples] = sg.sample_signal_ADC_n_bit(start_time, stop_time, num_samples, A, sigma, tau, 8)
-        samples['12bit'][num_samples] = sg.sample_signal_ADC_n_bit(start_time, stop_time, num_samples, A, sigma, tau, 12)
+        samples['8bit'][num_samples] = sg.sample_signal_ADC_n_bit_ver_2(*samples['ideal'][num_samples], 8)
+        samples['12bit'][num_samples] = sg.sample_signal_ADC_n_bit_ver_2(*samples['ideal'][num_samples], 12)
         
         # Generate linear interpolations
         linear_interpolations['ideal'][num_samples] = interpolation.linear_interpolation(*samples['ideal'][num_samples])
@@ -81,9 +83,9 @@ def plot_for_sample_pulse():
         cubic_spline_interpolations['12bit'][num_samples] = interpolation.cubic_spline_interpolation(*samples['12bit'][num_samples])
 
         # Generate polynomial (20th degree) interpolations
-        polynomial_interpolations['ideal'][num_samples] = interpolation.polynomial_interpolation(samples['ideal'][num_samples][0], samples['ideal'][num_samples][1], 20)
-        polynomial_interpolations['8bit'][num_samples] = interpolation.polynomial_interpolation(samples['8bit'][num_samples][0], samples['8bit'][num_samples][1], 20)
-        polynomial_interpolations['12bit'][num_samples] = interpolation.polynomial_interpolation(samples['12bit'][num_samples][0], samples['12bit'][num_samples][1], 20)
+        polynomial_interpolations['ideal'][num_samples] = interpolation.polynomial_interpolation(samples['ideal'][num_samples][0], samples['ideal'][num_samples][1], poly_degree)
+        polynomial_interpolations['8bit'][num_samples] = interpolation.polynomial_interpolation(samples['8bit'][num_samples][0], samples['8bit'][num_samples][1], poly_degree)
+        polynomial_interpolations['12bit'][num_samples] = interpolation.polynomial_interpolation(samples['12bit'][num_samples][0], samples['12bit'][num_samples][1], poly_degree)
 
     # Plot sampled signals
     # For ideal sampling
@@ -252,6 +254,9 @@ def plot_for_sample_pulse():
             t_interp, y_interp = cubic_spline_interpolations[sample_key][num_samples]
             
             # Calculate integral 
+            integral_val = integral.integrate_rectangle_method(t_interp, y_interp)
+
+            #calculate errors
             abs_err, rel_err = integral.calculate_error(integral_val, reference_result)
             
             # Print results
@@ -261,7 +266,7 @@ def plot_for_sample_pulse():
         print("-"*85)
     
     # Integral calculation for polynomial interpolated signals
-    print("\nInterpolacja wielomianowa 20 st.")
+    print("\nInterpolacja wielomianowa {:^10} st.",format(poly_degree))
     print("\n{:^10} | {:^20} | {:^15} | {:^15} | {:^15}".format("Próbki", "Typ próbkowania", "Całka", "Błąd bezwz.", "Błąd wzg. [%]"))
     print("-"*85)
 
@@ -342,17 +347,17 @@ def worst_case_for_amplitudes():
                 t_samples_12bit, y_samples_12bit = sg.sample_signal_ADC_n_bit_ver_2(t_samples_ideal, y_samples_ideal, 12)
                 
                 # Generowanie interpolacji
-                t_linear_ideal, y_linear_ideal = interpolation.linear_interpolation(t_samples_ideal[1:-2], y_samples_ideal[1:-2])
-                t_linear_8bit, y_linear_8bit = interpolation.linear_interpolation(t_samples_8bit[1:-2], y_samples_8bit[1:-2])
-                t_linear_12bit, y_linear_12bit = interpolation.linear_interpolation(t_samples_12bit[1:-2], y_samples_12bit[1:-2])
-                
+                t_linear_ideal, y_linear_ideal = interpolation.linear_interpolation(t_samples_ideal, y_samples_ideal)
+                t_linear_8bit, y_linear_8bit = interpolation.linear_interpolation(t_samples_8bit, y_samples_8bit)
+                t_linear_12bit, y_linear_12bit = interpolation.linear_interpolation(t_samples_12bit, y_samples_12bit)
+
                 t_cubic_ideal, y_cubic_ideal = interpolation.cubic_spline_interpolation(t_samples_ideal, y_samples_ideal)
                 t_cubic_8bit, y_cubic_8bit = interpolation.cubic_spline_interpolation(t_samples_8bit, y_samples_8bit)
                 t_cubic_12bit, y_cubic_12bit = interpolation.cubic_spline_interpolation(t_samples_12bit, y_samples_12bit)
                 
-                t_poly_ideal, y_poly_ideal = interpolation.polynomial_interpolation(t_samples_ideal, y_samples_ideal, 20, False)
-                t_poly_8bit, y_poly_8bit = interpolation.polynomial_interpolation(t_samples_8bit, y_samples_8bit, 20, False)
-                t_poly_12bit, y_poly_12bit = interpolation.polynomial_interpolation(t_samples_12bit, y_samples_12bit, 20, False)
+                t_poly_ideal, y_poly_ideal = interpolation.polynomial_interpolation(t_samples_ideal, y_samples_ideal, poly_degree, True)
+                t_poly_8bit, y_poly_8bit = interpolation.polynomial_interpolation(t_samples_8bit, y_samples_8bit, poly_degree, True)
+                t_poly_12bit, y_poly_12bit = interpolation.polynomial_interpolation(t_samples_12bit, y_samples_12bit, poly_degree, True)
 
                 # Zdefiniuj zakres całkowania dla wszystkich metod aby dopasować zakres interpolacji cubic spline
                 # Oblicz referencyjną całkę dla tego konkretnego zakresu czasu (dopasowanego do zakresu cubic spline)
@@ -371,7 +376,7 @@ def worst_case_for_amplitudes():
                 _, rel_err_8bit = integral.calculate_error(integral_8bit, reference_result)
                 _, rel_err_12bit = integral.calculate_error(integral_12bit, reference_result)
                 
-                # Interpolacja liniowa - zapewniamy, że używamy punktów w tym samym zakresie co cubic spline
+                # Interpolacja liniowa
                 integral_linear_ideal = integral.integrate_rectangle_method(t_linear_ideal, y_linear_ideal)
                 integral_linear_8bit = integral.integrate_rectangle_method(t_linear_8bit, y_linear_8bit)
                 integral_linear_12bit = integral.integrate_rectangle_method(t_linear_12bit, y_linear_12bit)
@@ -380,7 +385,7 @@ def worst_case_for_amplitudes():
                 _, rel_err_linear_8bit = integral.calculate_error(integral_linear_8bit, reference_result)
                 _, rel_err_linear_12bit = integral.calculate_error(integral_linear_12bit, reference_result)
                 
-                # Interpolacja cubic spline - już używa odpowiedniego zakresu w funkcji interpolacji
+                # Interpolacja cubic spline
                 integral_cubic_ideal = integral.integrate_rectangle_method(t_cubic_ideal, y_cubic_ideal)
                 integral_cubic_8bit = integral.integrate_rectangle_method(t_cubic_8bit, y_cubic_8bit)
                 integral_cubic_12bit = integral.integrate_rectangle_method(t_cubic_12bit, y_cubic_12bit)
@@ -389,10 +394,11 @@ def worst_case_for_amplitudes():
                 _, rel_err_cubic_8bit = integral.calculate_error(integral_cubic_8bit, reference_result)
                 _, rel_err_cubic_12bit = integral.calculate_error(integral_cubic_12bit, reference_result)
 
-                # Poly3 integration and error
+                # Interpolacja wielomianowa
                 integral_poly_ideal = integral.integrate_rectangle_method(t_poly_ideal, y_poly_ideal)
                 integral_poly_8bit = integral.integrate_rectangle_method(t_poly_8bit, y_poly_8bit)
                 integral_poly_12bit = integral.integrate_rectangle_method(t_poly_12bit, y_poly_12bit)
+
                 _, rel_err_poly_ideal = integral.calculate_error(integral_poly_ideal, reference_result)
                 _, rel_err_poly_8bit = integral.calculate_error(integral_poly_8bit, reference_result)
                 _, rel_err_poly_12bit = integral.calculate_error(integral_poly_12bit, reference_result)
@@ -615,9 +621,9 @@ def error_vs_phase(A=0.6):
             t_cubic_8bit, y_cubic_8bit = interpolation.cubic_spline_interpolation(t_samples_8bit, y_samples_8bit)
             t_cubic_12bit, y_cubic_12bit = interpolation.cubic_spline_interpolation(t_samples_12bit, y_samples_12bit)
             
-            t_poly_ideal, y_poly_ideal = interpolation.polynomial_interpolation(t_samples_ideal, y_samples_ideal, 20, False)
-            t_poly_8bit, y_poly_8bit = interpolation.polynomial_interpolation(t_samples_8bit, y_samples_8bit, 20, False)
-            t_poly_12bit, y_poly_12bit = interpolation.polynomial_interpolation(t_samples_12bit, y_samples_12bit, 20, False)
+            t_poly_ideal, y_poly_ideal = interpolation.polynomial_interpolation(t_samples_ideal, y_samples_ideal, poly_degree, False)
+            t_poly_8bit, y_poly_8bit = interpolation.polynomial_interpolation(t_samples_8bit, y_samples_8bit, poly_degree, False)
+            t_poly_12bit, y_poly_12bit = interpolation.polynomial_interpolation(t_samples_12bit, y_samples_12bit, poly_degree, False)
 
 
             # Define integration range for all methods to match cubic spline interpolation range
@@ -822,9 +828,9 @@ def monte_carlo_average_relative_error(num_iterations=1000):
             t_cubic_12bit, y_cubic_12bit = interpolation.cubic_spline_interpolation(t_samples_12bit, y_samples_12bit)
 
             # Polynomial 3rd degree
-            t_poly_ideal, y_poly_ideal = interpolation.polynomial_interpolation(t_samples_ideal, y_samples_ideal, 20, False)
-            t_poly_8bit, y_poly_8bit = interpolation.polynomial_interpolation(t_samples_8bit, y_samples_8bit, 20, False)
-            t_poly_12bit, y_poly_12bit = interpolation.polynomial_interpolation(t_samples_12bit, y_samples_12bit, 20, False)
+            t_poly_ideal, y_poly_ideal = interpolation.polynomial_interpolation(t_samples_ideal, y_samples_ideal, poly_degree, False)
+            t_poly_8bit, y_poly_8bit = interpolation.polynomial_interpolation(t_samples_8bit, y_samples_8bit, poly_degree, False)
+            t_poly_12bit, y_poly_12bit = interpolation.polynomial_interpolation(t_samples_12bit, y_samples_12bit, poly_degree, False)
 
             reference_start = t_samples_ideal[1]
             reference_stop = t_samples_ideal[-2]

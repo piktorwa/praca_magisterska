@@ -7,6 +7,8 @@
 import numpy as np
 from scipy.interpolate import CubicSpline
 
+new_samples = 10 # Number of new samples for interpolation
+
 def linear_interpolation(t_samples, y_samples):
     """
     Perform linear interpolation between sampled data points.
@@ -18,7 +20,7 @@ def linear_interpolation(t_samples, y_samples):
     Returns:
         interpolated time and value arrays
     """
-    t_interpolated = np.linspace(t_samples[0], t_samples[-1], len(t_samples) * 10)  # 10 times more points for interpolation
+    t_interpolated = np.linspace(t_samples[0], t_samples[-1], len(t_samples) * new_samples)  # n times more points for interpolation
     y_interpolated = np.interp(t_interpolated, t_samples, y_samples)
     return t_interpolated, y_interpolated
 
@@ -35,7 +37,7 @@ def cubic_spline_interpolation(t_samples, y_samples):
     """
         
     cs = CubicSpline(t_samples, y_samples)
-    t_interpolated = np.linspace(t_samples[1], t_samples[-2], len(t_samples) * 10)  # 10 times more points for interpolation
+    t_interpolated = np.linspace(t_samples[0], t_samples[-1], len(t_samples) * new_samples)  # n times more points for interpolation
     y_interpolated = cs(t_interpolated)
     return t_interpolated, y_interpolated
 
@@ -53,10 +55,10 @@ def polynomial_interpolation(t_samples, y_samples, degree, check = True):
     """
     coeffs = np.polyfit(t_samples, y_samples, degree)
     poly = np.poly1d(coeffs)
-    t_interpolated = np.linspace(t_samples[0], t_samples[-1], len(t_samples) * 10)  # 10 times more points for interpolation
+    t_interpolated = np.linspace(t_samples[0], t_samples[-1], len(t_samples) * new_samples)  # n times more points for interpolation
     y_interpolated = poly(t_interpolated)
     if check: return t_interpolated, y_interpolated
     else: 
-        t_interpolated = t_interpolated[10:-11]  # Remove first ten and last ten points to avoid edge effects
-        y_interpolated = y_interpolated[10:-11] 
+        t_interpolated = t_interpolated[new_samples:-new_samples-1]  # Remove first n and last n points to avoid edge effects
+        y_interpolated = y_interpolated[new_samples:-new_samples-1]  # Remove first n and last n points to avoid edge effects
         return t_interpolated, y_interpolated
