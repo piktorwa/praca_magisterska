@@ -19,7 +19,7 @@ def integrate_rectangle_method(t_samples, y_samples): # Rectangle method
     integral = 0.0
     for i in range(len(t_samples) - 1):
         dt = t_samples[i + 1] - t_samples[i]
-        integral += y_samples[i] * dt       
+        integral += y_samples[i + 1] * dt
     return integral
 
 def calculate_error(approx_value, reference_value):

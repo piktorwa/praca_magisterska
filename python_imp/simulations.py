@@ -15,13 +15,13 @@ poly_degree = 20  # Degree of polynomial for interpolation
 
 def plot_for_sample_pulse():
     # Constants for PMT pulse
-    A = 0.6 # amplitude of the pulse
-    tr = 3.0 * 10**(-9) # pulse rise time
+    tr = 10.0 * 10**(-9) # pulse rise time
+    A = 10**8 * tr # amplitude of the pulse in V
     sigma = tr / 1.69 # related to rise time
     tau = 3 * sigma # related to fall time
 
-    start_time = -5 * sigma
-    stop_time = 7 * tau
+    start_time = -8 * sigma
+    stop_time = 6 * tau
     time_step = 0.01 * 10**(-9)
     
     start_time = start_time
@@ -30,13 +30,13 @@ def plot_for_sample_pulse():
     time_arr, value_arr = sg.PMT_pulse_values(start_time, stop_time, time_step, A, sigma, tau)
     
     # Number of samples - based on samples per sigma
-    samples_per_sigma = [1, 2, 3]
     sample_sizes = []
+    samples_per_sigma = [1, 2, 3]
     for sps in samples_per_sigma:
         num_samples = int(sps * ((stop_time - start_time) / sigma))
         sample_sizes.append(num_samples)
 
-    phase = sigma * 178/360 # phase shift in seconds
+    phase = sigma * 163/360 # phase shift in seconds
     start_time += phase
     stop_time += phase
 
@@ -140,7 +140,7 @@ def plot_for_sample_pulse():
                 time_arr, value_arr,
                 t_samples, y_samples,
                 t_interp, y_interp,
-                f"{num_samples} próbek",
+                f"{len(y_samples)} próbek",
                 fig_num,
                 "Interpolacja liniowa"
             )
@@ -163,7 +163,7 @@ def plot_for_sample_pulse():
                 time_arr, value_arr,
                 t_samples, y_samples,
                 t_interp, y_interp,
-                f"{num_samples} próbek",
+                f"{len(y_samples)} próbek",
                 fig_num,
                 "Interpolacja cubic spline"
             )
@@ -182,13 +182,13 @@ def plot_for_sample_pulse():
             t_interp, y_interp = polynomial_interpolations[adc_type][num_samples]
 
             ps.plot_interpolated_signal(
-                f"Interpolacja wielomianowa 20 st. - {num_samples} próbek ({adc_label})",
+                f"Interpolacja wielomianowa {poly_degree} st. - {num_samples} próbek ({adc_label})",
                 time_arr, value_arr,
                 t_samples, y_samples,
                 t_interp, y_interp,
-                f"{num_samples} próbek",
+                f"{len(y_samples)} próbek",
                 fig_num,
-                "Interpolacja wielomianowa 20 st."
+                "Interpolacja wielomianowa {poly_degree} st."
             )
             fig_num += 1
 
@@ -198,7 +198,8 @@ def plot_for_sample_pulse():
     print(f"Oszacowany błąd scipy: {reference_error:.6e}")
 
     # Table header
-    print("\n{:^10} | {:^20} | {:^15} | {:^15} | {:^15}".format("Próbki", "Typ próbkowania", "Całka", "Błąd bezwz.", "Błąd wzg. [%]"))
+    print("\nBez interpolacji")
+    print("\n{:^10} | {:^20} | {:^15} | {:^15} | {:^15}".format("Ilość próbek", "Typ próbkowania", "Całka", "Błąd bezwz.", "Błąd wzg. [%]"))
     print("-"*85)
 
     # Integral calculation for sampled signals - Rectangle method
@@ -225,7 +226,7 @@ def plot_for_sample_pulse():
     
     # Integral calculation for linear interpolated signals
     print("\nInterpolacja liniowa")
-    print("\n{:^10} | {:^20} | {:^15} | {:^15} | {:^15}".format("Próbki", "Typ próbkowania", "Całka", "Błąd bezwz.", "Błąd wzg. [%]"))
+    print("\n{:^10} | {:^20} | {:^15} | {:^15} | {:^15}".format("Ilość próbek", "Typ próbkowania", "Całka", "Błąd bezwz.", "Błąd wzg. [%]"))
     print("-"*85)
     
     for num_samples in sample_sizes:
@@ -245,7 +246,7 @@ def plot_for_sample_pulse():
     
     # Integral calculation for cubic spline interpolated signals
     print("\nInterpolacja cubic spline")
-    print("\n{:^10} | {:^20} | {:^15} | {:^15} | {:^15}".format("Próbki", "Typ próbkowania", "Całka", "Błąd bezwz.", "Błąd wzg. [%]"))
+    print("\n{:^10} | {:^20} | {:^15} | {:^15} | {:^15}".format("Ilość próbek", "Typ próbkowania", "Całka", "Błąd bezwz.", "Błąd wzg. [%]"))
     print("-"*85)
     
     for num_samples in sample_sizes:
@@ -266,8 +267,8 @@ def plot_for_sample_pulse():
         print("-"*85)
     
     # Integral calculation for polynomial interpolated signals
-    print("\nInterpolacja wielomianowa {:^10} st.",format(poly_degree))
-    print("\n{:^10} | {:^20} | {:^15} | {:^15} | {:^15}".format("Próbki", "Typ próbkowania", "Całka", "Błąd bezwz.", "Błąd wzg. [%]"))
+    print("\nInterpolacja wielomianowa st. {}".format(poly_degree))
+    print("\n{:^10} | {:^20} | {:^15} | {:^15} | {:^15}".format("Ilość próbek", "Typ próbkowania", "Całka", "Błąd bezwz.", "Błąd wzg. [%]"))
     print("-"*85)
 
     for num_samples in sample_sizes:
@@ -282,306 +283,215 @@ def plot_for_sample_pulse():
     plt.show()
 
 def worst_case_for_amplitudes():
-    # Constants for PMT pulse
-    A = [0.05, 0.1, 0.2, 0.5, 1.0, 2.0]
-    tr = 3.0 * 10**(-9)
-    sigma = tr / 1.69
-    tau = 3 * sigma
-    start_time_orig = -5 * sigma
-    stop_time_orig = 7 * tau
-
-    # Number of samples - based on samples per sigma
+    # Parametry testowe
+    tr_list = [1.0e-9, 5.0e-9, 10.0e-9, 25.0e-9, 50.0e-9]
     samples_per_sigma = [1, 2, 3, 4]
-    sample_sizes = []
-    for sps in samples_per_sigma:
-        num_samples = int(sps * ((stop_time_orig - start_time_orig) / sigma))
-        sample_sizes.append(num_samples)
-
-    # Słownik do przechowywania maksymalnych błędów dla różnych amplitud i faz
-    max_errors = {}
-    
-    # Krok fazowy (w stopniach)
     phase_step = 1
     phases = range(0, 360, phase_step)
-    
-    # Inicjalizacja struktury słownika dla każdej amplitudy
-    for amplitude in A:
-        max_errors[amplitude] = {
-            'raw': {
-                'ideal': {size: {'max_error': 0, 'phase': 0} for size in sample_sizes},
-                '8bit': {size: {'max_error': 0, 'phase': 0} for size in sample_sizes},
-                '12bit': {size: {'max_error': 0, 'phase': 0} for size in sample_sizes}
-            },
-            'linear': {
-                'ideal': {size: {'max_error': 0, 'phase': 0} for size in sample_sizes},
-                '8bit': {size: {'max_error': 0, 'phase': 0} for size in sample_sizes},
-                '12bit': {size: {'max_error': 0, 'phase': 0} for size in sample_sizes}
-            },
-            'cubic': {
-                'ideal': {size: {'max_error': 0, 'phase': 0} for size in sample_sizes},
-                '8bit': {size: {'max_error': 0, 'phase': 0} for size in sample_sizes},
-                '12bit': {size: {'max_error': 0, 'phase': 0} for size in sample_sizes}
-            },
-            'poly': {
-                'ideal': {size: {'max_error': 0, 'phase': 0} for size in sample_sizes},
-                '8bit': {size: {'max_error': 0, 'phase': 0} for size in sample_sizes},
-                '12bit': {size: {'max_error': 0, 'phase': 0} for size in sample_sizes}
-            }
-        }
+    poly_degree = 20
 
-    # Pętla przez wszystkie amplitudy
-    for amplitude in A:
-        print(f"\nTesting amplitude: {amplitude}")
-        
-        # Pętla przez różne przesunięcia fazowe (w stopniach)
-        for phase_deg in phases:
-            # Zastosuj przesunięcie fazowe do czasów próbkowania
-            start_time = start_time_orig + sigma * phase_deg / 360
-            stop_time = stop_time_orig + sigma * phase_deg / 360
-            
-            # Pętla przez różne rozmiary próbek
-            for num_samples in sample_sizes:
-                # Generowanie próbek
-                t_samples_ideal, y_samples_ideal = sg.sample_signal(start_time, stop_time, num_samples, amplitude, sigma, tau)
-                t_samples_8bit, y_samples_8bit = sg.sample_signal_ADC_n_bit_ver_2(t_samples_ideal, y_samples_ideal, 8)
-                t_samples_12bit, y_samples_12bit = sg.sample_signal_ADC_n_bit_ver_2(t_samples_ideal, y_samples_ideal, 12)
-                
-                # Generowanie interpolacji
-                t_linear_ideal, y_linear_ideal = interpolation.linear_interpolation(t_samples_ideal, y_samples_ideal)
-                t_linear_8bit, y_linear_8bit = interpolation.linear_interpolation(t_samples_8bit, y_samples_8bit)
-                t_linear_12bit, y_linear_12bit = interpolation.linear_interpolation(t_samples_12bit, y_samples_12bit)
+    error_count = 0  # Licznik błędów
 
-                t_cubic_ideal, y_cubic_ideal = interpolation.cubic_spline_interpolation(t_samples_ideal, y_samples_ideal)
-                t_cubic_8bit, y_cubic_8bit = interpolation.cubic_spline_interpolation(t_samples_8bit, y_samples_8bit)
-                t_cubic_12bit, y_cubic_12bit = interpolation.cubic_spline_interpolation(t_samples_12bit, y_samples_12bit)
-                
-                t_poly_ideal, y_poly_ideal = interpolation.polynomial_interpolation(t_samples_ideal, y_samples_ideal, poly_degree, True)
-                t_poly_8bit, y_poly_8bit = interpolation.polynomial_interpolation(t_samples_8bit, y_samples_8bit, poly_degree, True)
-                t_poly_12bit, y_poly_12bit = interpolation.polynomial_interpolation(t_samples_12bit, y_samples_12bit, poly_degree, True)
-
-                # Zdefiniuj zakres całkowania dla wszystkich metod aby dopasować zakres interpolacji cubic spline
-                # Oblicz referencyjną całkę dla tego konkretnego zakresu czasu (dopasowanego do zakresu cubic spline)
-                # Funkcja interpolacji cubic spline w pliku interpolation.py używa zakresu t_samples[1] do t_samples[-2]
-                reference_start = t_samples_ideal[1]  # Pomiń pierwszą próbkę
-                reference_stop = t_samples_ideal[-2]  # Pomiń ostatnią próbkę
-                reference_result, reference_error = sg.integrate_PMT_pulse(amplitude, sigma, tau, reference_start, reference_stop)
-                
-                # Oblicz całki i błędy
-                # Surowe próbki - pomiń pierwszą i ostatnią próbkę
-                integral_ideal = integral.integrate_rectangle_method(t_samples_ideal[1:-2], y_samples_ideal[1:-2])
-                integral_8bit = integral.integrate_rectangle_method(t_samples_8bit[1:-2], y_samples_8bit[1:-2])
-                integral_12bit = integral.integrate_rectangle_method(t_samples_12bit[1:-2], y_samples_12bit[1:-2])
-                
-                _, rel_err_ideal = integral.calculate_error(integral_ideal, reference_result)
-                _, rel_err_8bit = integral.calculate_error(integral_8bit, reference_result)
-                _, rel_err_12bit = integral.calculate_error(integral_12bit, reference_result)
-                
-                # Interpolacja liniowa
-                integral_linear_ideal = integral.integrate_rectangle_method(t_linear_ideal, y_linear_ideal)
-                integral_linear_8bit = integral.integrate_rectangle_method(t_linear_8bit, y_linear_8bit)
-                integral_linear_12bit = integral.integrate_rectangle_method(t_linear_12bit, y_linear_12bit)
-                
-                _, rel_err_linear_ideal = integral.calculate_error(integral_linear_ideal, reference_result)
-                _, rel_err_linear_8bit = integral.calculate_error(integral_linear_8bit, reference_result)
-                _, rel_err_linear_12bit = integral.calculate_error(integral_linear_12bit, reference_result)
-                
-                # Interpolacja cubic spline
-                integral_cubic_ideal = integral.integrate_rectangle_method(t_cubic_ideal, y_cubic_ideal)
-                integral_cubic_8bit = integral.integrate_rectangle_method(t_cubic_8bit, y_cubic_8bit)
-                integral_cubic_12bit = integral.integrate_rectangle_method(t_cubic_12bit, y_cubic_12bit)
-                
-                _, rel_err_cubic_ideal = integral.calculate_error(integral_cubic_ideal, reference_result)
-                _, rel_err_cubic_8bit = integral.calculate_error(integral_cubic_8bit, reference_result)
-                _, rel_err_cubic_12bit = integral.calculate_error(integral_cubic_12bit, reference_result)
-
-                # Interpolacja wielomianowa
-                integral_poly_ideal = integral.integrate_rectangle_method(t_poly_ideal, y_poly_ideal)
-                integral_poly_8bit = integral.integrate_rectangle_method(t_poly_8bit, y_poly_8bit)
-                integral_poly_12bit = integral.integrate_rectangle_method(t_poly_12bit, y_poly_12bit)
-
-                _, rel_err_poly_ideal = integral.calculate_error(integral_poly_ideal, reference_result)
-                _, rel_err_poly_8bit = integral.calculate_error(integral_poly_8bit, reference_result)
-                _, rel_err_poly_12bit = integral.calculate_error(integral_poly_12bit, reference_result)
-
-                # Aktualizuj maksymalne błędy dla bieżącej amplitudy
-                # Surowe próbki
-                if rel_err_ideal > max_errors[amplitude]['raw']['ideal'][num_samples]['max_error']:
-                    max_errors[amplitude]['raw']['ideal'][num_samples]['max_error'] = rel_err_ideal
-                    max_errors[amplitude]['raw']['ideal'][num_samples]['phase'] = phase_deg
-                
-                if rel_err_8bit > max_errors[amplitude]['raw']['8bit'][num_samples]['max_error']:
-                    max_errors[amplitude]['raw']['8bit'][num_samples]['max_error'] = rel_err_8bit
-                    max_errors[amplitude]['raw']['8bit'][num_samples]['phase'] = phase_deg
-                
-                if rel_err_12bit > max_errors[amplitude]['raw']['12bit'][num_samples]['max_error']:
-                    max_errors[amplitude]['raw']['12bit'][num_samples]['max_error'] = rel_err_12bit
-                    max_errors[amplitude]['raw']['12bit'][num_samples]['phase'] = phase_deg
-                
-                # Interpolacja liniowa
-                if rel_err_linear_ideal > max_errors[amplitude]['linear']['ideal'][num_samples]['max_error']:
-                    max_errors[amplitude]['linear']['ideal'][num_samples]['max_error'] = rel_err_linear_ideal
-                    max_errors[amplitude]['linear']['ideal'][num_samples]['phase'] = phase_deg
-                
-                if rel_err_linear_8bit > max_errors[amplitude]['linear']['8bit'][num_samples]['max_error']:
-                    max_errors[amplitude]['linear']['8bit'][num_samples]['max_error'] = rel_err_linear_8bit
-                    max_errors[amplitude]['linear']['8bit'][num_samples]['phase'] = phase_deg
-                
-                if rel_err_linear_12bit > max_errors[amplitude]['linear']['12bit'][num_samples]['max_error']:
-                    max_errors[amplitude]['linear']['12bit'][num_samples]['max_error'] = rel_err_linear_12bit
-                    max_errors[amplitude]['linear']['12bit'][num_samples]['phase'] = phase_deg
-                
-                # Interpolacja cubic spline
-                if rel_err_cubic_ideal > max_errors[amplitude]['cubic']['ideal'][num_samples]['max_error']:
-                    max_errors[amplitude]['cubic']['ideal'][num_samples]['max_error'] = rel_err_cubic_ideal
-                    max_errors[amplitude]['cubic']['ideal'][num_samples]['phase'] = phase_deg
-                
-                if rel_err_cubic_8bit > max_errors[amplitude]['cubic']['8bit'][num_samples]['max_error']:
-                    max_errors[amplitude]['cubic']['8bit'][num_samples]['max_error'] = rel_err_cubic_8bit
-                    max_errors[amplitude]['cubic']['8bit'][num_samples]['phase'] = phase_deg
-                
-                if rel_err_cubic_12bit > max_errors[amplitude]['cubic']['12bit'][num_samples]['max_error']:
-                    max_errors[amplitude]['cubic']['12bit'][num_samples]['max_error'] = rel_err_cubic_12bit
-                    max_errors[amplitude]['cubic']['12bit'][num_samples]['phase'] = phase_deg
-
-                # Intropolacja wielomianowa
-                if rel_err_poly_ideal > max_errors[amplitude]['poly']['ideal'][num_samples]['max_error']:
-                    max_errors[amplitude]['poly']['ideal'][num_samples]['max_error'] = rel_err_poly_ideal
-                    max_errors[amplitude]['poly']['ideal'][num_samples]['phase'] = phase_deg
-
-                if rel_err_poly_8bit > max_errors[amplitude]['poly']['8bit'][num_samples]['max_error']:
-                    max_errors[amplitude]['poly']['8bit'][num_samples]['max_error'] = rel_err_poly_8bit
-                    max_errors[amplitude]['poly']['8bit'][num_samples]['phase'] = phase_deg
-
-                if rel_err_poly_12bit > max_errors[amplitude]['poly']['12bit'][num_samples]['max_error']:
-                    max_errors[amplitude]['poly']['12bit'][num_samples]['max_error'] = rel_err_poly_12bit
-                    max_errors[amplitude]['poly']['12bit'][num_samples]['phase'] = phase_deg
-
-
-    # Nazwy dla legendy wykresów
+    # Słowniki do przechowywania wyników
     interp_names = {
         'raw': 'Bez interpolacji',
         'linear': 'Interpolacja liniowa',
         'cubic': 'Interpolacja cubic spline',
-        'poly': 'Interpolacja wielomianowa 20 st.'
+        'poly': f'Interpolacja wielomianowa {poly_degree} st.'
     }
-    
     adc_names = {
         'ideal': 'Idealny ADC',
         '8bit': 'ADC 8-bit',
         '12bit': 'ADC 12-bit'
     }
-    
-    print("\n\n===== WYNIKI NAJGORSZYCH PRZYPADKÓW =====")
-    
-    # Dla każdej amplitudy
-    for amplitude in A:
+
+    # Główna pętla po różnych czasach narastania
+    for trise in tr_list:
+        amplitude = trise * 1e8
+        sigma = trise / 1.69
+        tau = 3 * sigma
+        start_time_orig = -8 * sigma
+        stop_time_orig = 6 * tau
+
+        # Struktura do przechowywania maksymalnych błędów
+        max_errors = {
+            interp: {
+                adc: {sps: {'max_error': 0, 'phase': 0} for sps in samples_per_sigma}
+                for adc in adc_names
+            }
+            for interp in interp_names
+        }
+
+        print(f"\nTesting amplitude: {amplitude} V, rise time: {trise*10**9} ns")
+
+        # Pętla po fazach i rozmiarach próbek
+        for phase_deg in phases:
+            phase_shift = sigma * phase_deg / 360
+            start_time = start_time_orig + phase_shift
+            stop_time = stop_time_orig + phase_shift
+
+            for sps in samples_per_sigma:
+                num_samples = int(sps * ((stop_time_orig - start_time_orig) / sigma))
+                try:
+                    # Generowanie próbek
+                    t_samples_ideal, y_samples_ideal = sg.sample_signal(start_time, stop_time, num_samples, amplitude, sigma, tau)
+                    t_samples_8bit, y_samples_8bit = sg.sample_signal_ADC_n_bit_ver_2(t_samples_ideal, y_samples_ideal, 8)
+                    t_samples_12bit, y_samples_12bit = sg.sample_signal_ADC_n_bit_ver_2(t_samples_ideal, y_samples_ideal, 12)
+
+                    # Interpolacje
+                    t_linear_ideal, y_linear_ideal = interpolation.linear_interpolation(t_samples_ideal, y_samples_ideal)
+                    t_linear_8bit, y_linear_8bit = interpolation.linear_interpolation(t_samples_8bit, y_samples_8bit)
+                    t_linear_12bit, y_linear_12bit = interpolation.linear_interpolation(t_samples_12bit, y_samples_12bit)
+
+                    t_cubic_ideal, y_cubic_ideal = interpolation.cubic_spline_interpolation(t_samples_ideal, y_samples_ideal)
+                    t_cubic_8bit, y_cubic_8bit = interpolation.cubic_spline_interpolation(t_samples_8bit, y_samples_8bit)
+                    t_cubic_12bit, y_cubic_12bit = interpolation.cubic_spline_interpolation(t_samples_12bit, y_samples_12bit)
+
+                    t_poly_ideal, y_poly_ideal = interpolation.polynomial_interpolation(t_samples_ideal, y_samples_ideal, poly_degree)
+                    t_poly_8bit, y_poly_8bit = interpolation.polynomial_interpolation(t_samples_8bit, y_samples_8bit, poly_degree)
+                    t_poly_12bit, y_poly_12bit = interpolation.polynomial_interpolation(t_samples_12bit, y_samples_12bit, poly_degree)
+
+                    # Całka referencyjna
+                    reference_result, _ = sg.integrate_PMT_pulse(amplitude, sigma, tau, start_time, stop_time)
+
+                    # Surowe próbki
+                    integral_ideal = integral.integrate_rectangle_method(t_samples_ideal, y_samples_ideal)
+                    integral_8bit = integral.integrate_rectangle_method(t_samples_8bit, y_samples_8bit)
+                    integral_12bit = integral.integrate_rectangle_method(t_samples_12bit, y_samples_12bit)
+                    _, rel_err_ideal = integral.calculate_error(integral_ideal, reference_result)
+                    _, rel_err_8bit = integral.calculate_error(integral_8bit, reference_result)
+                    _, rel_err_12bit = integral.calculate_error(integral_12bit, reference_result)
+
+                    # Interpolacja liniowa
+                    integral_linear_ideal = integral.integrate_rectangle_method(t_linear_ideal, y_linear_ideal)
+                    integral_linear_8bit = integral.integrate_rectangle_method(t_linear_8bit, y_linear_8bit)
+                    integral_linear_12bit = integral.integrate_rectangle_method(t_linear_12bit, y_linear_12bit)
+                    _, rel_err_linear_ideal = integral.calculate_error(integral_linear_ideal, reference_result)
+                    _, rel_err_linear_8bit = integral.calculate_error(integral_linear_8bit, reference_result)
+                    _, rel_err_linear_12bit = integral.calculate_error(integral_linear_12bit, reference_result)
+
+                    # Interpolacja cubic spline
+                    integral_cubic_ideal = integral.integrate_rectangle_method(t_cubic_ideal, y_cubic_ideal)
+                    integral_cubic_8bit = integral.integrate_rectangle_method(t_cubic_8bit, y_cubic_8bit)
+                    integral_cubic_12bit = integral.integrate_rectangle_method(t_cubic_12bit, y_cubic_12bit)
+                    _, rel_err_cubic_ideal = integral.calculate_error(integral_cubic_ideal, reference_result)
+                    _, rel_err_cubic_8bit = integral.calculate_error(integral_cubic_8bit, reference_result)
+                    _, rel_err_cubic_12bit = integral.calculate_error(integral_cubic_12bit, reference_result)
+
+                    # Interpolacja wielomianowa
+                    integral_poly_ideal = integral.integrate_rectangle_method(t_poly_ideal, y_poly_ideal)
+                    integral_poly_8bit = integral.integrate_rectangle_method(t_poly_8bit, y_poly_8bit)
+                    integral_poly_12bit = integral.integrate_rectangle_method(t_poly_12bit, y_poly_12bit)
+                    _, rel_err_poly_ideal = integral.calculate_error(integral_poly_ideal, reference_result)
+                    _, rel_err_poly_8bit = integral.calculate_error(integral_poly_8bit, reference_result)
+                    _, rel_err_poly_12bit = integral.calculate_error(integral_poly_12bit, reference_result)
+
+                    # Aktualizacja maksymalnych błędów
+                    for interp, rel_errs in zip(
+                        ['raw', 'linear', 'cubic', 'poly'],
+                        [
+                            [rel_err_ideal, rel_err_8bit, rel_err_12bit],
+                            [rel_err_linear_ideal, rel_err_linear_8bit, rel_err_linear_12bit],
+                            [rel_err_cubic_ideal, rel_err_cubic_8bit, rel_err_cubic_12bit],
+                            [rel_err_poly_ideal, rel_err_poly_8bit, rel_err_poly_12bit]
+                        ]
+                    ):
+                        for adc, rel_err in zip(['ideal', '8bit', '12bit'], rel_errs):
+                            if rel_err > max_errors[interp][adc][sps]['max_error']:
+                                max_errors[interp][adc][sps]['max_error'] = rel_err
+                                max_errors[interp][adc][sps]['phase'] = phase_deg
+
+                except Exception as e:
+                    error_count += 1
+                    # print(f"Błąd dla amplitude={amplitude}, phase={phase_deg}, num_samples={num_samples}: {e}")
+                    continue
+
+        # --- Wyniki tekstowe ---
         print(f"\n\n===== AMPLITUDA: {amplitude} V =====")
-        
-        # Dla każdego typu interpolacji
         for interp_type, interp_label in interp_names.items():
             print(f"\n{interp_label}")
-            print("{:^12} | {:^15} | {:^15} | {:^10}".format(
-                "Liczba próbek", "Typ ADC", "Max błąd wzgl. [%]", "Faza [°]"))
+            print("{:^15} | {:^10} | {:^15} | {:^10}".format(
+                "samples per sigma", "Typ ADC", "Max błąd wzgl. [%]", "Faza [°]"))
             print("-"*60)
-            
-            # Dla każdego rozmiaru próbki
-            for num_samples in sample_sizes:
-                # Dla każdego typu ADC
+            for sps in samples_per_sigma:
                 for adc_type, adc_label in adc_names.items():
-                    result = max_errors[amplitude][interp_type][adc_type][num_samples]
+                    result = max_errors[interp_type][adc_type][sps]
                     print("{:^12} | {:^15} | {:^15.2f} | {:^10}".format(
-                        num_samples, adc_label, result['max_error'], result['phase']))
+                        sps, adc_label, result['max_error'], result['phase']))
                 print("-"*60)
-    
-    # 1. Wykresy maksymalnych błędów względnych dla różnych amplitud
-    # Rozmiary próbek dla osi x
-    x = range(len(sample_sizes))
-    x_labels = [str(size) for size in sample_sizes]
-    
-    # Dla każdej amplitudy, utwórz nowy rysunek
-    for amplitude in A:
+
+        # --- Wykresy ---
+        x = range(len(samples_per_sigma))
+        x_labels = [str(sps) for sps in samples_per_sigma]
         fig = plt.figure(figsize=(15, 10))
         fig.suptitle(f"Maksymalne błędy względne dla amplitudy {amplitude} V", fontsize=16)
-        
-        # Zdefiniuj układ siatki w ramach tego rysunku
         n_rows = len(interp_names)
-        n_cols = 1  # Jedna kolumna na rysunek
-        
-        # Licznik wykresów
         plot_num = 1
-        
-        # Wykres dla każdego typu interpolacji
         for interp_type, interp_label in interp_names.items():
             ax = fig.add_subplot(n_rows, 1, plot_num)
-            
-            # Wykres dla każdego typu ADC
             for adc_type, adc_label in adc_names.items():
-                y_values = [max_errors[amplitude][interp_type][adc_type][size]['max_error'] for size in sample_sizes]
+                y_values = [max_errors[interp_type][adc_type][sps]['max_error'] for sps in samples_per_sigma]
                 ax.plot(x, y_values, marker='o', label=adc_label)
-            
-            # Dodaj etykiety i siatkę
             ax.set_ylabel(f"{interp_label}\nBłąd względny [%]")
-            
-            if plot_num == n_rows:  # Dolny wiersz
-                ax.set_xlabel("Liczba próbek")
+            if plot_num == n_rows:
+                ax.set_xlabel("samples per sigma")
                 ax.set_xticks(x)
                 ax.set_xticklabels(x_labels)
             else:
                 ax.set_xticks(x)
                 ax.set_xticklabels([])
-            
             ax.grid(True)
             ax.legend()
-            
             plot_num += 1
-        
-        # Dostosuj układ
         plt.tight_layout()
         plt.subplots_adjust(top=0.9)
-   
-    # Pokaż wszystkie wykresy
+    
     plt.show()
 
-def error_vs_phase(A=0.6):
+    print(f"\nLiczba pominiętych przypadków z błędem: {error_count}")
+
+def error_vs_phase():
     # Constants for PMT pulse
-    tr = 3.0 * 10**(-9)
+    tr = 10.0 * 10**(-9)
+    A = 10**8 * tr
     sigma = tr / 1.69
     tau = 3 * sigma
-    start_time_orig = -5 * sigma
-    stop_time_orig = 7 * tau
+    # Start and stop times for the PMT pulse
+    start_time_orig = -8 * sigma
+    stop_time_orig = 6 * tau
 
     # Number of samples - based on samples per sigma
-    samples_per_sigma = [1, 2, 3, 4]
     sample_sizes = []
+    samples_per_sigma = [1, 2, 3, 4]
     for sps in samples_per_sigma:
         num_samples = int(sps * ((stop_time_orig - start_time_orig) / sigma))
         sample_sizes.append(num_samples)
 
     # Phase step (in degrees)
-    phase_step = 3
+    phase_step = 1
     phases = range(0, 360, phase_step)
     
     # Dictionary to store errors for all phases
     all_phase_errors = {
         'raw': {
-            'ideal': {size: [] for size in sample_sizes},
-            '8bit': {size: [] for size in sample_sizes},
-            '12bit': {size: [] for size in sample_sizes}
+            'ideal': {sps: [] for sps in samples_per_sigma},
+            '8bit': {sps: [] for sps in samples_per_sigma},
+            '12bit': {sps: [] for sps in samples_per_sigma}
         },
         'linear': {
-            'ideal': {size: [] for size in sample_sizes},
-            '8bit': {size: [] for size in sample_sizes},
-            '12bit': {size: [] for size in sample_sizes}
+            'ideal': {sps: [] for sps in samples_per_sigma},
+            '8bit': {sps: [] for sps in samples_per_sigma},
+            '12bit': {sps: [] for sps in samples_per_sigma}
         },
         'cubic': {
-            'ideal': {size: [] for size in sample_sizes},
-            '8bit': {size: [] for size in sample_sizes},
-            '12bit': {size: [] for size in sample_sizes}
+            'ideal': {sps: [] for sps in samples_per_sigma},
+            '8bit': {sps: [] for sps in samples_per_sigma},
+            '12bit': {sps: [] for sps in samples_per_sigma}
         },
         'poly': {
-            'ideal': {size: [] for size in sample_sizes},
-            '8bit': {size: [] for size in sample_sizes},
-            '12bit': {size: [] for size in sample_sizes}
+            'ideal': {sps: [] for sps in samples_per_sigma},
+            '8bit': {sps: [] for sps in samples_per_sigma},
+            '12bit': {sps: [] for sps in samples_per_sigma}
         }
     }
 
@@ -590,7 +500,7 @@ def error_vs_phase(A=0.6):
         'raw': 'Bez interpolacji',
         'linear': 'Interpolacja liniowa',
         'cubic': 'Interpolacja cubic spline',
-        'poly': 'Interpolacja wielomianowa 20 st.'
+        'poly': f'Interpolacja wielomianowa {poly_degree} st.'
     }
     
     adc_names = {
@@ -606,44 +516,41 @@ def error_vs_phase(A=0.6):
         stop_time = stop_time_orig + sigma * phase_deg / 360
         
         # Loop through different sample sizes
-        for num_samples in sample_sizes:
+        for sps in samples_per_sigma:
+            num_samples = int(sps * ((stop_time_orig - start_time_orig) / sigma))
             # Generate samples
             t_samples_ideal, y_samples_ideal = sg.sample_signal(start_time, stop_time, num_samples, A, sigma, tau)
             t_samples_8bit, y_samples_8bit = sg.sample_signal_ADC_n_bit_ver_2(t_samples_ideal, y_samples_ideal, 8)
             t_samples_12bit, y_samples_12bit = sg.sample_signal_ADC_n_bit_ver_2(t_samples_ideal, y_samples_ideal, 12)
 
             # Generate interpolations
-            t_linear_ideal, y_linear_ideal = interpolation.linear_interpolation(t_samples_ideal[1:-2], y_samples_ideal[1:-2])
-            t_linear_8bit, y_linear_8bit = interpolation.linear_interpolation(t_samples_8bit[1:-2], y_samples_8bit[1:-2])
-            t_linear_12bit, y_linear_12bit = interpolation.linear_interpolation(t_samples_12bit[1:-2], y_samples_12bit[1:-2])
-            
+            t_linear_ideal, y_linear_ideal = interpolation.linear_interpolation(t_samples_ideal, y_samples_ideal)
+            t_linear_8bit, y_linear_8bit = interpolation.linear_interpolation(t_samples_8bit, y_samples_8bit)
+            t_linear_12bit, y_linear_12bit = interpolation.linear_interpolation(t_samples_12bit, y_samples_12bit)
+
             t_cubic_ideal, y_cubic_ideal = interpolation.cubic_spline_interpolation(t_samples_ideal, y_samples_ideal)
             t_cubic_8bit, y_cubic_8bit = interpolation.cubic_spline_interpolation(t_samples_8bit, y_samples_8bit)
             t_cubic_12bit, y_cubic_12bit = interpolation.cubic_spline_interpolation(t_samples_12bit, y_samples_12bit)
             
-            t_poly_ideal, y_poly_ideal = interpolation.polynomial_interpolation(t_samples_ideal, y_samples_ideal, poly_degree, False)
-            t_poly_8bit, y_poly_8bit = interpolation.polynomial_interpolation(t_samples_8bit, y_samples_8bit, poly_degree, False)
-            t_poly_12bit, y_poly_12bit = interpolation.polynomial_interpolation(t_samples_12bit, y_samples_12bit, poly_degree, False)
+            t_poly_ideal, y_poly_ideal = interpolation.polynomial_interpolation(t_samples_ideal, y_samples_ideal, poly_degree)
+            t_poly_8bit, y_poly_8bit = interpolation.polynomial_interpolation(t_samples_8bit, y_samples_8bit, poly_degree)
+            t_poly_12bit, y_poly_12bit = interpolation.polynomial_interpolation(t_samples_12bit, y_samples_12bit, poly_degree)
 
 
-            # Define integration range for all methods to match cubic spline interpolation range
-            # Calculate reference integral for this specific time range (matched to cubic spline range)
-            # The cubic_spline_interpolation function in interpolation.py uses the range t_samples[1] to t_samples[-2]
-            reference_start = t_samples_ideal[1]  # Skip first sample
-            reference_stop = t_samples_ideal[-2]  # Skip last sample
-            reference_result, reference_error = sg.integrate_PMT_pulse(A, sigma, tau, reference_start, reference_stop)
+            #  Oblicz wartość całki referencyjnej dla wszystkich metod
+            reference_result, reference_error = sg.integrate_PMT_pulse(A, sigma, tau, start_time, stop_time)
             
             # Calculate integrals and errors
-            # Raw samples - skip first and last sample
-            integral_ideal = integral.integrate_rectangle_method(t_samples_ideal[1:-2], y_samples_ideal[1:-2])
-            integral_8bit = integral.integrate_rectangle_method(t_samples_8bit[1:-2], y_samples_8bit[1:-2])
-            integral_12bit = integral.integrate_rectangle_method(t_samples_12bit[1:-2], y_samples_12bit[1:-2])
-            
+            # Raw samples
+            integral_ideal = integral.integrate_rectangle_method(t_samples_ideal, y_samples_ideal)
+            integral_8bit = integral.integrate_rectangle_method(t_samples_8bit, y_samples_8bit)
+            integral_12bit = integral.integrate_rectangle_method(t_samples_12bit, y_samples_12bit)
+
             _, rel_err_ideal = integral.calculate_error(integral_ideal, reference_result)
             _, rel_err_8bit = integral.calculate_error(integral_8bit, reference_result)
             _, rel_err_12bit = integral.calculate_error(integral_12bit, reference_result)
             
-            # Linear interpolation - ensure we use points in the same range as cubic spline
+            # Linear interpolation
             integral_linear_ideal = integral.integrate_rectangle_method(t_linear_ideal, y_linear_ideal)
             integral_linear_8bit = integral.integrate_rectangle_method(t_linear_8bit, y_linear_8bit)
             integral_linear_12bit = integral.integrate_rectangle_method(t_linear_12bit, y_linear_12bit)
@@ -652,7 +559,7 @@ def error_vs_phase(A=0.6):
             _, rel_err_linear_8bit = integral.calculate_error(integral_linear_8bit, reference_result)
             _, rel_err_linear_12bit = integral.calculate_error(integral_linear_12bit, reference_result)
             
-            # Cubic spline interpolation - already uses appropriate range in interpolation function
+            # Cubic spline interpolation
             integral_cubic_ideal = integral.integrate_rectangle_method(t_cubic_ideal, y_cubic_ideal)
             integral_cubic_8bit = integral.integrate_rectangle_method(t_cubic_8bit, y_cubic_8bit)
             integral_cubic_12bit = integral.integrate_rectangle_method(t_cubic_12bit, y_cubic_12bit)
@@ -661,7 +568,7 @@ def error_vs_phase(A=0.6):
             _, rel_err_cubic_8bit = integral.calculate_error(integral_cubic_8bit, reference_result)
             _, rel_err_cubic_12bit = integral.calculate_error(integral_cubic_12bit, reference_result)
 
-            # Poly integration and error
+            # Poly interpolation
             integral_poly_ideal = integral.integrate_rectangle_method(t_poly_ideal, y_poly_ideal)
             integral_poly_8bit = integral.integrate_rectangle_method(t_poly_8bit, y_poly_8bit)
             integral_poly_12bit = integral.integrate_rectangle_method(t_poly_12bit, y_poly_12bit)
@@ -672,39 +579,33 @@ def error_vs_phase(A=0.6):
 
             # Save errors for all phases
             # Raw samples
-            all_phase_errors['raw']['ideal'][num_samples].append(rel_err_ideal)
-            all_phase_errors['raw']['8bit'][num_samples].append(rel_err_8bit)
-            all_phase_errors['raw']['12bit'][num_samples].append(rel_err_12bit)
-            
+            all_phase_errors['raw']['ideal'][sps].append(rel_err_ideal)
+            all_phase_errors['raw']['8bit'][sps].append(rel_err_8bit)
+            all_phase_errors['raw']['12bit'][sps].append(rel_err_12bit)
+
             # Linear interpolation
-            all_phase_errors['linear']['ideal'][num_samples].append(rel_err_linear_ideal)
-            all_phase_errors['linear']['8bit'][num_samples].append(rel_err_linear_8bit)
-            all_phase_errors['linear']['12bit'][num_samples].append(rel_err_linear_12bit)
-            
+            all_phase_errors['linear']['ideal'][sps].append(rel_err_linear_ideal)
+            all_phase_errors['linear']['8bit'][sps].append(rel_err_linear_8bit)
+            all_phase_errors['linear']['12bit'][sps].append(rel_err_linear_12bit)
+
             # Cubic spline interpolation
-            all_phase_errors['cubic']['ideal'][num_samples].append(rel_err_cubic_ideal)
-            all_phase_errors['cubic']['8bit'][num_samples].append(rel_err_cubic_8bit)
-            all_phase_errors['cubic']['12bit'][num_samples].append(rel_err_cubic_12bit)
+            all_phase_errors['cubic']['ideal'][sps].append(rel_err_cubic_ideal)
+            all_phase_errors['cubic']['8bit'][sps].append(rel_err_cubic_8bit)
+            all_phase_errors['cubic']['12bit'][sps].append(rel_err_cubic_12bit)
 
             # Polynomial interpolation
-            all_phase_errors['poly']['ideal'][num_samples].append(rel_err_poly_ideal)
-            all_phase_errors['poly']['8bit'][num_samples].append(rel_err_poly_8bit)
-            all_phase_errors['poly']['12bit'][num_samples].append(rel_err_poly_12bit)
+            all_phase_errors['poly']['ideal'][sps].append(rel_err_poly_ideal)
+            all_phase_errors['poly']['8bit'][sps].append(rel_err_poly_8bit)
+            all_phase_errors['poly']['12bit'][sps].append(rel_err_poly_12bit)
 
     # Create plots
     # 1. Plot: Relative error vs phase for different ADC types for each sample size
-    for num_samples in sample_sizes:
+    for sps in samples_per_sigma:
         fig = plt.figure(figsize=(15, 10))
-        fig.suptitle(f"Błąd względny vs. faza dla amplitudy {A} V i {num_samples} próbek", fontsize=16)
-        
-        # Define grid layout
-        ax1 = plt.subplot(4, 1, 1)  # No interpolation
-        ax2 = plt.subplot(4, 1, 2)  # Linear interpolation
-        ax3 = plt.subplot(4, 1, 3)  # Cubic spline interpolation
-        ax4 = plt.subplot(4, 1, 4)  # Polynomial interpolation
-        
+        fig.suptitle(f"Błąd względny vs. faza dla amplitudy {A} V i {sps} próbek na sigme", fontsize=16)
+
         # List of axes
-        axes = [ax1, ax2, ax3, ax4]
+        axes = [plt.subplot(4, 1, i+1) for i in range(4)]
 
         # List of interpolation types
         interp_types = list(interp_names.keys())
@@ -715,7 +616,7 @@ def error_vs_phase(A=0.6):
             
             # For each ADC type
             for adc_type, adc_label in adc_names.items():
-                y_values = all_phase_errors[interp_type][adc_type][num_samples]
+                y_values = all_phase_errors[interp_type][adc_type][sps]
                 ax.plot(phases, y_values, marker='.', label=adc_label)
             
             # Add labels and grid
@@ -736,14 +637,8 @@ def error_vs_phase(A=0.6):
         fig = plt.figure(figsize=(15, 10))
         fig.suptitle(f"Błąd względny vs. faza dla amplitudy {A} V i {adc_label}", fontsize=16)
         
-        # Define grid layout
-        ax1 = plt.subplot(4, 1, 1)  # No interpolation
-        ax2 = plt.subplot(4, 1, 2)  # Linear interpolation
-        ax3 = plt.subplot(4, 1, 3)  # Cubic spline interpolation
-        ax4 = plt.subplot(4, 1, 4)  # Polynomial interpolation
-
         # List of axes
-        axes = [ax1, ax2, ax3, ax4]
+        axes = [plt.subplot(4, 1, i+1) for i in range(4)]
 
         # List of interpolation types
         interp_types = list(interp_names.keys())
@@ -753,10 +648,10 @@ def error_vs_phase(A=0.6):
             ax = axes[i]
             
             # For each sample size
-            for num_samples in sample_sizes:
-                y_values = all_phase_errors[interp_type][adc_type][num_samples]
-                ax.plot(phases, y_values, marker='.', label=f"{num_samples} próbek")
-            
+            for sps in samples_per_sigma:
+                y_values = all_phase_errors[interp_type][adc_type][sps]
+                ax.plot(phases, y_values, marker='.', label=f"{sps} próbek")
+
             # Add labels and grid
             ax.set_ylabel(f"{interp_names[interp_type]}\nBłąd względny [%]")
             ax.grid(True)
@@ -774,20 +669,9 @@ def error_vs_phase(A=0.6):
     plt.show()
 
 def monte_carlo_average_relative_error(num_iterations=1000):
-    # Constants for PMT pulse
-    tr = 3.0 * 10**(-9)
-    sigma = tr / 1.69
-    tau = 3 * sigma
-    start_time_orig = -5 * sigma
-    stop_time_orig = 7 * tau
-
-    # Number of samples - based on samples per sigma
+    # Number of samples per sigma
     samples_per_sigma = [1, 2, 3, 4]
-    sample_sizes = []
-    for sps in samples_per_sigma:
-        num_samples = int(sps * ((stop_time_orig - start_time_orig) / sigma))
-        sample_sizes.append(num_samples)
-
+   
     # Prepare to collect errors
     errors = {
         'raw': {'ideal': [], '8bit': [], '12bit': []},
@@ -797,16 +681,22 @@ def monte_carlo_average_relative_error(num_iterations=1000):
     }
     for key in errors:
         for adc in errors[key]:
-            errors[key][adc] = [[] for _ in sample_sizes]
-
+            errors[key][adc] = {sps: [] for sps in samples_per_sigma}
     rng = np.random.default_rng()
 
     for i in range(num_iterations):
-        amplitude = rng.uniform(0.05, 2.0)
+        tr = rng.uniform(1*10**(-9), 50*10**(-9))
+        amplitude = tr * 1e8
+        sigma = tr / 1.69
+        tau = 3 * sigma
+        start_time_orig = -8 * sigma
+        stop_time_orig = 6 * tau
+
         phase_deg = rng.uniform(0, 360)
         phase_shift = sigma * phase_deg / 360
 
-        for idx, num_samples in enumerate(sample_sizes):
+        for sps in samples_per_sigma:
+            num_samples = int(sps * ((stop_time_orig - start_time_orig) / sigma))
             start_time = start_time_orig + phase_shift
             stop_time = stop_time_orig + phase_shift
             
@@ -816,11 +706,10 @@ def monte_carlo_average_relative_error(num_iterations=1000):
             t_samples_12bit, y_samples_12bit = sg.sample_signal_ADC_n_bit_ver_2(t_samples_ideal, y_samples_ideal, 12)
             
             # Generate interpolations
-            # Note: We skip the first and last samples for linear and polynomial interpolation to avoid edge
             # Linear
-            t_linear_ideal, y_linear_ideal = interpolation.linear_interpolation(t_samples_ideal[1:-2], y_samples_ideal[1:-2])
-            t_linear_8bit, y_linear_8bit = interpolation.linear_interpolation(t_samples_8bit[1:-2], y_samples_8bit[1:-2])
-            t_linear_12bit, y_linear_12bit = interpolation.linear_interpolation(t_samples_12bit[1:-2], y_samples_12bit[1:-2])
+            t_linear_ideal, y_linear_ideal = interpolation.linear_interpolation(t_samples_ideal, y_samples_ideal)
+            t_linear_8bit, y_linear_8bit = interpolation.linear_interpolation(t_samples_8bit, y_samples_8bit)
+            t_linear_12bit, y_linear_12bit = interpolation.linear_interpolation(t_samples_12bit, y_samples_12bit)
 
             # Cubic
             t_cubic_ideal, y_cubic_ideal = interpolation.cubic_spline_interpolation(t_samples_ideal, y_samples_ideal)
@@ -828,24 +717,22 @@ def monte_carlo_average_relative_error(num_iterations=1000):
             t_cubic_12bit, y_cubic_12bit = interpolation.cubic_spline_interpolation(t_samples_12bit, y_samples_12bit)
 
             # Polynomial 3rd degree
-            t_poly_ideal, y_poly_ideal = interpolation.polynomial_interpolation(t_samples_ideal, y_samples_ideal, poly_degree, False)
-            t_poly_8bit, y_poly_8bit = interpolation.polynomial_interpolation(t_samples_8bit, y_samples_8bit, poly_degree, False)
-            t_poly_12bit, y_poly_12bit = interpolation.polynomial_interpolation(t_samples_12bit, y_samples_12bit, poly_degree, False)
+            t_poly_ideal, y_poly_ideal = interpolation.polynomial_interpolation(t_samples_ideal, y_samples_ideal, poly_degree)
+            t_poly_8bit, y_poly_8bit = interpolation.polynomial_interpolation(t_samples_8bit, y_samples_8bit, poly_degree)
+            t_poly_12bit, y_poly_12bit = interpolation.polynomial_interpolation(t_samples_12bit, y_samples_12bit, poly_degree)
 
-            reference_start = t_samples_ideal[1]
-            reference_stop = t_samples_ideal[-2]
-            reference_result, _ = sg.integrate_PMT_pulse(amplitude, sigma, tau, reference_start, reference_stop)
+            reference_result, _ = sg.integrate_PMT_pulse(amplitude, sigma, tau, start_time, stop_time)
 
             # Raw
-            integral_ideal = integral.integrate_rectangle_method(t_samples_ideal[1:-2], y_samples_ideal[1:-2])
-            integral_8bit = integral.integrate_rectangle_method(t_samples_8bit[1:-2], y_samples_8bit[1:-2])
-            integral_12bit = integral.integrate_rectangle_method(t_samples_12bit[1:-2], y_samples_12bit[1:-2])
+            integral_ideal = integral.integrate_rectangle_method(t_samples_ideal, y_samples_ideal)
+            integral_8bit = integral.integrate_rectangle_method(t_samples_8bit, y_samples_8bit)
+            integral_12bit = integral.integrate_rectangle_method(t_samples_12bit, y_samples_12bit)
             _, rel_err_ideal = integral.calculate_error(integral_ideal, reference_result)
             _, rel_err_8bit = integral.calculate_error(integral_8bit, reference_result)
             _, rel_err_12bit = integral.calculate_error(integral_12bit, reference_result)
-            errors['raw']['ideal'][idx].append(rel_err_ideal)
-            errors['raw']['8bit'][idx].append(rel_err_8bit)
-            errors['raw']['12bit'][idx].append(rel_err_12bit)
+            errors['raw']['ideal'][sps].append(rel_err_ideal)
+            errors['raw']['8bit'][sps].append(rel_err_8bit)
+            errors['raw']['12bit'][sps].append(rel_err_12bit)
 
             # Linear
             integral_linear_ideal = integral.integrate_rectangle_method(t_linear_ideal, y_linear_ideal)
@@ -854,9 +741,9 @@ def monte_carlo_average_relative_error(num_iterations=1000):
             _, rel_err_linear_ideal = integral.calculate_error(integral_linear_ideal, reference_result)
             _, rel_err_linear_8bit = integral.calculate_error(integral_linear_8bit, reference_result)
             _, rel_err_linear_12bit = integral.calculate_error(integral_linear_12bit, reference_result)
-            errors['linear']['ideal'][idx].append(rel_err_linear_ideal)
-            errors['linear']['8bit'][idx].append(rel_err_linear_8bit)
-            errors['linear']['12bit'][idx].append(rel_err_linear_12bit)
+            errors['linear']['ideal'][sps].append(rel_err_linear_ideal)
+            errors['linear']['8bit'][sps].append(rel_err_linear_8bit)
+            errors['linear']['12bit'][sps].append(rel_err_linear_12bit)
 
             # Cubic
             integral_cubic_ideal = integral.integrate_rectangle_method(t_cubic_ideal, y_cubic_ideal)
@@ -865,9 +752,9 @@ def monte_carlo_average_relative_error(num_iterations=1000):
             _, rel_err_cubic_ideal = integral.calculate_error(integral_cubic_ideal, reference_result)
             _, rel_err_cubic_8bit = integral.calculate_error(integral_cubic_8bit, reference_result)
             _, rel_err_cubic_12bit = integral.calculate_error(integral_cubic_12bit, reference_result)
-            errors['cubic']['ideal'][idx].append(rel_err_cubic_ideal)
-            errors['cubic']['8bit'][idx].append(rel_err_cubic_8bit)
-            errors['cubic']['12bit'][idx].append(rel_err_cubic_12bit)
+            errors['cubic']['ideal'][sps].append(rel_err_cubic_ideal)
+            errors['cubic']['8bit'][sps].append(rel_err_cubic_8bit)
+            errors['cubic']['12bit'][sps].append(rel_err_cubic_12bit)
 
             # Poly3
             integral_poly_ideal = integral.integrate_rectangle_method(t_poly_ideal, y_poly_ideal)
@@ -876,17 +763,17 @@ def monte_carlo_average_relative_error(num_iterations=1000):
             _, rel_err_poly_ideal = integral.calculate_error(integral_poly_ideal, reference_result)
             _, rel_err_poly_8bit = integral.calculate_error(integral_poly_8bit, reference_result)
             _, rel_err_poly_12bit = integral.calculate_error(integral_poly_12bit, reference_result)
-            errors['poly']['ideal'][idx].append(rel_err_poly_ideal)
-            errors['poly']['8bit'][idx].append(rel_err_poly_8bit)
-            errors['poly']['12bit'][idx].append(rel_err_poly_12bit)
+            errors['poly']['ideal'][sps].append(rel_err_poly_ideal)
+            errors['poly']['8bit'][sps].append(rel_err_poly_8bit)
+            errors['poly']['12bit'][sps].append(rel_err_poly_12bit)
 
     # Print results
-    print("\nŚredni błąd względny [%] dla różnych liczby próbek (Monte Carlo, N={}):".format(num_iterations))
-    print("{:^12} | {:^10} | {:^10} | {:^10} | {:^10} | {:^10}".format("Metoda", "ADC", *sample_sizes))
+    print("\nŚredni błąd względny [%] dla różnych częstotliwości próbkowania (Monte Carlo, N={}):".format(num_iterations))
+    print("{:^12} | {:^10} | {:^10} | {:^10} | {:^10} | {:^10}".format("Metoda", "ADC", *samples_per_sigma))
     print("-"*70)
     for method in ['raw', 'linear', 'cubic', 'poly']:
         for adc in ['ideal', '8bit', '12bit']:
-            means = [np.mean(errors[method][adc][i]) for i in range(len(sample_sizes))]
+            means = [np.mean(errors[method][adc][sps]) for sps in samples_per_sigma]
             print("{:^12} | {:^10} | {:^10.3f} | {:^10.3f} | {:^10.3f} | {:^10.3f}".format(
                 method, adc, *means))
         print("-"*70)

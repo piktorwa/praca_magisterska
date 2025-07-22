@@ -52,7 +52,7 @@ def sample_signal(start_time, stop_time, num_samples, A, sigma, tau):
     y_samples = np.array([exp_PMT_pulse_fun(t, A, sigma, tau) for t in t_samples])
     return t_samples, y_samples
 
-def sample_signal_ADC_n_bit(start_time, stop_time, num_samples, A, sigma, tau, n_bit, A_max = 2.0):
+def sample_signal_ADC_n_bit(start_time, stop_time, num_samples, A, sigma, tau, n_bit, A_max = 5.0):
     '''
     Sampling function for n-bit ADC with quantization to n-bit levels.
     Args:       start_time: start time of the sampling
@@ -70,7 +70,7 @@ def sample_signal_ADC_n_bit(start_time, stop_time, num_samples, A, sigma, tau, n
     y_samples = np.round(y_samples / step) * step # Quantize to n-bit levels
     return t_samples, y_samples
 
-def sample_signal_ADC_n_bit_ver_2(t_samples, y_samples, n_bit, A_max = 2.0):
+def sample_signal_ADC_n_bit_ver_2(t_samples, y_samples, n_bit, A_max = 5.0):
     '''
     Sampling function for n-bit ADC with quantization to n-bit levels.
     Args:       t_samples: array of time samples
