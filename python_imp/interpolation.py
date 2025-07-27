@@ -7,7 +7,7 @@
 import numpy as np
 from scipy.interpolate import CubicSpline
 
-new_samples = 21 # Number of new samples for interpolation, adding n - 1 samples between each original sample
+new_samples = 10 # Number of new samples for interpolation, adding n - 1 samples between each original sample
 
 def linear_interpolation(t_samples, y_samples):
     """
