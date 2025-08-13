@@ -57,7 +57,3 @@ def polynomial_interpolation(t_samples, y_samples, degree):
     t_interpolated = np.linspace(t_samples[0], t_samples[-1], len(t_samples) * new_samples - new_samples + 1)  # n times more points for interpolation
     y_interpolated = poly(t_interpolated)
     return t_interpolated, y_interpolated
-    # else: 
-    #     t_interpolated = t_interpolated[new_samples:-new_samples-1]  # Remove first n and last n points to avoid edge effects
-    #     y_interpolated = y_interpolated[new_samples:-new_samples-1]  # Remove first n and last n points to avoid edge effects
-    #     return t_interpolated, y_interpolated

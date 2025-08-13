@@ -1,0 +1,7 @@
+Running: xsim.dir/tb_pulse_detector_interpolator_behav/xsimk.exe -simmode gui -wdb tb_pulse_detector_interpolator_behav.wdb -simrunnum 0 -socket 61759
+Design successfully loaded
+Design Loading Memory Usage: 28688 KB (Peak: 28688 KB)
+Design Loading CPU Usage: 905 ms
+Simulation completed
+Simulation Memory Usage: 29700 KB (Peak: 29700 KB)
+Simulation CPU Usage: 1000 ms

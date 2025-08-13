@@ -65,144 +65,159 @@ def plot_for_sample_pulse():
     }
     
     # Generate all samples and interpolations
-    for num_samples in sample_sizes:
+    for sps in samples_per_sigma:
+        num_samples = int(sps * ((stop_time - start_time) / sigma))
         # Generate samples
-        samples['ideal'][num_samples] = sg.sample_signal(start_time, stop_time, num_samples, A, sigma, tau)
-        samples['8bit'][num_samples] = sg.sample_signal_ADC_n_bit_ver_2(*samples['ideal'][num_samples], 8)
-        samples['12bit'][num_samples] = sg.sample_signal_ADC_n_bit_ver_2(*samples['ideal'][num_samples], 12)
-        
+        samples['ideal'][sps] = sg.sample_signal(start_time, stop_time, num_samples, A, sigma, tau)
+        samples['8bit'][sps] = sg.sample_signal_ADC_n_bit_ver_2(*samples['ideal'][sps], 8)
+        samples['12bit'][sps] = sg.sample_signal_ADC_n_bit_ver_2(*samples['ideal'][sps], 12)
+
         # Generate linear interpolations
-        linear_interpolations['ideal'][num_samples] = interpolation.linear_interpolation(*samples['ideal'][num_samples])
-        linear_interpolations['8bit'][num_samples] = interpolation.linear_interpolation(*samples['8bit'][num_samples])
-        linear_interpolations['12bit'][num_samples] = interpolation.linear_interpolation(*samples['12bit'][num_samples])
+        linear_interpolations['ideal'][sps] = interpolation.linear_interpolation(*samples['ideal'][sps])
+        linear_interpolations['8bit'][sps] = interpolation.linear_interpolation(*samples['8bit'][sps])
+        linear_interpolations['12bit'][sps] = interpolation.linear_interpolation(*samples['12bit'][sps])
 
         # Generate cubic spline interpolations
-        cubic_spline_interpolations['ideal'][num_samples] = interpolation.cubic_spline_interpolation(*samples['ideal'][num_samples])
-        cubic_spline_interpolations['8bit'][num_samples] = interpolation.cubic_spline_interpolation(*samples['8bit'][num_samples])
-        cubic_spline_interpolations['12bit'][num_samples] = interpolation.cubic_spline_interpolation(*samples['12bit'][num_samples])
+        cubic_spline_interpolations['ideal'][sps] = interpolation.cubic_spline_interpolation(*samples['ideal'][sps])
+        cubic_spline_interpolations['8bit'][sps] = interpolation.cubic_spline_interpolation(*samples['8bit'][sps])
+        cubic_spline_interpolations['12bit'][sps] = interpolation.cubic_spline_interpolation(*samples['12bit'][sps])
 
         # Generate polynomial interpolations
-        polynomial_interpolations['ideal'][num_samples] = interpolation.polynomial_interpolation(samples['ideal'][num_samples][0], samples['ideal'][num_samples][1], poly_degree)
-        polynomial_interpolations['8bit'][num_samples] = interpolation.polynomial_interpolation(samples['8bit'][num_samples][0], samples['8bit'][num_samples][1], poly_degree)
-        polynomial_interpolations['12bit'][num_samples] = interpolation.polynomial_interpolation(samples['12bit'][num_samples][0], samples['12bit'][num_samples][1], poly_degree)
+        polynomial_interpolations['ideal'][sps] = interpolation.polynomial_interpolation(samples['ideal'][sps][0], samples['ideal'][sps][1], poly_degree)
+        polynomial_interpolations['8bit'][sps] = interpolation.polynomial_interpolation(samples['8bit'][sps][0], samples['8bit'][sps][1], poly_degree)
+        polynomial_interpolations['12bit'][sps] = interpolation.polynomial_interpolation(samples['12bit'][sps][0], samples['12bit'][sps][1], poly_degree)
 
     # Plot sampled signals
-    # For ideal sampling
-    t_samples_list_ideal = [samples['ideal'][size][0] for size in sample_sizes]
-    y_samples_list_ideal = [samples['ideal'][size][1] for size in sample_sizes]
-    sample_labels = [f"{size} próbek" for size in sample_sizes]
+        
+    # --- Plot 1: Only the reference pulse ---
+    plt.figure(1)
+    plt.plot(np.array(time_arr)*1e9, value_arr, label="puls PMT")
+    plt.xlabel("Czas [ns]")
+    plt.ylabel("Amplituda [V]")
+    plt.title("Referencyjny puls PMT")
+    plt.legend()
+    plt.grid()
+
+    # --- Plot 2+: Pulse with overlaid samples for each ADC type and sample size ---
+    fig_num = 2
+    adc_types = ['ideal', '8bit', '12bit']
+    adc_labels = {
+        'ideal': 'Idealny ADC',
+        '8bit': 'ADC 8-bit',
+        '12bit': 'ADC 12-bit'
+    }
+
+    for adc_type in adc_types:
+        for sps in samples_per_sigma:
+            t_samples, y_samples = samples[adc_type][sps]
+            plt.figure(fig_num)
+            plt.plot(np.array(time_arr)*1e9, value_arr, label="PMT pulse")
+            plt.plot(np.array(t_samples)*1e9, y_samples, 'ro', linestyle='', label=f"{sps} SPS")
+            plt.xlabel("Czas [ns]")
+            plt.ylabel("Amplituda [V]")
+            plt.title(f"Próbki {adc_labels[adc_type]} - {sps} {'próbka' if sps == 1 else 'próbki'} na sigmę")
+            plt.legend()
+            plt.grid()
+            fig_num += 1
     
+    # For ideal sampling
+    t_samples_list_ideal = [samples['ideal'][sps][0] for sps in samples_per_sigma]
+    y_samples_list_ideal = [samples['ideal'][sps][1] for sps in samples_per_sigma]
+    sample_labels = [f"{sps} SPS" for sps in samples_per_sigma]
     ps.plot_sampled_signal(
         "Próbkowanie pulsu PMT", 
         time_arr, value_arr, 
         t_samples_list_ideal, y_samples_list_ideal, 
-        sample_labels, 1
+        sample_labels, fig_num
     )
-    
+    fig_num += 1
+
     # For 8-bit ADC
-    t_samples_list_8bit = [samples['8bit'][size][0] for size in sample_sizes]
-    y_samples_list_8bit = [samples['8bit'][size][1] for size in sample_sizes]
-    
+    t_samples_list_8bit = [samples['8bit'][sps][0] for sps in samples_per_sigma]
+    y_samples_list_8bit = [samples['8bit'][sps][1] for sps in samples_per_sigma]
+
     ps.plot_sampled_signal(
         "Próbkowanie ADC 8-bit", 
         time_arr, value_arr, 
         t_samples_list_8bit, y_samples_list_8bit, 
-        sample_labels, 2
+        sample_labels, fig_num
     )
-    
+    fig_num += 1
+
     # For 12-bit ADC
-    t_samples_list_12bit = [samples['12bit'][size][0] for size in sample_sizes]
-    y_samples_list_12bit = [samples['12bit'][size][1] for size in sample_sizes]
-    
+    t_samples_list_12bit = [samples['12bit'][sps][0] for sps in samples_per_sigma]
+    y_samples_list_12bit = [samples['12bit'][sps][1] for sps in samples_per_sigma]
+
     ps.plot_sampled_signal(
         "Próbkowanie ADC 12-bit", 
         time_arr, value_arr, 
         t_samples_list_12bit, y_samples_list_12bit, 
-        sample_labels, 3
+        sample_labels, fig_num
     )
-    
+    fig_num += 1
+
     # Plot linear interpolated signals
-    fig_num = 4
-    for adc_type in ['ideal', '8bit', '12bit']:
-        adc_label = {
-            'ideal': 'idealne',
-            '8bit': 'ADC 8-bit',
-            '12bit': 'ADC 12-bit'
-        }[adc_type]
-        
-        for num_samples in sample_sizes:
-            t_samples, y_samples = samples[adc_type][num_samples]
-            t_interp, y_interp = linear_interpolations[adc_type][num_samples]
-            
+    for adc_type in adc_types:
+        for sps in samples_per_sigma:
+            t_samples, y_samples = samples[adc_type][sps]
+            t_interp, y_interp = linear_interpolations[adc_type][sps]
+
             ps.plot_interpolated_signal(
-                f"Interpolacja liniowa - {num_samples} próbek ({adc_label})",
+                f"Interpolacja liniowa - {sps} {'próbka' if sps == 1 else 'próbki'} na sigmę ({adc_labels[adc_type]})",
                 time_arr, value_arr,
                 t_samples, y_samples,
                 t_interp, y_interp,
-                f"{len(y_samples)} próbek",
+                f"{sps} SPS",
                 fig_num,
                 "Interpolacja liniowa"
             )
             fig_num += 1
 
     # Plot cubic spline interpolated signals
-    for adc_type in ['ideal', '8bit', '12bit']:
-        adc_label = {
-            'ideal': 'idealne',
-            '8bit': 'ADC 8-bit',
-            '12bit': 'ADC 12-bit'
-        }[adc_type]
-        
-        for num_samples in sample_sizes:
-            t_samples, y_samples = samples[adc_type][num_samples]
-            t_interp, y_interp = cubic_spline_interpolations[adc_type][num_samples]
-            
+    for adc_type in adc_types:        
+        for sps in samples_per_sigma:
+            t_samples, y_samples = samples[adc_type][sps]
+            t_interp, y_interp = cubic_spline_interpolations[adc_type][sps]
+
             ps.plot_interpolated_signal(
-                f"Interpolacja cubic spline - {num_samples} próbek ({adc_label})",
+                f"Interpolacja cubic spline - {sps} {'próbka' if sps == 1 else 'próbki'} na sigmę ({adc_labels[adc_type]})",
                 time_arr, value_arr,
                 t_samples, y_samples,
                 t_interp, y_interp,
-                f"{len(y_samples)} próbek",
+                f"{sps} SPS",
                 fig_num,
                 "Interpolacja cubic spline"
             )
             fig_num += 1
 
     # Plot polynomial interpolated signals
-    for adc_type in ['ideal', '8bit', '12bit']:
-        adc_label = {
-            'ideal': 'idealne',
-            '8bit': 'ADC 8-bit',
-            '12bit': 'ADC 12-bit'
-        }[adc_type]
-
-        for num_samples in sample_sizes:
-            t_samples, y_samples = samples[adc_type][num_samples]
-            t_interp, y_interp = polynomial_interpolations[adc_type][num_samples]
+    for adc_type in adc_types:
+        for sps in samples_per_sigma:
+            t_samples, y_samples = samples[adc_type][sps]
+            t_interp, y_interp = polynomial_interpolations[adc_type][sps]
 
             ps.plot_interpolated_signal(
-                f"Interpolacja wielomianowa {poly_degree} st. - {num_samples} próbek ({adc_label})",
+                f"Interpolacja wielomianowa {poly_degree} st. - {sps} {'próbka' if sps == 1 else 'próbki'} na sigmę ({adc_labels[adc_type]})",
                 time_arr, value_arr,
                 t_samples, y_samples,
                 t_interp, y_interp,
-                f"{len(y_samples)} próbek",
+                f"{sps} SPS",
                 fig_num,
-                "Interpolacja wielomianowa {poly_degree} st."
+                f"Interpolacja wielomianowa {poly_degree} st."
             )
             fig_num += 1
 
     # Export for samples_per_sigma = 1
     sps = 1
-    num_samples = int(sps * ((stop_time - start_time) / sigma))
 
     # Raw samples
-    t_raw, y_raw = samples['ideal'][sample_sizes[0]]
+    t_raw, y_raw = samples['ideal'][sps]
 
     # Linear interpolation
-    t_linear, y_linear = linear_interpolations['ideal'][sample_sizes[0]]
+    t_linear, y_linear = linear_interpolations['ideal'][sps]
 
     # Cubic spline interpolation
-    t_cubic, y_cubic = cubic_spline_interpolations['ideal'][sample_sizes[0]]
+    t_cubic, y_cubic = cubic_spline_interpolations['ideal'][sps]
 
     # Prepare DataFrame with aligned lengths (longest sample set)
     max_len = max(len(t_raw), len(t_linear), len(t_cubic))
@@ -236,53 +251,53 @@ def plot_for_sample_pulse():
         'ADC 8-bit': '8bit', 
         'ADC 12-bit': '12bit'
     }
-    
-    for num_samples in sample_sizes:
+
+    for sps in samples_per_sigma:
         for sample_label, sample_key in sampling_types.items():
             # Get samples
-            t_samples, y_samples = samples[sample_key][num_samples]
-            
+            t_samples, y_samples = samples[sample_key][sps]
+
             # Calculate integral
             integral_val = integral.integrate_rectangle_method(t_samples, y_samples)
             abs_err, rel_err = integral.calculate_error(integral_val, reference_result)
             
             # Print results
             print("{:^10} | {:^20} | {:.4e} | {:.4e} | {:^15.3f}".format(
-                num_samples, sample_label, integral_val, abs_err, rel_err))
-        
+                sps, sample_label, integral_val, abs_err, rel_err))
+
         print("-"*85)
     
     # Integral calculation for linear interpolated signals
     print("\nInterpolacja liniowa")
     print("\n{:^10} | {:^20} | {:^15} | {:^15} | {:^15}".format("Ilość próbek", "Typ próbkowania", "Całka", "Błąd bezwz.", "Błąd wzg. [%]"))
     print("-"*85)
-    
-    for num_samples in sample_sizes:
+
+    for sps in samples_per_sigma:
         for sample_label, sample_key in sampling_types.items():
             # Get interpolated samples
-            t_interp, y_interp = linear_interpolations[sample_key][num_samples]
-            
+            t_interp, y_interp = linear_interpolations[sample_key][sps]
+
             # Calculate integral
             integral_val = integral.integrate_rectangle_method(t_interp, y_interp)
             abs_err, rel_err = integral.calculate_error(integral_val, reference_result)
             
             # Print results
             print("{:^10} | {:^20} | {:.4e} | {:.4e} | {:^15.3f}".format(
-                num_samples, sample_label, integral_val, abs_err, rel_err))
-        
+                sps, sample_label, integral_val, abs_err, rel_err))
+
         print("-"*85)
     
     # Integral calculation for cubic spline interpolated signals
     print("\nInterpolacja cubic spline")
     print("\n{:^10} | {:^20} | {:^15} | {:^15} | {:^15}".format("Ilość próbek", "Typ próbkowania", "Całka", "Błąd bezwz.", "Błąd wzg. [%]"))
     print("-"*85)
-    
-    for num_samples in sample_sizes:
+
+    for sps in samples_per_sigma:
         for sample_label, sample_key in sampling_types.items():
             # Get interpolated samples
-            t_interp, y_interp = cubic_spline_interpolations[sample_key][num_samples]
-            
-            # Calculate integral 
+            t_interp, y_interp = cubic_spline_interpolations[sample_key][sps]
+
+            # Calculate integral
             integral_val = integral.integrate_rectangle_method(t_interp, y_interp)
 
             # Calculate errors
@@ -290,8 +305,8 @@ def plot_for_sample_pulse():
             
             # Print results
             print("{:^10} | {:^20} | {:.4e} | {:.4e} | {:^15.3f}".format(
-                num_samples, sample_label, integral_val, abs_err, rel_err))
-        
+                sps, sample_label, integral_val, abs_err, rel_err))
+
         print("-"*85)
     
     # Integral calculation for polynomial interpolated signals
@@ -299,13 +314,13 @@ def plot_for_sample_pulse():
     print("\n{:^10} | {:^20} | {:^15} | {:^15} | {:^15}".format("Ilość próbek", "Typ próbkowania", "Całka", "Błąd bezwz.", "Błąd wzg. [%]"))
     print("-"*85)
 
-    for num_samples in sample_sizes:
+    for sps in samples_per_sigma:
         for sample_label, sample_key in sampling_types.items():
-            t_interp, y_interp = polynomial_interpolations[sample_key][num_samples]
+            t_interp, y_interp = polynomial_interpolations[sample_key][sps]
             integral_val = integral.integrate_rectangle_method(t_interp, y_interp)
             abs_err, rel_err = integral.calculate_error(integral_val, reference_result)
             print("{:^10} | {:^20} | {:.4e} | {:.4e} | {:^15.3f}".format(
-                num_samples, sample_label, integral_val, abs_err, rel_err))
+                sps, sample_label, integral_val, abs_err, rel_err))
         print("-"*85)
 
     plt.show()
@@ -450,7 +465,7 @@ def worst_case_for_amplitudes():
                 print("-"*60)
 
         # Plots
-        x = range(len(samples_per_sigma))
+        x = samples_per_sigma # [1, 2, 3, 4]
         x_labels = [str(sps) for sps in samples_per_sigma]
         fig = plt.figure(figsize=(15, 10))
         fig.suptitle(f"Maksymalne błędy względne dla amplitudy {amplitude} V", fontsize=16)
@@ -459,15 +474,22 @@ def worst_case_for_amplitudes():
         for interp_type, interp_label in interp_names.items():
             ax = fig.add_subplot(n_rows, 1, plot_num)
             for adc_type, adc_label in adc_names.items():
-                y_values = [max_errors[interp_type][adc_type][sps]['max_error'] for sps in samples_per_sigma]
-                ax.plot(x, y_values, marker='o', label=adc_label)
+                if interp_type == 'poly':
+                    y_values = [
+                        max_errors[interp_type][adc_type][sps]['max_error'] if sps != 1 else np.nan
+                        for sps in samples_per_sigma
+                    ]
+                    ax.plot(x, y_values, marker='o', label=adc_label)
+                else:
+                    y_values = [max_errors[interp_type][adc_type][sps]['max_error'] for sps in samples_per_sigma]
+                    ax.plot(x, y_values, marker='o', label=adc_label)
             ax.set_ylabel(f"{interp_label}\nBłąd względny [%]")
+            ax.set_xticks(x)
+            ax.set_xlim([min(x)-0.2, max(x)+0.2])
             if plot_num == n_rows:
                 ax.set_xlabel("samples per sigma")
-                ax.set_xticks(x)
                 ax.set_xticklabels(x_labels)
             else:
-                ax.set_xticks(x)
                 ax.set_xticklabels([])
             ax.grid(True)
             ax.legend()
@@ -631,7 +653,7 @@ def error_vs_phase():
     # 1. Plot: Relative error vs phase for different ADC types for each sample size
     for sps in samples_per_sigma:
         fig = plt.figure(figsize=(15, 10))
-        fig.suptitle(f"Błąd względny vs. faza dla amplitudy {A} V i {sps} próbek na sigme", fontsize=16)
+        fig.suptitle(f"Błąd względny vs. faza dla amplitudy {A} V i {sps} {'próbka' if sps == 1 else 'próbki'} na sigme", fontsize=16)
 
         # List of axes
         axes = [plt.subplot(4, 1, i+1) for i in range(4)]
@@ -646,8 +668,14 @@ def error_vs_phase():
             # For each ADC type
             for adc_type, adc_label in adc_names.items():
                 y_values = all_phase_errors[interp_type][adc_type][sps]
-                ax.plot(phases, y_values, marker='.', label=adc_label)
-            
+                if adc_type == 'ideal':
+                    # For ideal ADC, plot with a thicker line
+                    ax.plot(phases, y_values, marker='.', label=adc_label, color='red')
+                elif adc_type == '12bit':
+                    ax.plot(phases, y_values, marker='.', label=adc_label, color='C0')
+                else:
+                    ax.plot(phases, y_values, marker='.', label=adc_label, color='tab:orange')
+
             # Add labels and grid
             ax.set_ylabel(f"{interp_names[interp_type]}\nBłąd względny [%]")
             ax.grid(True)
@@ -678,8 +706,11 @@ def error_vs_phase():
             
             # For each sample size
             for sps in samples_per_sigma:
+                if interp_type == 'poly' and sps == 1:
+                    # Skip polynomial interpolation for 1 sample per sigma
+                    continue
                 y_values = all_phase_errors[interp_type][adc_type][sps]
-                ax.plot(phases, y_values, marker='.', label=f"{sps} próbek")
+                ax.plot(phases, y_values, marker='.', label=f"{sps} {'próbka' if sps == 1 else 'próbki'}")
 
             # Add labels and grid
             ax.set_ylabel(f"{interp_names[interp_type]}\nBłąd względny [%]")

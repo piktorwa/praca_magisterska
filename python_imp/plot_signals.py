@@ -16,7 +16,7 @@ def plot_sampled_signal(title, time_arr, value_arr, t_samples_list, y_samples_li
     for i, (t_samples, y_samples) in enumerate(zip(t_samples_list, y_samples_list)):
         plt.plot(np.array(t_samples)*1e9, y_samples, marker=markers[i], linestyle='', label=labels[i])
 
-    plt.xlabel("Czas (ns)")
+    plt.xlabel("Czas [ns]")
     plt.ylabel("Amplituda [V]")
     plt.title(title)
     plt.legend()
@@ -32,7 +32,7 @@ def plot_interpolated_signal(title, time_arr, value_arr, t_samples, y_samples, t
     # Plot interpolated signal
     plt.plot(np.array(t_interpolated)*1e9, y_interpolated, 'gx', label=f"{interpolation_label}")
 
-    plt.xlabel("Czas (ns)")
+    plt.xlabel("Czas [ns]")
     plt.ylabel("Amplituda [V]")
     plt.title(title)
     plt.legend()

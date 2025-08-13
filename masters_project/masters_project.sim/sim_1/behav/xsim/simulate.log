@@ -1,0 +1,93 @@
+Time resolution is 1 ps
+=== Real-time ADC Pulse Detection Test Started ===
+ADC Parameters: 12-bit, Threshold=0x51, Interp_Factor=4
+Simulating continuous 100MHz ADC stream...
+
+T=75000 | Output[1]: 60 (0x3c) | Pulse:0 | Rising:0
+T=85000 | Output[2]: 63 (0x3f) | Pulse:0 | Rising:0
+T=95000 | Output[3]: 54 (0x36) | Pulse:0 | Rising:0
+T=105000 | Output[4]: 56 (0x38) | Pulse:0 | Rising:0
+T=115000 | Output[5]: 63 (0x3f) | Pulse:0 | Rising:0
+T=125000 | Output[6]: 66 (0x42) | Pulse:0 | Rising:0
+T=135000 | Output[7]: 62 (0x3e) | Pulse:0 | Rising:0
+T=145000 | Output[8]: 55 (0x37) | Pulse:0 | Rising:0
+T=155000 | Output[9]: 61 (0x3d) | Pulse:0 | Rising:0
+T=165000 | Output[10]: 63 (0x3f) | Pulse:0 | Rising:0
+T=175000 | Output[11]: 64 (0x40) | Pulse:0 | Rising:0
+T=185000 | Output[12]: 128 (0x80) | Pulse:0 | Rising:0
+T=195000 | Output[13]: 384 (0x180) | Pulse:1 | Rising:0
+T=205000 | Output[14]: 768 (0x300) | Pulse:1 | Rising:1
+T=225000 | Output[15]: 192 (0xc0) | Pulse:1 | Rising:0
+T=235000 | Output[16]: 256 (0x100) | Pulse:1 | Rising:0
+T=245000 | Output[17]: 320 (0x140) | Pulse:1 | Rising:0
+--- Progress: 20 samples processed ---
+T=255000 | Output[18]: 80 (0x50) | Pulse:1 | Rising:0
+T=265000 | Output[19]: 65 (0x41) | Pulse:1 | Rising:0
+T=275000 | Output[20]: 66 (0x42) | Pulse:1 | Rising:0
+T=285000 | Output[21]: 64 (0x40) | Pulse:1 | Rising:0
+T=295000 | Output[22]: 67 (0x43) | Pulse:1 | Rising:0
+T=305000 | Output[23]: 60 (0x3c) | Pulse:1 | Rising:0
+T=315000 | Output[24]: 69 (0x45) | Pulse:1 | Rising:0
+T=325000 | Output[25]: 96 (0x60) | Pulse:1 | Rising:0
+T=335000 | Output[26]: 144 (0x90) | Pulse:1 | Rising:1
+T=355000 | Output[27]: 75 (0x4b) | Pulse:1 | Rising:1
+T=365000 | Output[28]: 82 (0x52) | Pulse:1 | Rising:1
+T=375000 | Output[29]: 89 (0x59) | Pulse:1 | Rising:1
+T=395000 | Output[30]: 312 (0x138) | Pulse:1 | Rising:1
+T=405000 | Output[31]: 336 (0x150) | Pulse:1 | Rising:0
+T=415000 | Output[32]: 360 (0x168) | Pulse:1 | Rising:0
+T=425000 | Output[33]: 384 (0x180) | Pulse:1 | Rising:0
+T=435000 | Output[34]: 256 (0x100) | Pulse:1 | Rising:0
+T=445000 | Output[35]: 128 (0x80) | Pulse:1 | Rising:0
+--- Progress: 40 samples processed ---
+T=455000 | Output[36]: 80 (0x50) | Pulse:1 | Rising:0
+T=465000 | Output[37]: 64 (0x40) | Pulse:1 | Rising:0
+T=475000 | Output[38]: 73 (0x49) | Pulse:1 | Rising:0
+T=485000 | Output[39]: 74 (0x4a) | Pulse:1 | Rising:0
+T=495000 | Output[40]: 66 (0x42) | Pulse:1 | Rising:0
+T=505000 | Output[41]: 65 (0x41) | Pulse:1 | Rising:0
+T=515000 | Output[42]: 73 (0x49) | Pulse:1 | Rising:0
+T=525000 | Output[43]: 72 (0x48) | Pulse:1 | Rising:0
+T=535000 | Output[44]: 85 (0x55) | Pulse:1 | Rising:0
+T=545000 | Output[45]: 112 (0x70) | Pulse:1 | Rising:0
+T=555000 | Output[46]: 149 (0x95) | Pulse:1 | Rising:1
+T=575000 | Output[47]: 91 (0x5b) | Pulse:1 | Rising:1
+T=585000 | Output[48]: 98 (0x62) | Pulse:1 | Rising:1
+T=595000 | Output[49]: 105 (0x69) | Pulse:1 | Rising:1
+T=615000 | Output[50]: 276 (0x114) | Pulse:1 | Rising:1
+T=625000 | Output[51]: 296 (0x128) | Pulse:1 | Rising:1
+T=635000 | Output[52]: 316 (0x13c) | Pulse:1 | Rising:1
+--- Progress: 60 samples processed ---
+T=655000 | Output[53]: 716 (0x2cc) | Pulse:1 | Rising:1
+T=665000 | Output[54]: 760 (0x2f8) | Pulse:1 | Rising:1
+T=675000 | Output[55]: 804 (0x324) | Pulse:1 | Rising:1
+T=695000 | Output[56]: 2688 (0xa80) | Pulse:1 | Rising:0
+T=705000 | Output[57]: 3840 (0xf00) | Pulse:1 | Rising:0
+T=715000 | Output[58]: 896 (0x380) | Pulse:1 | Rising:0
+T=725000 | Output[59]: 512 (0x200) | Pulse:1 | Rising:0
+T=735000 | Output[60]: 288 (0x120) | Pulse:1 | Rising:0
+T=745000 | Output[61]: 128 (0x80) | Pulse:1 | Rising:0
+T=755000 | Output[62]: 80 (0x50) | Pulse:1 | Rising:0
+T=765000 | Output[63]: 73 (0x49) | Pulse:1 | Rising:0
+T=775000 | Output[64]: 77 (0x4d) | Pulse:1 | Rising:0
+T=785000 | Output[65]: 68 (0x44) | Pulse:1 | Rising:0
+T=795000 | Output[66]: 67 (0x43) | Pulse:1 | Rising:0
+T=805000 | Output[67]: 70 (0x46) | Pulse:1 | Rising:0
+T=815000 | Output[68]: 72 (0x48) | Pulse:1 | Rising:0
+T=825000 | Output[69]: 76 (0x4c) | Pulse:1 | Rising:0
+T=835000 | Output[70]: 75 (0x4b) | Pulse:1 | Rising:0
+T=845000 | Output[71]: 67 (0x43) | Pulse:1 | Rising:0
+--- Progress: 80 samples processed ---
+T=855000 | Output[72]: 76 (0x4c) | Pulse:1 | Rising:0
+T=865000 | Output[73]: 74 (0x4a) | Pulse:1 | Rising:0
+T=875000 | Output[74]: 80 (0x50) | Pulse:1 | Rising:0
+T=885000 | Output[75]: 128 (0x80) | Pulse:1 | Rising:0
+T=895000 | Output[76]: 336 (0x150) | Pulse:1 | Rising:1
+T=915000 | Output[77]: 92 (0x5c) | Pulse:1 | Rising:1
+T=925000 | Output[78]: 104 (0x68) | Pulse:1 | Rising:1
+T=935000 | Output[79]: 116 (0x74) | Pulse:1 | Rising:1
+T=955000 | Output[80]: 2752 (0xac0) | Pulse:1 | Rising:1
+T=965000 | Output[81]: 3968 (0xf80) | Pulse:1 | Rising:0
+T=975000 | Output[82]: 1088 (0x440) | Pulse:1 | Rising:0
+T=985000 | Output[83]: 1280 (0x500) | Pulse:1 | Rising:0
+T=995000 | Output[84]: 768 (0x300) | Pulse:1 | Rising:0

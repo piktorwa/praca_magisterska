@@ -1,0 +1,10 @@
+# compile verilog/system verilog design source files
+sv xil_defaultlib  \
+"../../../../masters_project.srcs/sources_1/new/kv260_rtl.sv" \
+"../../../../masters_project.srcs/sim_1/new/tb_kv260.sv" \
+
+# compile glbl module
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort
