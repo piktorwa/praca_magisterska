@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GenRun Id="synth_1" LaunchPart="xck26-sfvc784-2LV-c" LaunchTime="1753627006" LaunchIncrCheckpoint="$PSRCDIR/utils_1/imports/synth_1/kria_pulse_system.dcp">
   <File Type="REPORTS-TCL" Name="kria_pulse_system_reports.tcl"/>
-  <File Type="RDS-UTIL" Name="pulse_detector_utilization_synth.rpt"/>
-  <File Type="RDS-UTIL-PB" Name="pulse_detector_utilization_synth.pb"/>
+  <File Type="RDS-UTIL" Name="top_module_utilization_synth.rpt"/>
+  <File Type="RDS-UTIL-PB" Name="top_module_utilization_synth.pb"/>
   <File Type="PA-TCL" Name="kria_pulse_system.tcl"/>
   <File Type="RDS-RDS" Name="kria_pulse_system.vds"/>
   <File Type="RDS-DCP" Name="kria_pulse_system.dcp"/>

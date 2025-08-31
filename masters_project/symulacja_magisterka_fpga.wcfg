@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="testbench_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="testbench" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="181.272 ns"></ZoomStartTime>
+      <ZoomEndTime time="213.023 ns"></ZoomEndTime>
+      <Cursor1Time time="260.385 ns"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="213"></NameColumnWidth>
+      <ValueColumnWidth column_width="183"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="11" />
+   <wvobject fp_name="/testbench/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench/rst_n" type="logic">
+      <obj_property name="ElementShortName">rst_n</obj_property>
+      <obj_property name="ObjectShortName">rst_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench/adc_data" type="array">
+      <obj_property name="ElementShortName">adc_data[11:0]</obj_property>
+      <obj_property name="ObjectShortName">adc_data[11:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench/processed_data" type="array">
+      <obj_property name="ElementShortName">processed_data[11:0]</obj_property>
+      <obj_property name="ObjectShortName">processed_data[11:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench/integral_value" type="array">
+      <obj_property name="ElementShortName">integral_value[31:0]</obj_property>
+      <obj_property name="ObjectShortName">integral_value[31:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench/tb_non_interp_integral_sum" type="array">
+      <obj_property name="ElementShortName">tb_non_interp_integral_sum[63:0]</obj_property>
+      <obj_property name="ObjectShortName">tb_non_interp_integral_sum[63:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench/tb_interp_integral_sum" type="array">
+      <obj_property name="ElementShortName">tb_interp_integral_sum[63:0]</obj_property>
+      <obj_property name="ObjectShortName">tb_interp_integral_sum[63:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench/tr_val" type="other">
+      <obj_property name="ElementShortName">tr_val</obj_property>
+      <obj_property name="ObjectShortName">tr_val</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench/sigma_val" type="other">
+      <obj_property name="ElementShortName">sigma_val</obj_property>
+      <obj_property name="ObjectShortName">sigma_val</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench/CLK_PERIOD_REAL" type="other">
+      <obj_property name="ElementShortName">CLK_PERIOD_REAL</obj_property>
+      <obj_property name="ObjectShortName">CLK_PERIOD_REAL</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench/CLK_PERIOD" type="other">
+      <obj_property name="ElementShortName">CLK_PERIOD</obj_property>
+      <obj_property name="ObjectShortName">CLK_PERIOD</obj_property>
+   </wvobject>
+</wave_config>
