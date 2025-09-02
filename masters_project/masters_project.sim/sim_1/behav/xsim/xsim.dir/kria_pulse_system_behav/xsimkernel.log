@@ -1,7 +1,0 @@
-Running: xsim.dir/kria_pulse_system_behav/xsimk.exe -simmode gui -wdb kria_pulse_system_behav.wdb -simrunnum 0 -socket 60075
-Design successfully loaded
-Design Loading Memory Usage: 29628 KB (Peak: 29628 KB)
-Design Loading CPU Usage: 1014 ms
-Simulation completed
-Simulation Memory Usage: 30580 KB (Peak: 30580 KB)
-Simulation CPU Usage: 1093 ms

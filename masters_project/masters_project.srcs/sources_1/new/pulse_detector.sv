@@ -3,9 +3,7 @@ module pulse_detector (
     input  logic rst_n,
     input  logic [11:0] adc_data, // Assuming 12-bit ADC data
     output logic pulse_detected,
-    output logic [11:0] pulse_start_val,
-    output logic [11:0] pulse_peak_val,
-    output logic [31:0] pulse_duration_cycles // Duration of the detected pulse in clock cycles
+    output logic [2:0] pulse_state_out
 );
 
     // Parameters for pulse detection (adjust as needed)
@@ -31,9 +29,6 @@ module pulse_detector (
             in_pulse <= 1'b0;
             pulse_detected <= 1'b0;
             pulse_cycle_counter <= 32'b0;
-            pulse_start_val <= 12'b0;
-            pulse_peak_val <= 12'b0;
-            pulse_duration_cycles <= 32'b0;
             current_pulse_start_val <= 12'b0;
             current_pulse_peak_val <= 12'b0;
             prev_adc_data <= 12'b0;
@@ -42,8 +37,7 @@ module pulse_detector (
         end else begin
             prev_prev_adc_data <= prev_adc_data;
             prev_adc_data <= adc_data;
-            pulse_detected <= 1'b0; // Default to not detected
-
+            
             case (pulse_state)
                 IDLE: begin
                     // Look for a significant rise from baseline
@@ -53,6 +47,7 @@ module pulse_detector (
                         current_pulse_peak_val <= adc_data;
                         pulse_cycle_counter <= 32'b0;
                         in_pulse <= 1'b1;
+                        pulse_detected <= 1'b1;
                     end
                 end
 
@@ -77,6 +72,7 @@ module pulse_detector (
                     // If data falls significantly below the peak and approaches baseline
                     if (adc_data < (prev_adc_data - FALLING_EDGE_THRESHOLD) && adc_data < BASELINE_THRESHOLD) begin
                         pulse_state <= FALLING;
+                        pulse_state_out <= FALLING;
                     end
                 end
 
@@ -84,19 +80,15 @@ module pulse_detector (
                     pulse_cycle_counter <= pulse_cycle_counter + 1;
                     // If data drops below baseline threshold and pulse duration is sufficient
                     if (adc_data < BASELINE_THRESHOLD && prev_adc_data >= BASELINE_THRESHOLD) begin
-                        if (pulse_cycle_counter >= MIN_PULSE_DURATION) begin
-                            pulse_detected <= 1'b1;
-                            pulse_start_val <= current_pulse_start_val;
-                            pulse_peak_val <= current_pulse_peak_val;
-                            pulse_duration_cycles <= pulse_cycle_counter;
-                        end
                         in_pulse <= 1'b0;
+                        pulse_state_out <= IDLE;
                         pulse_state <= IDLE; // Reset state
+                        pulse_detected <= 1'b0; // Default to not detected
                     end
                     // If it starts rising again, it might be a new pulse or noise, go back to IDLE or RISING
                     if (adc_data > (prev_adc_data + RISING_EDGE_THRESHOLD)) begin
                         in_pulse <= 1'b0;
-                        pulse_state <= IDLE; // Treat as noise or start of new pulse
+                        pulse_state <= RISING; // Treat as noise or start of new pulse
                     end
                 end
             endcase

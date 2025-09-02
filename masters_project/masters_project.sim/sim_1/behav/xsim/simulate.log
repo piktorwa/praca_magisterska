@@ -1,235 +1,65 @@
 Time resolution is 1 ps
 
 --- Test Case 1: No pulse (baseline noise) ---
-DEBUG: Valid Interpolated Data! Time: 10000, Processed_Data: 009
-Time: 10000, ADC_Data: 005, Processed_Data: 009, Integral_Value: 00000000, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: IDLE
-DEBUG: Valid Interpolated Data! Time: 13000, Processed_Data: 005
-Time: 13000, ADC_Data: 008, Processed_Data: 005, Integral_Value: 00000000, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: IDLE
-DEBUG: Valid Interpolated Data! Time: 16000, Processed_Data: 008
-Time: 16000, ADC_Data: 009, Processed_Data: 008, Integral_Value: 00000005, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: IDLE
-DEBUG: Valid Interpolated Data! Time: 19000, Processed_Data: 009
-Time: 19000, ADC_Data: 008, Processed_Data: 009, Integral_Value: 0000000d, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: IDLE
-DEBUG: Valid Interpolated Data! Time: 22000, Processed_Data: 008
-Time: 22000, ADC_Data: 006, Processed_Data: 008, Integral_Value: 00000016, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: IDLE
-DEBUG: Valid Interpolated Data! Time: 25000, Processed_Data: 006
-Time: 25000, ADC_Data: 005, Processed_Data: 006, Integral_Value: 0000001e, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: IDLE
-DEBUG: Valid Interpolated Data! Time: 28000, Processed_Data: 005
-Time: 28000, ADC_Data: 008, Processed_Data: 005, Integral_Value: 00000024, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: IDLE
-DEBUG: Valid Interpolated Data! Time: 31000, Processed_Data: 008
-Time: 31000, ADC_Data: 009, Processed_Data: 008, Integral_Value: 00000029, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: IDLE
-DEBUG: Valid Interpolated Data! Time: 34000, Processed_Data: 009
-Time: 34000, ADC_Data: 00a, Processed_Data: 009, Integral_Value: 00000031, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: IDLE
-DEBUG: Valid Interpolated Data! Time: 37000, Processed_Data: 00a
-Time: 37000, ADC_Data: 007, Processed_Data: 00a, Integral_Value: 0000003a, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: IDLE
-DEBUG: Valid Interpolated Data! Time: 40000, Processed_Data: 007
-Time: 40000, ADC_Data: 006, Processed_Data: 007, Integral_Value: 00000044, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: IDLE
-DEBUG: Valid Interpolated Data! Time: 43000, Processed_Data: 006
-Time: 43000, ADC_Data: 005, Processed_Data: 006, Integral_Value: 0000004b, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: IDLE
-DEBUG: Valid Interpolated Data! Time: 46000, Processed_Data: 005
-Time: 46000, ADC_Data: 009, Processed_Data: 005, Integral_Value: 00000051, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: IDLE
-DEBUG: Valid Interpolated Data! Time: 49000, Processed_Data: 009
-Time: 49000, ADC_Data: 005, Processed_Data: 009, Integral_Value: 00000056, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: IDLE
-DEBUG: Valid Interpolated Data! Time: 52000, Processed_Data: 005
-Time: 52000, ADC_Data: 009, Processed_Data: 005, Integral_Value: 0000005f, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: IDLE
-DEBUG: Valid Interpolated Data! Time: 55000, Processed_Data: 009
-Time: 55000, ADC_Data: 008, Processed_Data: 009, Integral_Value: 00000064, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: IDLE
-DEBUG: Valid Interpolated Data! Time: 58000, Processed_Data: 008
-Time: 58000, ADC_Data: 007, Processed_Data: 008, Integral_Value: 0000006d, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: IDLE
-DEBUG: Valid Interpolated Data! Time: 61000, Processed_Data: 007
-Time: 61000, ADC_Data: 006, Processed_Data: 007, Integral_Value: 00000075, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: IDLE
-DEBUG: Valid Interpolated Data! Time: 64000, Processed_Data: 006
-Time: 64000, ADC_Data: 00a, Processed_Data: 006, Integral_Value: 0000007c, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: IDLE
 
 --- Test Case 2: Single pulse (new definition) ---
-DEBUG: Valid Interpolated Data! Time: 67000, Processed_Data: 00a
-Time: 67000, ADC_Data: 005, Processed_Data: 00a, Integral_Value: 00000082, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: IDLE
-DEBUG: Valid Interpolated Data! Time: 70000, Processed_Data: 005
-Time: 70000, ADC_Data: 005, Processed_Data: 005, Integral_Value: 0000008c, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: IDLE
-DEBUG: Valid Interpolated Data! Time: 72000, Processed_Data: 005
-Time: 72000, ADC_Data: 005, Processed_Data: 005, Integral_Value: 00000091, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: IDLE
-DEBUG: Valid Interpolated Data! Time: 75000, Processed_Data: 005
-Time: 75000, ADC_Data: 005, Processed_Data: 005, Integral_Value: 00000096, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: IDLE
-DEBUG: Valid Interpolated Data! Time: 78000, Processed_Data: 005
-Time: 78000, ADC_Data: 005, Processed_Data: 005, Integral_Value: 0000009b, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: IDLE
-Time: 80000, current_time: -0.000000, pulse_val: 0.000000, scaled_adc_data_real: 0.000000, adc_data: 000
-DEBUG: Valid Interpolated Data! Time: 81000, Processed_Data: 005
-Time: 81000, ADC_Data: 000, Processed_Data: 005, Integral_Value: 000000a0, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: IDLE
-Time: 83000, current_time: -0.000000, pulse_val: 0.000000, scaled_adc_data_real: 0.000000, adc_data: 000
-DEBUG: Valid Interpolated Data! Time: 84000, Processed_Data: 000
-Time: 84000, ADC_Data: 000, Processed_Data: 000, Integral_Value: 000000a5, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: IDLE
-Time: 86000, current_time: -0.000000, pulse_val: 0.000000, scaled_adc_data_real: 0.000000, adc_data: 000
-DEBUG: Valid Interpolated Data! Time: 87000, Processed_Data: 000
-Time: 87000, ADC_Data: 000, Processed_Data: 000, Integral_Value: 000000a5, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: IDLE
-Time: 89000, current_time: -0.000000, pulse_val: 0.000000, scaled_adc_data_real: 0.000000, adc_data: 000
-DEBUG: Valid Interpolated Data! Time: 90000, Processed_Data: 000
-Time: 90000, ADC_Data: 000, Processed_Data: 000, Integral_Value: 000000a5, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: IDLE
-Time: 92000, current_time: -0.000000, pulse_val: 0.000000, scaled_adc_data_real: 0.000000, adc_data: 000
-DEBUG: Valid Interpolated Data! Time: 93000, Processed_Data: 000
-Time: 93000, ADC_Data: 000, Processed_Data: 000, Integral_Value: 000000a5, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: IDLE
-Time: 95000, current_time: -0.000000, pulse_val: 0.000000, scaled_adc_data_real: 0.000000, adc_data: 000
-DEBUG: Valid Interpolated Data! Time: 96000, Processed_Data: 000
-Time: 96000, ADC_Data: 000, Processed_Data: 000, Integral_Value: 000000a5, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: IDLE
-Time: 98000, current_time: -0.000000, pulse_val: 0.000000, scaled_adc_data_real: 0.000000, adc_data: 000
-DEBUG: Valid Interpolated Data! Time: 99000, Processed_Data: 000
-Time: 99000, ADC_Data: 000, Processed_Data: 000, Integral_Value: 000000a5, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: IDLE
-Time: 101000, current_time: -0.000000, pulse_val: 0.000000, scaled_adc_data_real: 0.000000, adc_data: 000
-DEBUG: Valid Interpolated Data! Time: 102000, Processed_Data: 000
-Time: 102000, ADC_Data: 000, Processed_Data: 000, Integral_Value: 000000a5, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: IDLE
-Time: 104000, current_time: -0.000000, pulse_val: 0.000000, scaled_adc_data_real: 0.000000, adc_data: 000
-DEBUG: Valid Interpolated Data! Time: 105000, Processed_Data: 000
-Time: 105000, ADC_Data: 000, Processed_Data: 000, Integral_Value: 000000a5, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: IDLE
-Time: 107000, current_time: -0.000000, pulse_val: 0.000000, scaled_adc_data_real: 0.000000, adc_data: 000
-DEBUG: Valid Interpolated Data! Time: 108000, Processed_Data: 000
-Time: 108000, ADC_Data: 000, Processed_Data: 000, Integral_Value: 000000a5, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: IDLE
-Time: 109000, current_time: -0.000000, pulse_val: 0.000000, scaled_adc_data_real: 0.000000, adc_data: 000
-DEBUG: Valid Interpolated Data! Time: 111000, Processed_Data: 000
-Time: 111000, ADC_Data: 000, Processed_Data: 000, Integral_Value: 000000a5, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: IDLE
-Time: 112000, current_time: -0.000000, pulse_val: 0.000000, scaled_adc_data_real: 0.000000, adc_data: 000
-DEBUG: Valid Interpolated Data! Time: 114000, Processed_Data: 000
-Time: 114000, ADC_Data: 000, Processed_Data: 000, Integral_Value: 000000a5, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: IDLE
-Time: 115000, current_time: -0.000000, pulse_val: 0.000000, scaled_adc_data_real: 0.000000, adc_data: 000
-DEBUG: Valid Interpolated Data! Time: 117000, Processed_Data: 000
-Time: 117000, ADC_Data: 000, Processed_Data: 000, Integral_Value: 000000a5, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: IDLE
-Time: 118000, current_time: -0.000000, pulse_val: 0.000000, scaled_adc_data_real: 0.000001, adc_data: 000
-DEBUG: Valid Interpolated Data! Time: 120000, Processed_Data: 000
-Time: 120000, ADC_Data: 000, Processed_Data: 000, Integral_Value: 000000a5, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: IDLE
-Time: 121000, current_time: -0.000000, pulse_val: 0.000000, scaled_adc_data_real: 0.000012, adc_data: 000
-DEBUG: Valid Interpolated Data! Time: 123000, Processed_Data: 000
-Time: 123000, ADC_Data: 000, Processed_Data: 000, Integral_Value: 000000a5, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: IDLE
-Time: 124000, current_time: -0.000000, pulse_val: 0.000000, scaled_adc_data_real: 0.000221, adc_data: 000
-DEBUG: Valid Interpolated Data! Time: 126000, Processed_Data: 000
-Time: 126000, ADC_Data: 000, Processed_Data: 000, Integral_Value: 000000a5, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: IDLE
-Time: 127000, current_time: -0.000000, pulse_val: 0.000004, scaled_adc_data_real: 0.003052, adc_data: 000
-DEBUG: Valid Interpolated Data! Time: 129000, Processed_Data: 000
-Time: 129000, ADC_Data: 000, Processed_Data: 000, Integral_Value: 000000a5, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: IDLE
-Time: 130000, current_time: -0.000000, pulse_val: 0.000040, scaled_adc_data_real: 0.032813, adc_data: 000
-DEBUG: Valid Interpolated Data! Time: 132000, Processed_Data: 000
-Time: 132000, ADC_Data: 000, Processed_Data: 000, Integral_Value: 000000a5, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: IDLE
-Time: 133000, current_time: -0.000000, pulse_val: 0.000335, scaled_adc_data_real: 0.274744, adc_data: 000
-DEBUG: Valid Interpolated Data! Time: 135000, Processed_Data: 000
-Time: 135000, ADC_Data: 000, Processed_Data: 000, Integral_Value: 000000a5, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: IDLE
-Time: 136000, current_time: -0.000000, pulse_val: 0.002187, scaled_adc_data_real: 1.791555, adc_data: 001
-DEBUG: Valid Interpolated Data! Time: 138000, Processed_Data: 000
-Time: 138000, ADC_Data: 001, Processed_Data: 000, Integral_Value: 000000a5, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: IDLE
-Time: 139000, current_time: -0.000000, pulse_val: 0.011109, scaled_adc_data_real: 9.098268, adc_data: 009
-DEBUG: Valid Interpolated Data! Time: 141000, Processed_Data: 001
-Time: 141000, ADC_Data: 009, Processed_Data: 001, Integral_Value: 000000a5, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: IDLE
-Time: 142000, current_time: -0.000000, pulse_val: 0.043937, scaled_adc_data_real: 35.984349, adc_data: 023
-DEBUG: Valid Interpolated Data! Time: 143000, Processed_Data: 009
-Time: 143000, ADC_Data: 023, Processed_Data: 009, Integral_Value: 000000a6, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: IDLE
-Time: 145000, current_time: -0.000000, pulse_val: 0.135335, scaled_adc_data_real: 110.839597, adc_data: 06e
-DEBUG: Valid Interpolated Data! Time: 146000, Processed_Data: 023
-Time: 146000, ADC_Data: 06e, Processed_Data: 023, Integral_Value: 000000af, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: RISING
-Time: 148000, current_time: -0.000000, pulse_val: 0.324652, scaled_adc_data_real: 265.890371, adc_data: 109
-DEBUG: Valid Interpolated Data! Time: 149000, Processed_Data: 06e
-Time: 149000, ADC_Data: 109, Processed_Data: 06e, Integral_Value: 000000d2, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: RISING
-Time: 151000, current_time: -0.000000, pulse_val: 0.606531, scaled_adc_data_real: 496.748610, adc_data: 1f0
-DEBUG: Valid Interpolated Data! Time: 152000, Processed_Data: 109
-Time: 152000, ADC_Data: 1f0, Processed_Data: 109, Integral_Value: 00000140, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: RISING
-Time: 154000, current_time: -0.000000, pulse_val: 0.882497, scaled_adc_data_real: 722.764963, adc_data: 2d2
-DEBUG: Valid Interpolated Data! Time: 155000, Processed_Data: 1f0
-Time: 155000, ADC_Data: 2d2, Processed_Data: 1f0, Integral_Value: 00000249, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: RISING
-Time: 157000, current_time: 0.000000, pulse_val: 1.000000, scaled_adc_data_real: 819.000000, adc_data: 333
-DEBUG: Valid Interpolated Data! Time: 158000, Processed_Data: 2d2
-Time: 158000, ADC_Data: 333, Processed_Data: 2d2, Integral_Value: 00000439, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: RISING
-Time: 160000, current_time: 0.000000, pulse_val: 0.882497, scaled_adc_data_real: 722.764963, adc_data: 2d2
-DEBUG: Valid Interpolated Data! Time: 161000, Processed_Data: 333
-Time: 161000, ADC_Data: 2d2, Processed_Data: 333, Integral_Value: 0000070b, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: RISING
-Time: 163000, current_time: 0.000000, pulse_val: 0.716531, scaled_adc_data_real: 586.839143, adc_data: 24a
-DEBUG: Valid Interpolated Data! Time: 164000, Processed_Data: 2d2
-Time: 164000, ADC_Data: 24a, Processed_Data: 2d2, Integral_Value: 00000a3e, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: PEAK_DETECTED
-Time: 166000, current_time: 0.000000, pulse_val: 0.606531, scaled_adc_data_real: 496.748610, adc_data: 1f0
-DEBUG: Valid Interpolated Data! Time: 167000, Processed_Data: 24a
-Time: 167000, ADC_Data: 1f0, Processed_Data: 24a, Integral_Value: 00000d10, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: PEAK_DETECTED
-Time: 169000, current_time: 0.000000, pulse_val: 0.513417, scaled_adc_data_real: 420.488620, adc_data: 1a4
-DEBUG: Valid Interpolated Data! Time: 170000, Processed_Data: 1f0
-Time: 170000, ADC_Data: 1a4, Processed_Data: 1f0, Integral_Value: 00000f5a, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: PEAK_DETECTED
-Time: 172000, current_time: 0.000000, pulse_val: 0.434598, scaled_adc_data_real: 355.935933, adc_data: 163
-DEBUG: Valid Interpolated Data! Time: 173000, Processed_Data: 1a4
-Time: 173000, ADC_Data: 163, Processed_Data: 1a4, Integral_Value: 0000114a, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: PEAK_DETECTED
-Time: 175000, current_time: 0.000000, pulse_val: 0.367879, scaled_adc_data_real: 301.293262, adc_data: 12d
-DEBUG: Valid Interpolated Data! Time: 176000, Processed_Data: 163
-Time: 176000, ADC_Data: 12d, Processed_Data: 163, Integral_Value: 000012ee, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: PEAK_DETECTED
-Time: 178000, current_time: 0.000000, pulse_val: 0.311403, scaled_adc_data_real: 255.039240, adc_data: 0ff
-DEBUG: Valid Interpolated Data! Time: 179000, Processed_Data: 12d
-Time: 179000, ADC_Data: 0ff, Processed_Data: 12d, Integral_Value: 00001451, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: PEAK_DETECTED
-Time: 180000, current_time: 0.000000, pulse_val: 0.263597, scaled_adc_data_real: 215.886056, adc_data: 0d7
-DEBUG: Valid Interpolated Data! Time: 182000, Processed_Data: 0ff
-Time: 182000, ADC_Data: 0d7, Processed_Data: 0ff, Integral_Value: 0000157e, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: PEAK_DETECTED
-Time: 183000, current_time: 0.000000, pulse_val: 0.223130, scaled_adc_data_real: 182.743601, adc_data: 0b6
-DEBUG: Valid Interpolated Data! Time: 185000, Processed_Data: 0d7
-Time: 185000, ADC_Data: 0b6, Processed_Data: 0d7, Integral_Value: 0000167d, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: PEAK_DETECTED
-Time: 186000, current_time: 0.000000, pulse_val: 0.188876, scaled_adc_data_real: 154.689119, adc_data: 09a
-DEBUG: Valid Interpolated Data! Time: 188000, Processed_Data: 0b6
-Time: 188000, ADC_Data: 09a, Processed_Data: 0b6, Integral_Value: 00001754, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: PEAK_DETECTED
-Time: 189000, current_time: 0.000000, pulse_val: 0.159880, scaled_adc_data_real: 130.941512, adc_data: 082
-DEBUG: Valid Interpolated Data! Time: 191000, Processed_Data: 09a
-Time: 191000, ADC_Data: 082, Processed_Data: 09a, Integral_Value: 0000180a, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: PEAK_DETECTED
-Time: 192000, current_time: 0.000000, pulse_val: 0.135335, scaled_adc_data_real: 110.839597, adc_data: 06e
-DEBUG: Valid Interpolated Data! Time: 194000, Processed_Data: 082
-Time: 194000, ADC_Data: 06e, Processed_Data: 082, Integral_Value: 000018a4, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: PEAK_DETECTED
-Time: 195000, current_time: 0.000000, pulse_val: 0.114559, scaled_adc_data_real: 93.823693, adc_data: 05d
-DEBUG: Valid Interpolated Data! Time: 197000, Processed_Data: 06e
-Time: 197000, ADC_Data: 05d, Processed_Data: 06e, Integral_Value: 00001926, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: PEAK_DETECTED
-Time: 198000, current_time: 0.000000, pulse_val: 0.096972, scaled_adc_data_real: 79.420042, adc_data: 04f
-DEBUG: Valid Interpolated Data! Time: 200000, Processed_Data: 05d
-Time: 200000, ADC_Data: 04f, Processed_Data: 05d, Integral_Value: 00001994, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: PEAK_DETECTED
-Time: 201000, current_time: 0.000000, pulse_val: 0.082085, scaled_adc_data_real: 67.227614, adc_data: 043
-DEBUG: Valid Interpolated Data! Time: 203000, Processed_Data: 04f
-Time: 203000, ADC_Data: 043, Processed_Data: 04f, Integral_Value: 000019f1, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: PEAK_DETECTED
-Time: 204000, current_time: 0.000000, pulse_val: 0.069483, scaled_adc_data_real: 56.906947, adc_data: 038
-DEBUG: Valid Interpolated Data! Time: 206000, Processed_Data: 043
-Time: 206000, ADC_Data: 038, Processed_Data: 043, Integral_Value: 00001a40, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: PEAK_DETECTED
-Time: 207000, current_time: 0.000000, pulse_val: 0.058816, scaled_adc_data_real: 48.170690, adc_data: 030
-DEBUG: Valid Interpolated Data! Time: 209000, Processed_Data: 038
-Time: 209000, ADC_Data: 030, Processed_Data: 038, Integral_Value: 00001a83, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: PEAK_DETECTED
-Time: 210000, current_time: 0.000000, pulse_val: 0.049787, scaled_adc_data_real: 40.775609, adc_data: 028
-DEBUG: Valid Interpolated Data! Time: 211000, Processed_Data: 030
-Time: 211000, ADC_Data: 028, Processed_Data: 030, Integral_Value: 00001abb, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: PEAK_DETECTED
-Time: 213000, current_time: 0.000000, pulse_val: 0.042144, scaled_adc_data_real: 34.515808, adc_data: 022
-DEBUG: Valid Interpolated Data! Time: 214000, Processed_Data: 028
-Time: 214000, ADC_Data: 022, Processed_Data: 028, Integral_Value: 00001aeb, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: PEAK_DETECTED
-Time: 216000, current_time: 0.000000, pulse_val: 0.035674, scaled_adc_data_real: 29.217001, adc_data: 01d
-DEBUG: Valid Interpolated Data! Time: 217000, Processed_Data: 022
-Time: 217000, ADC_Data: 01d, Processed_Data: 022, Integral_Value: 00001b13, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: PEAK_DETECTED
-Time: 219000, current_time: 0.000000, pulse_val: 0.030197, scaled_adc_data_real: 24.731657, adc_data: 018
-DEBUG: Valid Interpolated Data! Time: 220000, Processed_Data: 01d
-Time: 220000, ADC_Data: 018, Processed_Data: 01d, Integral_Value: 00001b35, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: PEAK_DETECTED
-Time: 222000, current_time: 0.000000, pulse_val: 0.025562, scaled_adc_data_real: 20.934896, adc_data: 014
-DEBUG: Valid Interpolated Data! Time: 223000, Processed_Data: 018
-Time: 223000, ADC_Data: 014, Processed_Data: 018, Integral_Value: 00001b52, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: PEAK_DETECTED
-Time: 225000, current_time: 0.000000, pulse_val: 0.021637, scaled_adc_data_real: 17.721007, adc_data: 011
-DEBUG: Valid Interpolated Data! Time: 226000, Processed_Data: 014
-Time: 226000, ADC_Data: 011, Processed_Data: 014, Integral_Value: 00001b6a, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: PEAK_DETECTED
-Time: 228000, current_time: 0.000000, pulse_val: 0.018316, scaled_adc_data_real: 15.000508, adc_data: 00f
-DEBUG: Valid Interpolated Data! Time: 229000, Processed_Data: 011
-Time: 229000, ADC_Data: 00f, Processed_Data: 011, Integral_Value: 00001b7e, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: PEAK_DETECTED
-DEBUG: Valid Interpolated Data! Time: 232000, Processed_Data: 00f
-Time: 232000, ADC_Data: 000, Processed_Data: 00f, Integral_Value: 00001b8f, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: PEAK_DETECTED
-DEBUG: Valid Interpolated Data! Time: 235000, Processed_Data: 000
-Time: 235000, ADC_Data: 000, Processed_Data: 000, Integral_Value: 00001b9e, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: FALLING
-DEBUG: Valid Interpolated Data! Time: 238000, Processed_Data: 000
-Time: 238000, ADC_Data: 000, Processed_Data: 000, Integral_Value: 00001b9e, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: FALLING
-DEBUG: Valid Interpolated Data! Time: 241000, Processed_Data: 000
-Time: 241000, ADC_Data: 000, Processed_Data: 000, Integral_Value: 00001b9e, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: FALLING
-DEBUG: Valid Interpolated Data! Time: 244000, Processed_Data: 000
-Time: 244000, ADC_Data: 000, Processed_Data: 000, Integral_Value: 00001b9e, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: FALLING
-DEBUG: Valid Interpolated Data! Time: 247000, Processed_Data: 000
-Time: 247000, ADC_Data: 000, Processed_Data: 000, Integral_Value: 00001b9e, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: FALLING
-DEBUG: Valid Interpolated Data! Time: 250000, Processed_Data: 000
-Time: 250000, ADC_Data: 000, Processed_Data: 000, Integral_Value: 00001b9e, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: FALLING
-DEBUG: Valid Interpolated Data! Time: 253000, Processed_Data: 000
-Time: 253000, ADC_Data: 000, Processed_Data: 000, Integral_Value: 00001b9e, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: FALLING
-DEBUG: Valid Interpolated Data! Time: 256000, Processed_Data: 000
-Time: 256000, ADC_Data: 000, Processed_Data: 000, Integral_Value: 00001b9e, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: FALLING
-DEBUG: Valid Interpolated Data! Time: 259000, Processed_Data: 000
-Time: 259000, ADC_Data: 000, Processed_Data: 000, Integral_Value: 00001b9e, Pulse_Detected: 0, Valid_Interpolated: 1, Pulse_State: FALLING
+Iteratio: 0, Time: 77000, current_time: -0.000000, pulse_val: 0.000000, scaled_adc_data_real: 0.000000, adc_data: 000
+Iteratio: 1, Time: 80000, current_time: -0.000000, pulse_val: 0.000000, scaled_adc_data_real: 0.000000, adc_data: 000
+Iteratio: 2, Time: 83000, current_time: -0.000000, pulse_val: 0.000000, scaled_adc_data_real: 0.000000, adc_data: 000
+Iteratio: 3, Time: 86000, current_time: -0.000000, pulse_val: 0.000000, scaled_adc_data_real: 0.000001, adc_data: 000
+Iteratio: 4, Time: 89000, current_time: -0.000000, pulse_val: 0.000000, scaled_adc_data_real: 0.000012, adc_data: 000
+Iteratio: 5, Time: 92000, current_time: -0.000000, pulse_val: 0.000000, scaled_adc_data_real: 0.000221, adc_data: 000
+Iteratio: 6, Time: 95000, current_time: -0.000000, pulse_val: 0.000004, scaled_adc_data_real: 0.003052, adc_data: 000
+Iteratio: 7, Time: 98000, current_time: -0.000000, pulse_val: 0.000040, scaled_adc_data_real: 0.032813, adc_data: 000
+Iteratio: 8, Time: 101000, current_time: -0.000000, pulse_val: 0.000335, scaled_adc_data_real: 0.274744, adc_data: 000
+Iteratio: 9, Time: 104000, current_time: -0.000000, pulse_val: 0.002187, scaled_adc_data_real: 1.791555, adc_data: 001
+Iteratio: 10, Time: 107000, current_time: -0.000000, pulse_val: 0.011109, scaled_adc_data_real: 9.098268, adc_data: 009
+Iteratio: 11, Time: 109000, current_time: -0.000000, pulse_val: 0.043937, scaled_adc_data_real: 35.984349, adc_data: 023
+Iteratio: 12, Time: 112000, current_time: -0.000000, pulse_val: 0.135335, scaled_adc_data_real: 110.839597, adc_data: 06e
+Iteratio: 13, Time: 115000, current_time: -0.000000, pulse_val: 0.324652, scaled_adc_data_real: 265.890371, adc_data: 109
+Iteratio: 14, Time: 118000, current_time: -0.000000, pulse_val: 0.606531, scaled_adc_data_real: 496.748610, adc_data: 1f0
+Iteratio: 15, Time: 121000, current_time: -0.000000, pulse_val: 0.882497, scaled_adc_data_real: 722.764963, adc_data: 2d2
+Iteratio: 16, Time: 124000, current_time: -0.000000, pulse_val: 1.000000, scaled_adc_data_real: 819.000000, adc_data: 333
+Iteratio: 17, Time: 127000, current_time: 0.000000, pulse_val: 0.882497, scaled_adc_data_real: 722.764963, adc_data: 2d2
+Iteratio: 18, Time: 130000, current_time: 0.000000, pulse_val: 0.716531, scaled_adc_data_real: 586.839143, adc_data: 24a
+Iteratio: 19, Time: 133000, current_time: 0.000000, pulse_val: 0.606531, scaled_adc_data_real: 496.748610, adc_data: 1f0
+Iteratio: 20, Time: 136000, current_time: 0.000000, pulse_val: 0.513417, scaled_adc_data_real: 420.488620, adc_data: 1a4
+Iteratio: 21, Time: 139000, current_time: 0.000000, pulse_val: 0.434598, scaled_adc_data_real: 355.935933, adc_data: 163
+Iteratio: 22, Time: 142000, current_time: 0.000000, pulse_val: 0.367879, scaled_adc_data_real: 301.293262, adc_data: 12d
+Iteratio: 23, Time: 145000, current_time: 0.000000, pulse_val: 0.311403, scaled_adc_data_real: 255.039240, adc_data: 0ff
+Iteratio: 24, Time: 148000, current_time: 0.000000, pulse_val: 0.263597, scaled_adc_data_real: 215.886056, adc_data: 0d7
+Iteratio: 25, Time: 151000, current_time: 0.000000, pulse_val: 0.223130, scaled_adc_data_real: 182.743601, adc_data: 0b6
+Iteratio: 26, Time: 154000, current_time: 0.000000, pulse_val: 0.188876, scaled_adc_data_real: 154.689119, adc_data: 09a
+Iteratio: 27, Time: 157000, current_time: 0.000000, pulse_val: 0.159880, scaled_adc_data_real: 130.941512, adc_data: 082
+Iteratio: 28, Time: 160000, current_time: 0.000000, pulse_val: 0.135335, scaled_adc_data_real: 110.839597, adc_data: 06e
+Iteratio: 29, Time: 163000, current_time: 0.000000, pulse_val: 0.114559, scaled_adc_data_real: 93.823693, adc_data: 05d
+Iteratio: 30, Time: 166000, current_time: 0.000000, pulse_val: 0.096972, scaled_adc_data_real: 79.420042, adc_data: 04f
+Iteratio: 31, Time: 169000, current_time: 0.000000, pulse_val: 0.082085, scaled_adc_data_real: 67.227614, adc_data: 043
+Iteratio: 32, Time: 172000, current_time: 0.000000, pulse_val: 0.069483, scaled_adc_data_real: 56.906947, adc_data: 038
+Iteratio: 33, Time: 175000, current_time: 0.000000, pulse_val: 0.058816, scaled_adc_data_real: 48.170690, adc_data: 030
+Iteratio: 34, Time: 178000, current_time: 0.000000, pulse_val: 0.049787, scaled_adc_data_real: 40.775609, adc_data: 028
+Iteratio: 35, Time: 180000, current_time: 0.000000, pulse_val: 0.042144, scaled_adc_data_real: 34.515808, adc_data: 022
+Iteratio: 36, Time: 183000, current_time: 0.000000, pulse_val: 0.035674, scaled_adc_data_real: 29.217001, adc_data: 01d
+Iteratio: 37, Time: 186000, current_time: 0.000000, pulse_val: 0.030197, scaled_adc_data_real: 24.731657, adc_data: 018
+Iteratio: 38, Time: 189000, current_time: 0.000000, pulse_val: 0.025562, scaled_adc_data_real: 20.934896, adc_data: 014
+Iteratio: 39, Time: 192000, current_time: 0.000000, pulse_val: 0.021637, scaled_adc_data_real: 17.721007, adc_data: 011
+Iteratio: 40, Time: 195000, current_time: 0.000000, pulse_val: 0.018316, scaled_adc_data_real: 15.000508, adc_data: 00f
+Iteratio: 41, Time: 198000, current_time: 0.000000, pulse_val: 0.015504, scaled_adc_data_real: 12.697656, adc_data: 00c
+Iteratio: 42, Time: 201000, current_time: 0.000000, pulse_val: 0.013124, scaled_adc_data_real: 10.748334, adc_data: 00a
+Iteratio: 43, Time: 204000, current_time: 0.000000, pulse_val: 0.011109, scaled_adc_data_real: 9.098268, adc_data: 009
+Iteratio: 44, Time: 207000, current_time: 0.000000, pulse_val: 0.009404, scaled_adc_data_real: 7.701518, adc_data: 007
+Iteratio: 45, Time: 210000, current_time: 0.000000, pulse_val: 0.007960, scaled_adc_data_real: 6.519194, adc_data: 006
+Iteratio: 46, Time: 213000, current_time: 0.000000, pulse_val: 0.006738, scaled_adc_data_real: 5.518379, adc_data: 005
+Iteratio: 47, Time: 216000, current_time: 0.000000, pulse_val: 0.005704, scaled_adc_data_real: 4.671207, adc_data: 004
+Iteratio: 48, Time: 219000, current_time: 0.000000, pulse_val: 0.004828, scaled_adc_data_real: 3.954091, adc_data: 003
+Iteratio: 49, Time: 222000, current_time: 0.000000, pulse_val: 0.004087, scaled_adc_data_real: 3.347066, adc_data: 003
+Iteratio: 50, Time: 225000, current_time: 0.000000, pulse_val: 0.003459, scaled_adc_data_real: 2.833230, adc_data: 002
 
 --- Simulation Complete ---
 
 --- Interpolated Data Results ---
-Non-interpolated Integral (TB): 2.494383e-08 V*s
-Interpolated Integral (TB): 2.557239e-08 V*s
-Interpolated Integral (DUT): 2.553988e-08 V*s
-Interpolated Duration: 248.472000 ns
-$finish called at time : 260385 ps : File "C:/Users/wikto/praca_magisterska/masters_project/masters_project.srcs/sim_1/new/testbench.sv" Line 124
+Non-interpolated Integral (TB): 2.516418e-08 V*s, raw: 6966
+Interpolated Integral (TB): 2.516418e-08 V*s, raw: 27864
+Interpolated Integral (DUT): 2.503956e-08 V*s, raw: 27726
+Interpolated Duration: 180.495000 ns
+$finish called at time : 257426 ps : File "C:/Users/wikto/praca_magisterska/masters_project/masters_project.srcs/sim_1/new/testbench.sv" Line 122
