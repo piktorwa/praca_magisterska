@@ -41,4 +41,4 @@ EAStep()
      fi
 }
 
-EAStep vivado -log kria_pulse_system.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source kria_pulse_system.tcl
+EAStep vivado -log top_module.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source top_module.tcl

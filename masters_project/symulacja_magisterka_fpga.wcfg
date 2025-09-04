@@ -11,13 +11,13 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="199.507 ns"></ZoomStartTime>
-      <ZoomEndTime time="231.658 ns"></ZoomEndTime>
-      <Cursor1Time time="233.175 ns"></Cursor1Time>
+      <ZoomStartTime time="212.590 ns"></ZoomStartTime>
+      <ZoomEndTime time="249.604 ns"></ZoomEndTime>
+      <Cursor1Time time="257.426 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="213"></NameColumnWidth>
-      <ValueColumnWidth column_width="175"></ValueColumnWidth>
+      <ValueColumnWidth column_width="171"></ValueColumnWidth>
    </column_width_setting>
    <WVObjectSize size="12" />
    <wvobject fp_name="/testbench/clk" type="logic">
@@ -46,17 +46,17 @@
    <wvobject fp_name="/testbench/integral_value" type="array">
       <obj_property name="ElementShortName">integral_value[31:0]</obj_property>
       <obj_property name="ObjectShortName">integral_value[31:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/testbench/tb_non_interp_integral_sum" type="array">
       <obj_property name="ElementShortName">tb_non_interp_integral_sum[63:0]</obj_property>
       <obj_property name="ObjectShortName">tb_non_interp_integral_sum[63:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/testbench/tb_interp_integral_sum" type="array">
       <obj_property name="ElementShortName">tb_interp_integral_sum[63:0]</obj_property>
       <obj_property name="ObjectShortName">tb_interp_integral_sum[63:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/testbench/tr_val" type="other">
       <obj_property name="ElementShortName">tr_val</obj_property>

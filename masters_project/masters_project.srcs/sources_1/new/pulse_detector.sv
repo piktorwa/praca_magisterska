@@ -41,7 +41,7 @@ module pulse_detector (
             case (pulse_state)
                 IDLE: begin
                     // Look for a significant rise from baseline
-                    if (adc_data > (prev_adc_data + RISING_EDGE_THRESHOLD) && adc_data > BASELINE_THRESHOLD) begin
+                    if (prev_adc_data > prev_prev_adc_data && adc_data > (prev_adc_data + RISING_EDGE_THRESHOLD) && adc_data > BASELINE_THRESHOLD) begin
                         pulse_state <= RISING;
                         current_pulse_start_val <= prev_adc_data; // Value just before significant rise
                         current_pulse_peak_val <= adc_data;

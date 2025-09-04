@@ -15,6 +15,7 @@ module testbench;
     logic interp_en;
     logic [11:0] processed_data; // Adjusted to 12-bit processed data
     logic [31:0] integral_value;
+    logic [31:0] integral_value_interp;
     logic pulse_detected_displayed;
     real pulse_detection_time;
     real integral_ready_time;
@@ -24,9 +25,10 @@ module testbench;
     real end_time = 0.0;
 
     // Variables for integral verification
-    longint tb_non_interp_integral_sum = 0;
-    longint tb_interp_integral_sum = 0;
-    longint prev_adc_data = 0;
+    real tb_non_interp_integral_sum = 0;
+    real tb_interp_integral_sum = 0;
+    real prev_adc_data = 0;
+    real delta;
 
     // Instantiate the Device Under Test (DUT)
     top_module dut (
@@ -64,7 +66,7 @@ module testbench;
     // Reset generation and test stimulus
     initial begin
         // Use parameters defined at the top of the module
-        real A = tr_val * 1e8; // Amplitude (V) - original definition
+        real A = 0.1; // Amplitude (V) - original definition
         real sigma = sigma_val; // Use the calculated sigma_val
         real tau = 3 * sigma; // Related to exponential decay (ns)
         real time_step = sigma / 2; // Time per clock cycle in ns
@@ -89,8 +91,8 @@ module testbench;
             #(CLK_PERIOD);
         end
 
-        // Test Case 2: Single pulse with new definition
-        $display("\n--- Test Case 2: Single pulse (new definition) ---");
+        // Test Case 2: Single pulse
+        $display("\n--- Test Case 2: Single pulse ---");
         
         #(CLK_PERIOD * 2) rst_n = 0; // Assert reset for 2 clock cycles
         #(CLK_PERIOD * 2) rst_n = 1;
@@ -102,20 +104,44 @@ module testbench;
             // Scale pulse_val (0-5V) to 12-bit ADC data (0-4095)
             // Assuming 5V max input for ADC, so 5V maps to 12'hFFF
             adc_data = $rtoi((pulse_val / 5.0) * 4095.0);
-            $display("Iteratio: %0d, Time: %0t, current_time: %0f, pulse_val: %0f, scaled_adc_data_real: %0f, adc_data: %h", i, $time, current_time_local, pulse_val, (pulse_val / 5.0) * 4095.0, adc_data);
+            $display("Iteration: %0d, Time: %0t, pulse_val: %0f, scaled_adc_data_real: %0f, adc_data: %h", i, $time, pulse_val, (pulse_val / 5.0) * 4095.0, adc_data);
+            
+            // Accumulate for interpolated integral (for verification)
+            delta = (adc_data - prev_adc_data) / 4;          
+            tb_interp_integral_sum += (prev_adc_data * 4 + (delta * 6));
+            prev_adc_data = adc_data;
+            #(CLK_PERIOD);
+            current_time_local = current_time_local + time_step;
+        end
+        integral_value_interp = integral_value;
+        adc_data = 12'd0; // End of pulse
+        #(CLK_PERIOD * 10);
+
+        end_time = $realtime;
+        
+        current_time_local = -8.0 * sigma;
+        // Test Case 2: Single pulse
+        $display("\n--- Test Case 3: Single pulse - no interpoaltion---");
+        
+        #(CLK_PERIOD * 2) rst_n = 0; // Assert reset for 2 clock cycles
+        #(CLK_PERIOD * 2) rst_n = 1;
+        interp_en = 0;
+        start_time = $realtime;
+        
+        for (int i = 0; i < num_samples; i++) begin
+            real pulse_val = get_pulse_value(current_time_local, A, sigma, tau);
+            // Scale pulse_val (0-5V) to 12-bit ADC data (0-4095)
+            // Assuming 5V max input for ADC, so 5V maps to 12'hFFF
+            adc_data = $rtoi((pulse_val / 5.0) * 4095.0);
+            $display("Iteration: %0d, Time: %0t, pulse_val: %0f, scaled_adc_data_real: %0f, adc_data: %h", i, $time, pulse_val, (pulse_val / 5.0) * 4095.0, adc_data);
             
             // Accumulate for non-interpolated integral (for verification)
             tb_non_interp_integral_sum += adc_data;
-            prev_adc_data = adc_data;
-            tb_interp_integral_sum += (prev_adc_data * 4 + ((adc_data - prev_adc_data) * 6 / 4));
             #(CLK_PERIOD);
             current_time_local = current_time_local + time_step;
         end
         adc_data = 12'd0; // End of pulse
         #(CLK_PERIOD * 10);
-
-        end_time = $realtime;
-
 
         // End simulation
         $display("\n--- Simulation Complete ---");
@@ -126,8 +152,9 @@ module testbench;
     final begin
         $display("\n--- Interpolated Data Results ---");
         $display("Non-interpolated Integral (TB): %0e V*s, raw: %0d", tb_non_interp_integral_sum * (5.0 / 4095.0) * CLK_PERIOD_REAL * 1e-9, tb_non_interp_integral_sum);
+        $display("Non-interpolated Integral (DUT): %0e V*s, raw: %0d", integral_value * (5.0 / 4095.0) * CLK_PERIOD_REAL * 1e-9, integral_value);
         $display("Interpolated Integral (TB): %0e V*s, raw: %0d", tb_interp_integral_sum * (5.0 / 4095.0) * CLK_PERIOD_REAL * 1e-9 / 4, tb_interp_integral_sum);
-        $display("Interpolated Integral (DUT): %0e V*s, raw: %0d", integral_value * (5.0 / 4095.0) * CLK_PERIOD_REAL * 1e-9 / 4, integral_value); // Display DUT's final integral
+        $display("Interpolated Integral (DUT): %0e V*s, raw: %0d", integral_value_interp * (5.0 / 4095.0) * CLK_PERIOD_REAL * 1e-9 / 4, integral_value_interp); // Display DUT's final integral
         $display("Interpolated Duration: %0f ns", (end_time - start_time) / 1ns);
     end
 

@@ -11,12 +11,7 @@ module linear_interpolator (
     // Internal registers for interpolation
     logic [11:0] prev_adc_sample;
     logic [11:0] current_adc_sample;
-    logic interpolating_active;
-
-    // Output registers
-    logic [11:0] interpolated_data_reg;
-    logic valid_interpolated_data_reg;
-    
+    logic interpolating_active;    
     
     integer delta_val_signed;
     // Declare intermediate variables within the always_ff block or as local variables
@@ -29,18 +24,19 @@ module linear_interpolator (
             prev_adc_sample <= 12'b0;
             current_adc_sample <= 12'b0;
             interpolating_active <= 1'b0;
-            interpolated_data_reg <= 12'b0;
-            valid_interpolated_data_reg <= 1'b0;
+            interpolated_data <= 12'b0;
+            valid_interpolated_data <= 1'b0;
         end else begin
-            valid_interpolated_data_reg <= 1'b0; // Default to not valid
+            valid_interpolated_data <= 1'b0; // Default to not valid
+            prev_adc_sample <= current_adc_sample;
+            current_adc_sample <= adc_data;
             if (pulse_detected) begin
                 if (interp_en) begin
-                    prev_adc_sample <= current_adc_sample;
-                    current_adc_sample <= adc_data;
                     interpolating_active <= 1'b1;
                     // Generate 3 new samples
                     // Perform linear interpolation
-                    // interpolated_value = prev_adc_sample * 4 + (current_adc_sample - prev_adc_sample) * 6
+                    // interpolated_value = prev_adc_sample * 4 + delta_val_signed * 6
+                    // delta_val_signed = (current_adc_sample - prev_adc_sample) / 4
                     // To avoid floating point, use fixed-point arithmetic or shift operations
 
                     delta_val_signed = ($signed(current_adc_sample) - $signed(prev_adc_sample)) / 4;
@@ -52,17 +48,14 @@ module linear_interpolator (
                     interpolated_data <= $signed(prev_adc_sample) * 4 + delta_val_signed * 6;
                     valid_interpolated_data <= 1'b1;
                     interpolating_active <= 1'b0;
-                    end else begin
-                        // If not interpolating, just pass through the ADC data (or hold last value)
-                        interpolated_data_reg <= adc_data;
-                        valid_interpolated_data_reg <= 1'b1; // Always valid when not interpolating (or based on pulse_detected)
-                end      
+                end else begin
+                    // If not interpolating, just pass through the ADC data (or hold last value)
+                    interpolated_data <= prev_adc_sample;
+                    valid_interpolated_data <= 1'b1; // Always valid when not interpolating (or based on pulse_detected)
+                end
             end 
         end
     end
-
-    //assign interpolated_data = interpolated_data_reg;
-    //assign valid_interpolated_data = valid_interpolated_data_reg;
 
 endmodule
 
