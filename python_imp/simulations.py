@@ -42,7 +42,7 @@ def plot_for_sample_pulse():
         num_samples = int(sps * ((stop_time - start_time) / sigma))
         sample_sizes.append(num_samples)
 
-    phase = sigma * 347/360 # phase shift in seconds
+    phase = sigma * 0/360 # phase shift in seconds
     start_time += phase
     stop_time += phase
 
@@ -115,10 +115,12 @@ def plot_for_sample_pulse():
     # --- Plot 1: Only the reference pulse ---
     plt.figure(1)
     plt.plot(np.array(time_arr)*1e9, value_arr, label="puls PMT")
-    plt.xlabel("Czas [ns]")
-    plt.ylabel("Amplituda [V]")
-    plt.title("Referencyjny puls PMT")
-    plt.legend()
+    plt.xlabel("Czas [ns]", fontsize=28)
+    plt.ylabel("Amplituda [V]", fontsize=28)
+    plt.xticks(fontsize=22)
+    plt.yticks(fontsize=22)
+    plt.title("Referencyjny puls PMT", fontsize=28)
+    plt.legend(fontsize=22)
     plt.grid()
 
     # --- Plot 2+: Pulse with overlaid samples for each ADC type and sample size ---
@@ -136,10 +138,12 @@ def plot_for_sample_pulse():
             plt.figure(fig_num)
             plt.plot(np.array(time_arr)*1e9, value_arr, label="PMT pulse")
             plt.plot(np.array(t_samples)*1e9, y_samples, 'ro', linestyle='', label=f"{sps} SPS")
-            plt.xlabel("Czas [ns]")
-            plt.ylabel("Amplituda [V]")
-            plt.title(f"Próbki {adc_labels[adc_type]} - {sps} {'próbka' if sps == 1 else 'próbki'} na sigmę")
-            plt.legend()
+            plt.xlabel("Czas [ns]", fontsize=28)
+            plt.ylabel("Amplituda [V]", fontsize=28)
+            plt.xticks(fontsize=22)
+            plt.yticks(fontsize=22)
+            plt.title(f"Próbki {adc_labels[adc_type]} - {sps} {'próbka' if sps == 1 else 'próbki'} na sigmę", fontsize=28)
+            plt.legend(fontsize=22)
             plt.grid()
             fig_num += 1
     
@@ -346,6 +350,57 @@ def plot_for_sample_pulse():
                 sps, sample_label, integral_val, abs_err, rel_err))
         print("-"*85)
 
+    # Plot bar charts of relative errors
+    rel_errors = {
+        'n-bit': {},
+        '8bit': {},
+        '12bit': {}
+    }
+    for adc_key in rel_errors:
+        rel_errors[adc_key] = {}
+        for sps in samples_per_sigma:
+            # Raw
+            t_raw, y_raw = samples[adc_key][sps]
+            integral_raw = integral.integrate_rectangle_method(t_raw, y_raw)
+            _, rel_err_raw = integral.calculate_error(integral_raw, reference_result)
+
+            # Linear
+            t_linear, y_linear = linear_interpolations[adc_key][sps]
+            integral_linear = integral.integrate_rectangle_method(t_linear, y_linear)
+            _, rel_err_linear = integral.calculate_error(integral_linear, reference_result)
+
+            # Polynomial
+            t_poly, y_poly = polynomial_interpolations[adc_key][sps]
+            integral_poly = integral.integrate_rectangle_method(t_poly, y_poly)
+            _, rel_err_poly = integral.calculate_error(integral_poly, reference_result)
+
+            # Cubic spline
+            t_cubic, y_cubic = cubic_spline_interpolations[adc_key][sps]
+            integral_cubic = integral.integrate_rectangle_method(t_cubic, y_cubic)
+            _, rel_err_cubic = integral.calculate_error(integral_cubic, reference_result)
+
+            rel_errors[adc_key][sps] = [rel_err_raw, rel_err_linear, rel_err_poly, rel_err_cubic]
+    
+    interp_labels = ['Bez interpolacji', 'Interpolacja liniowa', f'Interpolacja wielomianowa {poly_degree} st.', 'Interpolacja cubic spline']
+    interp_colors = ['tab:blue', 'tab:orange', 'tab:green', 'tab:red']
+    bar_width = 0.18
+    x = np.arange(len(samples_per_sigma))  # [0, 1, 2] for SPS=1,2,3
+
+    for adc_key, adc_label in adc_labels.items():
+        plt.figure(figsize=(10, 6))
+        # For each interpolation, plot bars for all SPS
+        for i, (interp_label, color) in enumerate(zip(interp_labels, interp_colors)):
+            # Get errors for all SPS for this interpolation
+            y = [rel_errors[adc_key][sps][i] for sps in samples_per_sigma]
+            plt.bar(x + i*bar_width, y, width=bar_width, color=color, label=interp_label, zorder=2)
+        plt.xlabel("Liczba próbek na sigmę", fontsize=28)
+        plt.ylabel("Błąd względny [%]", fontsize=28)
+        plt.title(f"Błąd względny dla {adc_label}", fontsize=28)
+        plt.xticks(x + 1.5*bar_width, samples_per_sigma, fontsize=22)  # Center group labels
+        plt.yticks(fontsize=22)
+        plt.grid(axis='y', linestyle='-', alpha=0.7, zorder=1)
+        plt.legend(fontsize=22)
+        plt.tight_layout()
     plt.show()
 
 def worst_case_for_amplitudes():
@@ -509,7 +564,7 @@ def worst_case_for_amplitudes():
         x = samples_per_sigma # [1, 2, 3, 4]
         x_labels = [str(sps) for sps in samples_per_sigma]
         fig = plt.figure(figsize=(15, 10))
-        fig.suptitle(f"Maksymalne błędy względne dla amplitudy {A} V", fontsize=16)
+        fig.suptitle(f"Maksymalne błędy względne dla amplitudy {A} V", fontsize=28)
         n_rows = len(interp_names) - 1
         plot_num = 1
         for interp_type, interp_label in interp_names.items():
@@ -518,17 +573,19 @@ def worst_case_for_amplitudes():
                 for adc_type, adc_label in adc_names.items():
                     y_values = [max_errors[interp_type][adc_type][sps]['max_error'] for sps in samples_per_sigma]
                     ax.plot(x, y_values, marker='o', label=adc_label)
-                ax.set_ylabel(f"{interp_label}\nBłąd względny [%]")
+                ax.set_ylabel(f"{interp_label}\nBłąd względny [%]", fontsize=12)
                 ax.set_xticks(x)
                 ax.set_xlim([min(x)-0.2, max(x)+0.2])
+                ax.tick_params(axis='x', labelsize=22)
+                ax.tick_params(axis='y', labelsize=22)
                 if plot_num == n_rows:
-                    ax.set_xlabel("samples per sigma")
-                    ax.set_xticklabels(x_labels)
+                    ax.set_xlabel("samples per sigma", fontsize=28)
+                    ax.set_xticklabels(x_labels, fontsize=22)
                 else:
                     ax.set_xticklabels([])
                 ax.grid(True)
-                ax.legend()
-                plot_num += 1 
+                ax.legend(fontsize=22)
+                plot_num += 1
         plt.tight_layout()
         plt.subplots_adjust(top=0.9)
     
@@ -687,12 +744,15 @@ def error_vs_amplitudes():
                 y = max_errors[interp][adc][sps]
                 label = f"{adc_labels[adc]}, {sps} {'próbka' if sps == 1 else 'próbki'} na sigmę"
                 plt.plot(amplitudes, y, marker='o', label=label)
-            plt.xlabel("Amplituda [V]")
-            plt.ylabel("Maksymalny błąd względny [%]")
-            plt.title(f"{interp_labels[interp]}: Maksymalny błąd względny vs amplituda dla {adc_labels[adc]}")
-            plt.legend()
+            plt.xlabel("Amplituda [V]", fontsize=28)
+            plt.ylabel("Maksymalny błąd względny [%]", fontsize=28)
+            plt.title(f"{interp_labels[interp]}: Maksymalny błąd względny vs amplituda dla {adc_labels[adc]}", fontsize=22)
+            plt.legend(fontsize=22)
+            plt.xticks(fontsize=22)
+            plt.yticks(fontsize=22)     
             plt.grid(True)
             plt.tight_layout()
+            plt.subplots_adjust(left=0.08, right=0.96)
             fig_num += 1
 
         for sps in samples_per_sigma:
@@ -701,12 +761,15 @@ def error_vs_amplitudes():
                 y = max_errors[interp][adc][sps]
                 label = f"{adc_labels[adc]}"
                 plt.plot(amplitudes, y, marker='o', label=label)
-            plt.xlabel("Amplituda [V]")
-            plt.ylabel("Maksymalny błąd względny [%]")
-            plt.title(f"{interp_labels[interp]}: Maksymalny błąd względny vs amplituda dla {sps} {'próbka' if sps == 1 else 'próbki'} na sigmę")
-            plt.legend()
+            plt.xlabel("Amplituda [V]", fontsize=28)
+            plt.ylabel("Maksymalny błąd względny [%]", fontsize=28)
+            plt.title(f"{interp_labels[interp]}: Maksymalny błąd względny vs amplituda dla {sps} {'próbka' if sps == 1 else 'próbki'} na sigmę", fontsize=22)
+            plt.legend(fontsize=22)
+            plt.xticks(fontsize=22)
+            plt.yticks(fontsize=22)
             plt.grid(True)
             plt.tight_layout()
+            plt.subplots_adjust(left=0.08, right=0.96)
             fig_num += 1
     plt.show()
 
@@ -883,7 +946,7 @@ def error_vs_phase():
     # 1. Plot: Relative error vs phase for different ADC types for each sample size
     for sps in samples_per_sigma:
         fig = plt.figure(figsize=(15, 10))
-        fig.suptitle(f"Błąd względny vs. faza dla amplitudy {A} V i {sps} {'próbka' if sps == 1 else 'próbki'} na sigme", fontsize=16)
+        fig.suptitle(f"Błąd względny vs. faza dla amplitudy {A} V i {sps} {'próbka' if sps == 1 else 'próbki'} na sigmę", fontsize=28)
 
         # List of axes
         axes = [plt.subplot(4, 1, i+1) for i in range(4)]
@@ -907,14 +970,15 @@ def error_vs_phase():
                     ax.plot(phases, y_values, marker='.', label=adc_label, color='tab:orange')
 
             # Add labels and grid
-            ax.set_ylabel(f"{interp_names[interp_type]}\nBłąd względny [%]")
+            ax.set_ylabel(f"{interp_names[interp_type]}\nBłąd względny [%]", fontsize=10)
             ax.grid(True)
-            ax.legend()
+            ax.legend(fontsize=16)
             
             # Add x-axis label only for the bottom plot
             if i == len(interp_types) - 1:
-                ax.set_xlabel("Faza [°]")
-        
+                ax.set_xlabel("Faza [°]", fontsize=24)
+            ax.tick_params(axis='x', labelsize=16)
+            ax.tick_params(axis='y', labelsize=16)  
         # Adjust layout
         plt.tight_layout()
         plt.subplots_adjust(top=0.9)
@@ -922,8 +986,8 @@ def error_vs_phase():
     # 2. Plot: Relative error vs phase for different sample sizes for each ADC type
     for adc_type, adc_label in adc_names.items():
         fig = plt.figure(figsize=(15, 10))
-        fig.suptitle(f"Błąd względny vs. faza dla amplitudy {A} V i {adc_label}", fontsize=16)
-        
+        fig.suptitle(f"Błąd względny vs. faza dla amplitudy {A} V i {adc_label}", fontsize=28)
+
         # List of axes
         axes = [plt.subplot(4, 1, i+1) for i in range(4)]
 
@@ -940,14 +1004,15 @@ def error_vs_phase():
                 ax.plot(phases, y_values, marker='.', label=f"{sps} {'próbka' if sps == 1 else 'próbki'}")
 
             # Add labels and grid
-            ax.set_ylabel(f"{interp_names[interp_type]}\nBłąd względny [%]")
+            ax.set_ylabel(f"{interp_names[interp_type]}\nBłąd względny [%]", fontsize=10)
             ax.grid(True)
-            ax.legend()
+            ax.legend(fontsize=16)
             
             # Add x-axis label only for the bottom plot
             if i == len(interp_types) - 1:
-                ax.set_xlabel("Faza [°]")
-        
+                ax.set_xlabel("Faza [°]", fontsize=24)
+            ax.tick_params(axis='x', labelsize=16)
+            ax.tick_params(axis='y', labelsize=16)
         # Adjust layout
         plt.tight_layout()
         plt.subplots_adjust(top=0.9)
@@ -1085,6 +1150,43 @@ def monte_carlo_average_relative_error(num_iterations=1000):
             print("{:^12} | {:^10} | {:^10.5f} | {:^10.5f} | {:^10.5f} | {:^10.5f}".format(
                 method, adc, *means))
         print("-"*70)
+
+    # --- Prepare data for grouped bar chart ---
+    interp_labels = ['Bez interpolacji', 'Interpolacja liniowa', f'Interpolacja wielomianowa {poly_degree} st.', 'Interpolacja cubic spline']
+    interp_colors = ['tab:blue', 'tab:orange', 'tab:green', 'tab:red']
+    adc_labels = {
+        'n-bit': 'ADC ∞-bit',
+        '8bit': 'ADC 8-bit',
+        '12bit': 'ADC 12-bit'
+    }
+    bar_width = 0.18
+    x = np.arange(len(samples_per_sigma))  # [0, 1, 2, 3] for SPS=1,2,3,4
+
+    # Calculate mean relative errors for each ADC, SPS, interpolation
+    mean_rel_errors = {adc: [] for adc in adc_labels}
+    for adc_key in mean_rel_errors:
+        for sps in samples_per_sigma:
+            mean_raw = np.mean(errors['raw'][adc_key][sps])
+            mean_linear = np.mean(errors['linear'][adc_key][sps])
+            mean_poly = np.mean(errors['poly'][adc_key][sps])
+            mean_cubic = np.mean(errors['cubic'][adc_key][sps])
+            mean_rel_errors[adc_key].append([mean_raw, mean_linear, mean_poly, mean_cubic])
+
+    # --- Plot grouped bar charts for each ADC ---
+    for adc_key, adc_label in adc_labels.items():
+        plt.figure(figsize=(10, 6))
+        for i, (interp_label, color) in enumerate(zip(interp_labels, interp_colors)):
+            y = [mean_rel_errors[adc_key][j][i] for j in range(len(samples_per_sigma))]
+            plt.bar(x + i*bar_width, y, width=bar_width, color=color, label=interp_label, zorder=2)
+        plt.xlabel("Liczba próbek na sigmę", fontsize=28)
+        plt.ylabel("Średni błąd względny [%]", fontsize=28)
+        plt.title(f"Średni błąd względny (Monte Carlo, N={num_iterations}) dla {adc_label}", fontsize=28)
+        plt.xticks(x + 1.5*bar_width, samples_per_sigma, fontsize=22)
+        plt.yticks(fontsize=22)
+        plt.grid(axis='y', linestyle='-', alpha=0.7, zorder=1)
+        plt.legend(fontsize=22)
+        plt.tight_layout()
+    plt.show()
 
     for A in amplitudes:
         for i in range(num_iterations):

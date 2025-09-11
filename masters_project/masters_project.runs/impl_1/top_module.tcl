@@ -97,8 +97,6 @@ proc step_failed { step } {
 OPTRACE "impl_1" END { }
 }
 
-set_msg_config -id {Synth 8-256} -limit 10000
-set_msg_config -id {Synth 8-638} -limit 10000
 
 OPTRACE "impl_1" START { ROLLUP_1 }
 OPTRACE "Phase: Init Design" START { ROLLUP_AUTO }
@@ -107,12 +105,9 @@ set ACTIVE_STEP init_design
 set rc [catch {
   create_msg_db init_design.pb
   set_param chipscope.maxJobs 2
-  set_param synth.incrementalSynthesisCache C:/Users/wikto/AppData/Roaming/Xilinx/Vivado/.Xil/Vivado-29908-IMUPOSIBRU/incrSyn
-  set_param checkpoint.writeSynthRtdsInDcp 1
   set_param runs.launchOptions { -jobs 8  }
 OPTRACE "create in-memory project" START { }
-  create_project -in_memory -part xck26-sfvc784-2LV-c
-  set_property board_part xilinx.com:kv260_som:part0:1.4 [current_project]
+  create_project -in_memory -part xcau7p-fcva289-2-e
   set_property design_mode GateLvl [current_fileset]
   set_param project.singleFileAddWarning.threshold 0
 OPTRACE "create in-memory project" END { }
@@ -125,12 +120,13 @@ OPTRACE "set parameters" END { }
 OPTRACE "add files" START { }
   add_files -quiet C:/Users/wikto/praca_magisterska/masters_project/masters_project.runs/synth_1/top_module.dcp
 OPTRACE "read constraints: implementation" START { }
+  read_xdc C:/Users/wikto/praca_magisterska/masters_project/masters_project.srcs/constrs_1/new/masters_constr.xdc
 OPTRACE "read constraints: implementation" END { }
 OPTRACE "read constraints: implementation_pre" START { }
 OPTRACE "read constraints: implementation_pre" END { }
 OPTRACE "add files" END { }
 OPTRACE "link_design" START { }
-  link_design -top top_module -part xck26-sfvc784-2LV-c 
+  link_design -top top_module -part xcau7p-fcva289-2-e 
 OPTRACE "link_design" END { }
 OPTRACE "gray box cells" START { }
 OPTRACE "gray box cells" END { }

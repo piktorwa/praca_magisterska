@@ -3,8 +3,8 @@
 # SW Build 5239630 on Fri Nov 08 22:35:27 MST 2024
 # IP Build 5239520 on Sun Nov 10 16:12:51 MST 2024
 # SharedData Build 5239561 on Fri Nov 08 14:39:27 MST 2024
-# Start of session at: Thu Sep  4 19:45:12 2025
-# Process ID         : 11736
+# Start of session at: Wed Sep 10 14:52:00 2025
+# Process ID         : 11300
 # Current directory  : C:/Users/wikto/praca_magisterska/masters_project/masters_project.runs/impl_1
 # Command line       : vivado.exe -log top_module.vdi -applog -product Vivado -messageDb vivado.pb -mode batch -source top_module.tcl -notrace
 # Log file           : C:/Users/wikto/praca_magisterska/masters_project/masters_project.runs/impl_1/top_module.vdi
@@ -19,6 +19,6 @@
 # Host memory        : 34266 MB
 # Swap memory        : 2147 MB
 # Total Virtual      : 36414 MB
-# Available Virtual  : 10274 MB
+# Available Virtual  : 10801 MB
 #-----------------------------------------------------------
 source top_module.tcl -notrace

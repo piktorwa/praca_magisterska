@@ -1,14 +1,14 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version      : Vivado v.2024.2 (win64) Build 5239630 Fri Nov 08 22:35:27 MST 2024
-| Date              : Thu Sep  4 19:48:21 2025
+| Date              : Wed Sep 10 14:54:40 2025
 | Host              : IMUPOSIBRU running 64-bit major release  (build 9200)
 | Command           : report_bus_skew -warn_on_violation -file top_module_bus_skew_routed.rpt -pb top_module_bus_skew_routed.pb -rpx top_module_bus_skew_routed.rpx
 | Design            : top_module
-| Device            : xck26-sfvc784
-| Speed File        : -2LV  PRODUCTION 1.30 05-15-2022
+| Device            : xcau7p-fcva289
+| Speed File        : -2  PRODUCTION 1.04 04-20-2024
 | Design State      : Routed
-| Temperature Grade : C
+| Temperature Grade : E
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Bus Skew Report

@@ -56,12 +56,8 @@ if {$::dispatch::connected} {
 }
 
 OPTRACE "synth_1" START { ROLLUP_AUTO }
-set_param synth.incrementalSynthesisCache C:/Users/wikto/AppData/Roaming/Xilinx/Vivado/.Xil/Vivado-29908-IMUPOSIBRU/incrSyn
-set_param checkpoint.writeSynthRtdsInDcp 1
-set_msg_config -id {Synth 8-256} -limit 10000
-set_msg_config -id {Synth 8-638} -limit 10000
 OPTRACE "Creating in-memory project" START { }
-create_project -in_memory -part xck26-sfvc784-2LV-c
+create_project -in_memory -part xcau7p-fcva289-2-e
 
 set_param project.singleFileAddWarning.threshold 0
 set_param project.compositeFile.enableAutoGeneration 0
@@ -70,14 +66,12 @@ set_property webtalk.parent_dir C:/Users/wikto/praca_magisterska/masters_project
 set_property parent.project_path C:/Users/wikto/praca_magisterska/masters_project/masters_project.xpr [current_project]
 set_property default_lib xil_defaultlib [current_project]
 set_property target_language Verilog [current_project]
-set_property board_part xilinx.com:kv260_som:part0:1.4 [current_project]
 set_property ip_output_repo c:/Users/wikto/praca_magisterska/masters_project/masters_project.cache/ip [current_project]
 set_property ip_cache_permissions {read write} [current_project]
 OPTRACE "Creating in-memory project" END { }
 OPTRACE "Adding files" START { }
 read_verilog -library xil_defaultlib -sv {
   C:/Users/wikto/praca_magisterska/masters_project/masters_project.srcs/sources_1/new/integral_calculator.sv
-  C:/Users/wikto/praca_magisterska/masters_project/masters_project.srcs/sources_1/new/linear_interpolator.sv
   C:/Users/wikto/praca_magisterska/masters_project/masters_project.srcs/sources_1/new/pulse_detector.sv
   C:/Users/wikto/praca_magisterska/masters_project/masters_project.srcs/sources_1/new/top_module.sv
 }
@@ -90,13 +84,16 @@ OPTRACE "Adding files" END { }
 foreach dcp [get_files -quiet -all -filter file_type=="Design\ Checkpoint"] {
   set_property used_in_implementation false $dcp
 }
+read_xdc C:/Users/wikto/praca_magisterska/masters_project/masters_project.srcs/constrs_1/new/masters_constr.xdc
+set_property used_in_implementation false [get_files C:/Users/wikto/praca_magisterska/masters_project/masters_project.srcs/constrs_1/new/masters_constr.xdc]
+
 set_param ips.enableIPCacheLiteLoad 1
 
 read_checkpoint -auto_incremental -incremental C:/Users/wikto/praca_magisterska/masters_project/masters_project.srcs/utils_1/imports/synth_1/kria_pulse_system.dcp
 close [open __synthesis_is_running__ w]
 
 OPTRACE "synth_design" START { }
-synth_design -top top_module -part xck26-sfvc784-2LV-c
+synth_design -top top_module -part xcau7p-fcva289-2-e
 OPTRACE "synth_design" END { }
 if { [get_msg_config -count -severity {CRITICAL WARNING}] > 0 } {
  send_msg_id runtcl-6 info "Synthesis results are not added to the cache due to CRITICAL_WARNING"

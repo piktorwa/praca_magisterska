@@ -1,12 +1,12 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2024.2 (win64) Build 5239630 Fri Nov 08 22:35:27 MST 2024
-| Date         : Thu Sep  4 19:48:09 2025
+| Date         : Wed Sep 10 14:54:35 2025
 | Host         : IMUPOSIBRU running 64-bit major release  (build 9200)
 | Command      : report_methodology -file top_module_methodology_drc_routed.rpt -pb top_module_methodology_drc_routed.pb -rpx top_module_methodology_drc_routed.rpx
 | Design       : top_module
-| Device       : xck26-sfvc784-2LV-c
-| Speed File   : -2LV
+| Device       : xcau7p-fcva289-2-e
+| Speed File   : -2
 | Design State : Fully Routed
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -23,548 +23,243 @@ Table of Contents
           Floorplan: design_1
       Design limits: <entire design considered>
              Max checks: <unlimited>
-             Checks found: 107
-+-----------+------------------+-----------------------------+--------+
-| Rule      | Severity         | Description                 | Checks |
-+-----------+------------------+-----------------------------+--------+
-| TIMING-17 | Critical Warning | Non-clocked sequential cell | 107    |
-+-----------+------------------+-----------------------------+--------+
+             Checks found: 46
++-----------+----------+-------------------------------+--------+
+| Rule      | Severity | Description                   | Checks |
++-----------+----------+-------------------------------+--------+
+| TIMING-18 | Warning  | Missing input or output delay | 46     |
++-----------+----------+-------------------------------+--------+
 
 2. REPORT DETAILS
 -----------------
-TIMING-17#1 Critical Warning
-Non-clocked sequential cell  
-The clock pin ic_inst/integral_ready_reg/C is not reached by a timing clock
+TIMING-18#1 Warning
+Missing input or output delay  
+An input delay is missing on adc_data[0] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
-TIMING-17#2 Critical Warning
-Non-clocked sequential cell  
-The clock pin ic_inst/integral_sum_reg[0]/C is not reached by a timing clock
+TIMING-18#2 Warning
+Missing input or output delay  
+An input delay is missing on adc_data[10] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
-TIMING-17#3 Critical Warning
-Non-clocked sequential cell  
-The clock pin ic_inst/integral_sum_reg[10]/C is not reached by a timing clock
+TIMING-18#3 Warning
+Missing input or output delay  
+An input delay is missing on adc_data[11] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
-TIMING-17#4 Critical Warning
-Non-clocked sequential cell  
-The clock pin ic_inst/integral_sum_reg[11]/C is not reached by a timing clock
+TIMING-18#4 Warning
+Missing input or output delay  
+An input delay is missing on adc_data[1] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
-TIMING-17#5 Critical Warning
-Non-clocked sequential cell  
-The clock pin ic_inst/integral_sum_reg[12]/C is not reached by a timing clock
+TIMING-18#5 Warning
+Missing input or output delay  
+An input delay is missing on adc_data[2] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
-TIMING-17#6 Critical Warning
-Non-clocked sequential cell  
-The clock pin ic_inst/integral_sum_reg[13]/C is not reached by a timing clock
+TIMING-18#6 Warning
+Missing input or output delay  
+An input delay is missing on adc_data[3] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
-TIMING-17#7 Critical Warning
-Non-clocked sequential cell  
-The clock pin ic_inst/integral_sum_reg[14]/C is not reached by a timing clock
+TIMING-18#7 Warning
+Missing input or output delay  
+An input delay is missing on adc_data[4] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
-TIMING-17#8 Critical Warning
-Non-clocked sequential cell  
-The clock pin ic_inst/integral_sum_reg[15]/C is not reached by a timing clock
+TIMING-18#8 Warning
+Missing input or output delay  
+An input delay is missing on adc_data[5] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
-TIMING-17#9 Critical Warning
-Non-clocked sequential cell  
-The clock pin ic_inst/integral_sum_reg[16]/C is not reached by a timing clock
+TIMING-18#9 Warning
+Missing input or output delay  
+An input delay is missing on adc_data[6] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
-TIMING-17#10 Critical Warning
-Non-clocked sequential cell  
-The clock pin ic_inst/integral_sum_reg[17]/C is not reached by a timing clock
+TIMING-18#10 Warning
+Missing input or output delay  
+An input delay is missing on adc_data[7] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
-TIMING-17#11 Critical Warning
-Non-clocked sequential cell  
-The clock pin ic_inst/integral_sum_reg[18]/C is not reached by a timing clock
+TIMING-18#11 Warning
+Missing input or output delay  
+An input delay is missing on adc_data[8] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
-TIMING-17#12 Critical Warning
-Non-clocked sequential cell  
-The clock pin ic_inst/integral_sum_reg[19]/C is not reached by a timing clock
+TIMING-18#12 Warning
+Missing input or output delay  
+An input delay is missing on adc_data[9] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
-TIMING-17#13 Critical Warning
-Non-clocked sequential cell  
-The clock pin ic_inst/integral_sum_reg[1]/C is not reached by a timing clock
+TIMING-18#13 Warning
+Missing input or output delay  
+An input delay is missing on rst_n relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
-TIMING-17#14 Critical Warning
-Non-clocked sequential cell  
-The clock pin ic_inst/integral_sum_reg[20]/C is not reached by a timing clock
+TIMING-18#14 Warning
+Missing input or output delay  
+An output delay is missing on integral_ready relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
-TIMING-17#15 Critical Warning
-Non-clocked sequential cell  
-The clock pin ic_inst/integral_sum_reg[21]/C is not reached by a timing clock
+TIMING-18#15 Warning
+Missing input or output delay  
+An output delay is missing on integral_value[0] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
-TIMING-17#16 Critical Warning
-Non-clocked sequential cell  
-The clock pin ic_inst/integral_sum_reg[22]/C is not reached by a timing clock
+TIMING-18#16 Warning
+Missing input or output delay  
+An output delay is missing on integral_value[10] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
-TIMING-17#17 Critical Warning
-Non-clocked sequential cell  
-The clock pin ic_inst/integral_sum_reg[23]/C is not reached by a timing clock
+TIMING-18#17 Warning
+Missing input or output delay  
+An output delay is missing on integral_value[11] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
-TIMING-17#18 Critical Warning
-Non-clocked sequential cell  
-The clock pin ic_inst/integral_sum_reg[24]/C is not reached by a timing clock
+TIMING-18#18 Warning
+Missing input or output delay  
+An output delay is missing on integral_value[12] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
-TIMING-17#19 Critical Warning
-Non-clocked sequential cell  
-The clock pin ic_inst/integral_sum_reg[25]/C is not reached by a timing clock
+TIMING-18#19 Warning
+Missing input or output delay  
+An output delay is missing on integral_value[13] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
-TIMING-17#20 Critical Warning
-Non-clocked sequential cell  
-The clock pin ic_inst/integral_sum_reg[26]/C is not reached by a timing clock
+TIMING-18#20 Warning
+Missing input or output delay  
+An output delay is missing on integral_value[14] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
-TIMING-17#21 Critical Warning
-Non-clocked sequential cell  
-The clock pin ic_inst/integral_sum_reg[27]/C is not reached by a timing clock
+TIMING-18#21 Warning
+Missing input or output delay  
+An output delay is missing on integral_value[15] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
-TIMING-17#22 Critical Warning
-Non-clocked sequential cell  
-The clock pin ic_inst/integral_sum_reg[28]/C is not reached by a timing clock
+TIMING-18#22 Warning
+Missing input or output delay  
+An output delay is missing on integral_value[16] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
-TIMING-17#23 Critical Warning
-Non-clocked sequential cell  
-The clock pin ic_inst/integral_sum_reg[29]/C is not reached by a timing clock
+TIMING-18#23 Warning
+Missing input or output delay  
+An output delay is missing on integral_value[17] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
-TIMING-17#24 Critical Warning
-Non-clocked sequential cell  
-The clock pin ic_inst/integral_sum_reg[2]/C is not reached by a timing clock
+TIMING-18#24 Warning
+Missing input or output delay  
+An output delay is missing on integral_value[18] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
-TIMING-17#25 Critical Warning
-Non-clocked sequential cell  
-The clock pin ic_inst/integral_sum_reg[30]/C is not reached by a timing clock
+TIMING-18#25 Warning
+Missing input or output delay  
+An output delay is missing on integral_value[19] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
-TIMING-17#26 Critical Warning
-Non-clocked sequential cell  
-The clock pin ic_inst/integral_sum_reg[31]/C is not reached by a timing clock
+TIMING-18#26 Warning
+Missing input or output delay  
+An output delay is missing on integral_value[1] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
-TIMING-17#27 Critical Warning
-Non-clocked sequential cell  
-The clock pin ic_inst/integral_sum_reg[3]/C is not reached by a timing clock
+TIMING-18#27 Warning
+Missing input or output delay  
+An output delay is missing on integral_value[20] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
-TIMING-17#28 Critical Warning
-Non-clocked sequential cell  
-The clock pin ic_inst/integral_sum_reg[4]/C is not reached by a timing clock
+TIMING-18#28 Warning
+Missing input or output delay  
+An output delay is missing on integral_value[21] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
-TIMING-17#29 Critical Warning
-Non-clocked sequential cell  
-The clock pin ic_inst/integral_sum_reg[5]/C is not reached by a timing clock
+TIMING-18#29 Warning
+Missing input or output delay  
+An output delay is missing on integral_value[22] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
-TIMING-17#30 Critical Warning
-Non-clocked sequential cell  
-The clock pin ic_inst/integral_sum_reg[6]/C is not reached by a timing clock
+TIMING-18#30 Warning
+Missing input or output delay  
+An output delay is missing on integral_value[23] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
-TIMING-17#31 Critical Warning
-Non-clocked sequential cell  
-The clock pin ic_inst/integral_sum_reg[7]/C is not reached by a timing clock
+TIMING-18#31 Warning
+Missing input or output delay  
+An output delay is missing on integral_value[24] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
-TIMING-17#32 Critical Warning
-Non-clocked sequential cell  
-The clock pin ic_inst/integral_sum_reg[8]/C is not reached by a timing clock
+TIMING-18#32 Warning
+Missing input or output delay  
+An output delay is missing on integral_value[25] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
-TIMING-17#33 Critical Warning
-Non-clocked sequential cell  
-The clock pin ic_inst/integral_sum_reg[9]/C is not reached by a timing clock
+TIMING-18#33 Warning
+Missing input or output delay  
+An output delay is missing on integral_value[26] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
-TIMING-17#34 Critical Warning
-Non-clocked sequential cell  
-The clock pin ic_inst/perv_pulse_state_reg[0]/C is not reached by a timing clock
+TIMING-18#34 Warning
+Missing input or output delay  
+An output delay is missing on integral_value[27] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
-TIMING-17#35 Critical Warning
-Non-clocked sequential cell  
-The clock pin li_inst/interpolated_data_reg[0]/C is not reached by a timing clock
+TIMING-18#35 Warning
+Missing input or output delay  
+An output delay is missing on integral_value[28] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
-TIMING-17#36 Critical Warning
-Non-clocked sequential cell  
-The clock pin li_inst/interpolated_data_reg[0]_lopt_replica/C is not reached by a timing clock
+TIMING-18#36 Warning
+Missing input or output delay  
+An output delay is missing on integral_value[29] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
-TIMING-17#37 Critical Warning
-Non-clocked sequential cell  
-The clock pin li_inst/interpolated_data_reg[10]/C is not reached by a timing clock
+TIMING-18#37 Warning
+Missing input or output delay  
+An output delay is missing on integral_value[2] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
-TIMING-17#38 Critical Warning
-Non-clocked sequential cell  
-The clock pin li_inst/interpolated_data_reg[10]_lopt_replica/C is not reached by a timing clock
+TIMING-18#38 Warning
+Missing input or output delay  
+An output delay is missing on integral_value[30] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
-TIMING-17#39 Critical Warning
-Non-clocked sequential cell  
-The clock pin li_inst/interpolated_data_reg[11]/C is not reached by a timing clock
+TIMING-18#39 Warning
+Missing input or output delay  
+An output delay is missing on integral_value[31] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
-TIMING-17#40 Critical Warning
-Non-clocked sequential cell  
-The clock pin li_inst/interpolated_data_reg[11]_lopt_replica/C is not reached by a timing clock
+TIMING-18#40 Warning
+Missing input or output delay  
+An output delay is missing on integral_value[3] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
-TIMING-17#41 Critical Warning
-Non-clocked sequential cell  
-The clock pin li_inst/interpolated_data_reg[12]/C is not reached by a timing clock
+TIMING-18#41 Warning
+Missing input or output delay  
+An output delay is missing on integral_value[4] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
-TIMING-17#42 Critical Warning
-Non-clocked sequential cell  
-The clock pin li_inst/interpolated_data_reg[12]_lopt_replica/C is not reached by a timing clock
+TIMING-18#42 Warning
+Missing input or output delay  
+An output delay is missing on integral_value[5] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
-TIMING-17#43 Critical Warning
-Non-clocked sequential cell  
-The clock pin li_inst/interpolated_data_reg[13]/C is not reached by a timing clock
+TIMING-18#43 Warning
+Missing input or output delay  
+An output delay is missing on integral_value[6] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
-TIMING-17#44 Critical Warning
-Non-clocked sequential cell  
-The clock pin li_inst/interpolated_data_reg[13]_lopt_replica/C is not reached by a timing clock
+TIMING-18#44 Warning
+Missing input or output delay  
+An output delay is missing on integral_value[7] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
-TIMING-17#45 Critical Warning
-Non-clocked sequential cell  
-The clock pin li_inst/interpolated_data_reg[14]/C is not reached by a timing clock
+TIMING-18#45 Warning
+Missing input or output delay  
+An output delay is missing on integral_value[8] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
-TIMING-17#46 Critical Warning
-Non-clocked sequential cell  
-The clock pin li_inst/interpolated_data_reg[14]_lopt_replica/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#47 Critical Warning
-Non-clocked sequential cell  
-The clock pin li_inst/interpolated_data_reg[15]/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#48 Critical Warning
-Non-clocked sequential cell  
-The clock pin li_inst/interpolated_data_reg[15]_lopt_replica/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#49 Critical Warning
-Non-clocked sequential cell  
-The clock pin li_inst/interpolated_data_reg[1]/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#50 Critical Warning
-Non-clocked sequential cell  
-The clock pin li_inst/interpolated_data_reg[1]_lopt_replica/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#51 Critical Warning
-Non-clocked sequential cell  
-The clock pin li_inst/interpolated_data_reg[2]/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#52 Critical Warning
-Non-clocked sequential cell  
-The clock pin li_inst/interpolated_data_reg[2]_lopt_replica/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#53 Critical Warning
-Non-clocked sequential cell  
-The clock pin li_inst/interpolated_data_reg[3]/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#54 Critical Warning
-Non-clocked sequential cell  
-The clock pin li_inst/interpolated_data_reg[3]_lopt_replica/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#55 Critical Warning
-Non-clocked sequential cell  
-The clock pin li_inst/interpolated_data_reg[4]/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#56 Critical Warning
-Non-clocked sequential cell  
-The clock pin li_inst/interpolated_data_reg[4]_lopt_replica/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#57 Critical Warning
-Non-clocked sequential cell  
-The clock pin li_inst/interpolated_data_reg[5]/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#58 Critical Warning
-Non-clocked sequential cell  
-The clock pin li_inst/interpolated_data_reg[5]_lopt_replica/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#59 Critical Warning
-Non-clocked sequential cell  
-The clock pin li_inst/interpolated_data_reg[6]/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#60 Critical Warning
-Non-clocked sequential cell  
-The clock pin li_inst/interpolated_data_reg[6]_lopt_replica/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#61 Critical Warning
-Non-clocked sequential cell  
-The clock pin li_inst/interpolated_data_reg[7]/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#62 Critical Warning
-Non-clocked sequential cell  
-The clock pin li_inst/interpolated_data_reg[7]_lopt_replica/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#63 Critical Warning
-Non-clocked sequential cell  
-The clock pin li_inst/interpolated_data_reg[8]/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#64 Critical Warning
-Non-clocked sequential cell  
-The clock pin li_inst/interpolated_data_reg[8]_lopt_replica/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#65 Critical Warning
-Non-clocked sequential cell  
-The clock pin li_inst/interpolated_data_reg[9]/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#66 Critical Warning
-Non-clocked sequential cell  
-The clock pin li_inst/interpolated_data_reg[9]_lopt_replica/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#67 Critical Warning
-Non-clocked sequential cell  
-The clock pin li_inst/valid_interpolated_data_reg/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#68 Critical Warning
-Non-clocked sequential cell  
-The clock pin pd_inst/FSM_sequential_pulse_state_reg[0]/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#69 Critical Warning
-Non-clocked sequential cell  
-The clock pin pd_inst/FSM_sequential_pulse_state_reg[1]/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#70 Critical Warning
-Non-clocked sequential cell  
-The clock pin pd_inst/current_pulse_peak_val_reg[0]/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#71 Critical Warning
-Non-clocked sequential cell  
-The clock pin pd_inst/current_pulse_peak_val_reg[10]/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#72 Critical Warning
-Non-clocked sequential cell  
-The clock pin pd_inst/current_pulse_peak_val_reg[11]/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#73 Critical Warning
-Non-clocked sequential cell  
-The clock pin pd_inst/current_pulse_peak_val_reg[1]/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#74 Critical Warning
-Non-clocked sequential cell  
-The clock pin pd_inst/current_pulse_peak_val_reg[2]/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#75 Critical Warning
-Non-clocked sequential cell  
-The clock pin pd_inst/current_pulse_peak_val_reg[3]/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#76 Critical Warning
-Non-clocked sequential cell  
-The clock pin pd_inst/current_pulse_peak_val_reg[4]/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#77 Critical Warning
-Non-clocked sequential cell  
-The clock pin pd_inst/current_pulse_peak_val_reg[5]/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#78 Critical Warning
-Non-clocked sequential cell  
-The clock pin pd_inst/current_pulse_peak_val_reg[6]/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#79 Critical Warning
-Non-clocked sequential cell  
-The clock pin pd_inst/current_pulse_peak_val_reg[7]/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#80 Critical Warning
-Non-clocked sequential cell  
-The clock pin pd_inst/current_pulse_peak_val_reg[8]/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#81 Critical Warning
-Non-clocked sequential cell  
-The clock pin pd_inst/current_pulse_peak_val_reg[9]/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#82 Critical Warning
-Non-clocked sequential cell  
-The clock pin pd_inst/prev_adc_data_reg[0]/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#83 Critical Warning
-Non-clocked sequential cell  
-The clock pin pd_inst/prev_adc_data_reg[10]/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#84 Critical Warning
-Non-clocked sequential cell  
-The clock pin pd_inst/prev_adc_data_reg[11]/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#85 Critical Warning
-Non-clocked sequential cell  
-The clock pin pd_inst/prev_adc_data_reg[1]/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#86 Critical Warning
-Non-clocked sequential cell  
-The clock pin pd_inst/prev_adc_data_reg[2]/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#87 Critical Warning
-Non-clocked sequential cell  
-The clock pin pd_inst/prev_adc_data_reg[3]/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#88 Critical Warning
-Non-clocked sequential cell  
-The clock pin pd_inst/prev_adc_data_reg[4]/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#89 Critical Warning
-Non-clocked sequential cell  
-The clock pin pd_inst/prev_adc_data_reg[5]/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#90 Critical Warning
-Non-clocked sequential cell  
-The clock pin pd_inst/prev_adc_data_reg[6]/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#91 Critical Warning
-Non-clocked sequential cell  
-The clock pin pd_inst/prev_adc_data_reg[7]/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#92 Critical Warning
-Non-clocked sequential cell  
-The clock pin pd_inst/prev_adc_data_reg[8]/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#93 Critical Warning
-Non-clocked sequential cell  
-The clock pin pd_inst/prev_adc_data_reg[9]/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#94 Critical Warning
-Non-clocked sequential cell  
-The clock pin pd_inst/prev_prev_adc_data_reg[0]/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#95 Critical Warning
-Non-clocked sequential cell  
-The clock pin pd_inst/prev_prev_adc_data_reg[10]/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#96 Critical Warning
-Non-clocked sequential cell  
-The clock pin pd_inst/prev_prev_adc_data_reg[11]/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#97 Critical Warning
-Non-clocked sequential cell  
-The clock pin pd_inst/prev_prev_adc_data_reg[1]/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#98 Critical Warning
-Non-clocked sequential cell  
-The clock pin pd_inst/prev_prev_adc_data_reg[2]/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#99 Critical Warning
-Non-clocked sequential cell  
-The clock pin pd_inst/prev_prev_adc_data_reg[3]/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#100 Critical Warning
-Non-clocked sequential cell  
-The clock pin pd_inst/prev_prev_adc_data_reg[4]/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#101 Critical Warning
-Non-clocked sequential cell  
-The clock pin pd_inst/prev_prev_adc_data_reg[5]/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#102 Critical Warning
-Non-clocked sequential cell  
-The clock pin pd_inst/prev_prev_adc_data_reg[6]/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#103 Critical Warning
-Non-clocked sequential cell  
-The clock pin pd_inst/prev_prev_adc_data_reg[7]/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#104 Critical Warning
-Non-clocked sequential cell  
-The clock pin pd_inst/prev_prev_adc_data_reg[8]/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#105 Critical Warning
-Non-clocked sequential cell  
-The clock pin pd_inst/prev_prev_adc_data_reg[9]/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#106 Critical Warning
-Non-clocked sequential cell  
-The clock pin pd_inst/pulse_detected_reg/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#107 Critical Warning
-Non-clocked sequential cell  
-The clock pin pd_inst/pulse_state_out_reg[0]/C is not reached by a timing clock
+TIMING-18#46 Warning
+Missing input or output delay  
+An output delay is missing on integral_value[9] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
 

@@ -1,0 +1,63 @@
+Time resolution is 1 ps
+
+--- Test Case 1: No pulse (baseline noise) ---
+
+--- Test Case 2: Single pulse ---
+Iteration: 0, Time: 77000, pulse_val: 0.000000, scaled_adc_data_real: 0.000000, adc_data: 000
+Iteration: 1, Time: 80000, pulse_val: 0.000000, scaled_adc_data_real: 0.000000, adc_data: 000
+Iteration: 2, Time: 83000, pulse_val: 0.000000, scaled_adc_data_real: 0.000000, adc_data: 000
+Iteration: 3, Time: 86000, pulse_val: 0.000000, scaled_adc_data_real: 0.000001, adc_data: 000
+Iteration: 4, Time: 89000, pulse_val: 0.000000, scaled_adc_data_real: 0.000012, adc_data: 000
+Iteration: 5, Time: 92000, pulse_val: 0.000000, scaled_adc_data_real: 0.000221, adc_data: 000
+Iteration: 6, Time: 95000, pulse_val: 0.000004, scaled_adc_data_real: 0.003052, adc_data: 000
+Iteration: 7, Time: 98000, pulse_val: 0.000040, scaled_adc_data_real: 0.032813, adc_data: 000
+Iteration: 8, Time: 101000, pulse_val: 0.000335, scaled_adc_data_real: 0.274744, adc_data: 000
+Iteration: 9, Time: 104000, pulse_val: 0.002187, scaled_adc_data_real: 1.791555, adc_data: 001
+Iteration: 10, Time: 107000, pulse_val: 0.011109, scaled_adc_data_real: 9.098268, adc_data: 009
+Iteration: 11, Time: 109000, pulse_val: 0.043937, scaled_adc_data_real: 35.984349, adc_data: 023
+Iteration: 12, Time: 112000, pulse_val: 0.135335, scaled_adc_data_real: 110.839597, adc_data: 06e
+Iteration: 13, Time: 115000, pulse_val: 0.324652, scaled_adc_data_real: 265.890371, adc_data: 109
+Iteration: 14, Time: 118000, pulse_val: 0.606531, scaled_adc_data_real: 496.748610, adc_data: 1f0
+Iteration: 15, Time: 121000, pulse_val: 0.882497, scaled_adc_data_real: 722.764963, adc_data: 2d2
+Iteration: 16, Time: 124000, pulse_val: 1.000000, scaled_adc_data_real: 819.000000, adc_data: 333
+Iteration: 17, Time: 127000, pulse_val: 0.882497, scaled_adc_data_real: 722.764963, adc_data: 2d2
+Iteration: 18, Time: 130000, pulse_val: 0.716531, scaled_adc_data_real: 586.839143, adc_data: 24a
+Iteration: 19, Time: 133000, pulse_val: 0.606531, scaled_adc_data_real: 496.748610, adc_data: 1f0
+Iteration: 20, Time: 136000, pulse_val: 0.513417, scaled_adc_data_real: 420.488620, adc_data: 1a4
+Iteration: 21, Time: 139000, pulse_val: 0.434598, scaled_adc_data_real: 355.935933, adc_data: 163
+Iteration: 22, Time: 142000, pulse_val: 0.367879, scaled_adc_data_real: 301.293262, adc_data: 12d
+Iteration: 23, Time: 145000, pulse_val: 0.311403, scaled_adc_data_real: 255.039240, adc_data: 0ff
+Iteration: 24, Time: 148000, pulse_val: 0.263597, scaled_adc_data_real: 215.886056, adc_data: 0d7
+Iteration: 25, Time: 151000, pulse_val: 0.223130, scaled_adc_data_real: 182.743601, adc_data: 0b6
+Iteration: 26, Time: 154000, pulse_val: 0.188876, scaled_adc_data_real: 154.689119, adc_data: 09a
+Iteration: 27, Time: 157000, pulse_val: 0.159880, scaled_adc_data_real: 130.941512, adc_data: 082
+Iteration: 28, Time: 160000, pulse_val: 0.135335, scaled_adc_data_real: 110.839597, adc_data: 06e
+Iteration: 29, Time: 163000, pulse_val: 0.114559, scaled_adc_data_real: 93.823693, adc_data: 05d
+Iteration: 30, Time: 166000, pulse_val: 0.096972, scaled_adc_data_real: 79.420042, adc_data: 04f
+Iteration: 31, Time: 169000, pulse_val: 0.082085, scaled_adc_data_real: 67.227614, adc_data: 043
+Iteration: 32, Time: 172000, pulse_val: 0.069483, scaled_adc_data_real: 56.906947, adc_data: 038
+Iteration: 33, Time: 175000, pulse_val: 0.058816, scaled_adc_data_real: 48.170690, adc_data: 030
+Iteration: 34, Time: 178000, pulse_val: 0.049787, scaled_adc_data_real: 40.775609, adc_data: 028
+Iteration: 35, Time: 180000, pulse_val: 0.042144, scaled_adc_data_real: 34.515808, adc_data: 022
+Iteration: 36, Time: 183000, pulse_val: 0.035674, scaled_adc_data_real: 29.217001, adc_data: 01d
+Iteration: 37, Time: 186000, pulse_val: 0.030197, scaled_adc_data_real: 24.731657, adc_data: 018
+Iteration: 38, Time: 189000, pulse_val: 0.025562, scaled_adc_data_real: 20.934896, adc_data: 014
+Iteration: 39, Time: 192000, pulse_val: 0.021637, scaled_adc_data_real: 17.721007, adc_data: 011
+Iteration: 40, Time: 195000, pulse_val: 0.018316, scaled_adc_data_real: 15.000508, adc_data: 00f
+Iteration: 41, Time: 198000, pulse_val: 0.015504, scaled_adc_data_real: 12.697656, adc_data: 00c
+Iteration: 42, Time: 201000, pulse_val: 0.013124, scaled_adc_data_real: 10.748334, adc_data: 00a
+Iteration: 43, Time: 204000, pulse_val: 0.011109, scaled_adc_data_real: 9.098268, adc_data: 009
+Iteration: 44, Time: 207000, pulse_val: 0.009404, scaled_adc_data_real: 7.701518, adc_data: 007
+Iteration: 45, Time: 210000, pulse_val: 0.007960, scaled_adc_data_real: 6.519194, adc_data: 006
+Iteration: 46, Time: 213000, pulse_val: 0.006738, scaled_adc_data_real: 5.518379, adc_data: 005
+Iteration: 47, Time: 216000, pulse_val: 0.005704, scaled_adc_data_real: 4.671207, adc_data: 004
+Iteration: 48, Time: 219000, pulse_val: 0.004828, scaled_adc_data_real: 3.954091, adc_data: 003
+Iteration: 49, Time: 222000, pulse_val: 0.004087, scaled_adc_data_real: 3.347066, adc_data: 003
+Iteration: 50, Time: 225000, pulse_val: 0.003459, scaled_adc_data_real: 2.833230, adc_data: 002
+
+--- Simulation Complete ---
+
+--- Interpolated Data Results ---
+Trapezoidal Integral (TB): 2.516057e-08 V*s, raw: 6965
+Trapezoidal Integral (DUT): 2.462232e-08 V*s, raw: 6816
+$finish called at time : 287012 ps : File "C:/Users/wikto/praca_magisterska/masters_project/masters_project.srcs/sim_1/new/testbench.sv" Line 116
