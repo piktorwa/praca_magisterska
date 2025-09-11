@@ -1,0 +1,12 @@
+# compile verilog/system verilog design source files
+sv xil_defaultlib  \
+"../../../../masters_project.srcs/sources_1/new/integral_calculator.sv" \
+"../../../../masters_project.srcs/sources_1/new/pulse_detector.sv" \
+"../../../../masters_project.srcs/sources_1/new/top_module.sv" \
+"../../../../masters_project.srcs/sim_1/new/testbench.sv" \
+
+# compile glbl module
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort

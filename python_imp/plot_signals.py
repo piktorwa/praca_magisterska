@@ -16,10 +16,12 @@ def plot_sampled_signal(title, time_arr, value_arr, t_samples_list, y_samples_li
     for i, (t_samples, y_samples) in enumerate(zip(t_samples_list, y_samples_list)):
         plt.plot(np.array(t_samples)*1e9, y_samples, marker=markers[i], linestyle='', label=labels[i])
 
-    plt.xlabel("Czas (ns)")
-    plt.ylabel("Amplituda [V]")
-    plt.title(title)
-    plt.legend()
+    plt.xlabel("Czas [ns]", fontsize=28)
+    plt.ylabel("Amplituda [V]", fontsize=28)
+    plt.xticks(fontsize=22)
+    plt.yticks(fontsize=22)
+    plt.title(title, fontsize=28)
+    plt.legend(fontsize=22)
     plt.grid()
 
 def plot_interpolated_signal(title, time_arr, value_arr, t_samples, y_samples, t_interpolated, y_interpolated, sample_label, fig_num, interpolation_label): # Plotting function for interpolated signal
@@ -32,8 +34,10 @@ def plot_interpolated_signal(title, time_arr, value_arr, t_samples, y_samples, t
     # Plot interpolated signal
     plt.plot(np.array(t_interpolated)*1e9, y_interpolated, 'gx', label=f"{interpolation_label}")
 
-    plt.xlabel("Czas (ns)")
-    plt.ylabel("Amplituda [V]")
-    plt.title(title)
-    plt.legend()
+    plt.xlabel("Czas [ns]", fontsize=28)
+    plt.ylabel("Amplituda [V]", fontsize=28)
+    plt.xticks(fontsize=22)
+    plt.yticks(fontsize=22)
+    plt.title(title, fontsize=28)
+    plt.legend(fontsize=22)
     plt.grid()
